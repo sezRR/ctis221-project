@@ -1,13 +1,13 @@
-package dev.sezrr.examples.springapicall;
+package dev.sezrr.examples.llmchatservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringApiCallApplication {
+public class LlmChatService {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringApiCallApplication.class, args);
+        SpringApplication.run(LlmChatService.class, args);
     }
 
 }

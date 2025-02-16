@@ -1,10 +1,10 @@
-package dev.sezrr.examples.springapicall;
+package dev.sezrr.examples.llmchatservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringApiCallApplicationTests {
+class LlmChatServiceTests {
 
     @Test
     void contextLoads() {

@@ -1,6 +1,6 @@
-package dev.sezrr.examples.springapicall.controller;
+package dev.sezrr.examples.llmchatservice.controller;
 
-import dev.sezrr.examples.springapicall.config.WebClientConfiguration;
+import dev.sezrr.examples.llmchatservice.config.WebClientConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
