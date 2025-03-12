@@ -1,6 +1,6 @@
-package dev.sezrr.examples.llmchatservice.controller;
+package dev.sezrr.examples.llmchatservice.modules.testcontroller.controller;
 
-import dev.sezrr.examples.llmchatservice.config.WebClientConfiguration;
+import dev.sezrr.examples.llmchatservice.modules.testcontroller.config.WebClientConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.product;
+package dev.sezrr.examples.llmchatservice.modules.product;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;

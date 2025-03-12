@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.product;
+package dev.sezrr.examples.llmchatservice.modules.product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

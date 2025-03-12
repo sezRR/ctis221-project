@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.config;
+package dev.sezrr.examples.llmchatservice.modules.testcontroller.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
