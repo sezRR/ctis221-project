@@ -4,7 +4,9 @@ import dev.sezrr.examples.llmchatservice.modules.aimodel.controller.SupportedMod
 import dev.sezrr.examples.llmchatservice.modules.aimodel.repository.SupportedModelRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SupportedModelController.class)
+@WebMvcTest(controllers = SupportedModelController.class)
 class SupportedModelControllerTest {
 
     @Autowired
@@ -23,7 +25,6 @@ class SupportedModelControllerTest {
 
     @Test
     void testController() throws Exception {
-        // Configure your mock as needed and perform requests with mockMvc.
         mockMvc.perform(get("/api/v1/supported-model"))
                 .andExpect(status().isOk());
     }

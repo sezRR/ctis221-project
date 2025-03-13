@@ -37,19 +37,11 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-docker-compose', version: '3.4.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.4.3'
     implementation 'com.github.f4b6a3:uuid-creator:6.0.0'
-
-    // 🔹 Spring Modulith Testing Tools
     testImplementation group: 'org.springframework.modulith', name: 'spring-modulith-starter-test', version: '1.3.3'
     implementation group: 'org.springframework.modulith', name: 'spring-modulith-starter-core', version: '1.3.3'
     implementation group: 'org.springframework.modulith', name: 'spring-modulith-api', version: '1.3.3'
     implementation group: 'org.springframework.modulith', name: 'spring-modulith-core', version: '1.3.3'
 }
-//
-//dependencyManagement {
-//    imports {
-//        mavenBom 'org.springframework.experimental:spring-modulith-bom:1.3.3'
-//    }
-//}
 
 tasks.named('test') {
     useJUnitPlatform()
