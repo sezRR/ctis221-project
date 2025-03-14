@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.UUID;
@@ -20,9 +21,11 @@ public class SupportedModel extends AuditEntity {
     @UuidV7
     private UUID id;
     
+    @NotNull
     @Column(nullable = false)
     private String model;
-    
+
+    @NotNull
     @Column(name = "api_url", nullable = false)
     private String apiUrl;
 }

@@ -4,7 +4,6 @@ import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
 import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
