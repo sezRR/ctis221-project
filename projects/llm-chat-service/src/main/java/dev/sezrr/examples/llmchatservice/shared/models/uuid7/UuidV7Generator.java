@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.model.uuid7;
+package dev.sezrr.examples.llmchatservice.shared.models.uuid7;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

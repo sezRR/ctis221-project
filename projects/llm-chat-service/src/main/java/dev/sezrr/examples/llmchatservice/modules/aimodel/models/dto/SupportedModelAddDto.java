@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.modules.aimodel.model.dto;
+package dev.sezrr.examples.llmchatservice.modules.aimodel.models.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

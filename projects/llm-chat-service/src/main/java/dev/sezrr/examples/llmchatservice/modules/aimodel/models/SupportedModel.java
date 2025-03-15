@@ -1,7 +1,7 @@
-package dev.sezrr.examples.llmchatservice.modules.aimodel.model;
+package dev.sezrr.examples.llmchatservice.modules.aimodel.models;
 
-import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
-import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
+import dev.sezrr.examples.llmchatservice.shared.models.AuditEntity;
+import dev.sezrr.examples.llmchatservice.shared.models.uuid7.UuidV7;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Entity
 @RequiredArgsConstructor
 @Table(name = "supported_models")
-public class SupportedModel extends AuditEntity {
+public class SupportedModel extends AuditEntity implements Serializable {
     @Id
     @UuidV7
     private UUID id;

@@ -1,8 +1,9 @@
-package dev.sezrr.examples.llmchatservice.modules.aimodel.model;
+package dev.sezrr.examples.llmchatservice.modules.aimodel.models;
 
-import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
-import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
+import dev.sezrr.examples.llmchatservice.shared.models.AuditEntity;
+import dev.sezrr.examples.llmchatservice.shared.models.uuid7.UuidV7;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,8 @@ public class ModelPricing extends AuditEntity {
     @Id
     @UuidV7
     private UUID id;
-    
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "supported_model_id", nullable = false)
     private SupportedModel supportedModel;

@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.model.uuid7;
+package dev.sezrr.examples.llmchatservice.shared.models.uuid7;
 
 import org.hibernate.annotations.IdGeneratorType;
 
