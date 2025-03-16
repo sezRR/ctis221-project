@@ -6,7 +6,11 @@ services:
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=myuser'
     ports:
-      - '5432'
+      - '5432:5432'
+    networks:
+      llm_service_network:
+        ipv4_address: 172.20.0.100
+
   pgadmin:
     image: dpage/pgadmin4:latest
     ports:
@@ -15,11 +19,28 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_LISTEN_PORT: 5050
+    networks:
+      llm_service_network:
+        ipv4_address: 172.20.0.101
+
   redis:
     image: 'redis:latest'
     ports:
-      - '6379'
+      - '6379:6379'
+    networks:
+      llm_service_network:
+        ipv4_address: 172.20.0.102
+
   redis-insight:
     image: 'redis/redisinsight'
     ports:
       - '5540:5540'
+    networks:
+      llm_service_network:
+        ipv4_address: 172.20.0.103
+
+networks:
+  llm_service_network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
