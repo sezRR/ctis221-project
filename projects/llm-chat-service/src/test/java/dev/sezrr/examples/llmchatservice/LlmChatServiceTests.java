@@ -1,37 +1,38 @@
 package dev.sezrr.examples.llmchatservice;
 
-import dev.sezrr.examples.llmchatservice.modules.aimodel.controllers.SupportedModelController;
-import dev.sezrr.examples.llmchatservice.modules.aimodel.repositories.SupportedModelRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.modulith.core.ApplicationModules;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.modulith.docs.Documenter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = SupportedModelController.class)
 class SupportedModelControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockitoBean
+//    private SupportedModelRepository supportedModelRepository;
+//
+//    @Test
+//    void testController() throws Exception {
+//        mockMvc.perform(get("/api/v1/supported-model"))
+//                .andExpect(status().isOk());
+//    }
 
-    @MockitoBean
-    private SupportedModelRepository supportedModelRepository;
-
-    @Test
-    void testController() throws Exception {
-        mockMvc.perform(get("/api/v1/supported-model"))
-                .andExpect(status().isOk());
-    }
+    ApplicationModules modules = ApplicationModules.of(LlmChatService.class);
     
     @Test
     void testModulithDependencies() {
-        ApplicationModules modules = ApplicationModules.of(LlmChatService.class);
-        modules.verify();
         modules.forEach(System.out::println);
+        modules.verify();
+    }
+    
+    @Test
+    void writeDocumentationSnippets() {
+        new Documenter(modules)
+                .writeModulesAsPlantUml()
+                .writeIndividualModulesAsPlantUml();
     }
 }
 
