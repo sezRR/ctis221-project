@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(("/api/v1/models"))
+@RequestMapping("/api/v1/models")
 public class SupportedModelController {
     private final SupportedModelService supportedModelService;
     
@@ -23,15 +23,12 @@ public class SupportedModelController {
             @RequestParam(required = false) String apiUrl,
             @RequestParam(required = false) String model
     ) {
-        if (apiUrl == null && model == null) {
-            var supportedModels = supportedModelService.findAllCache();
-            if (supportedModels.isEmpty())
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            
-            return ResponseEntity.ok(CustomResponseEntity.success(supportedModels));
-        }
+        List<SupportedModel> supportedModels;
+        if (apiUrl == null && model == null)
+            supportedModels = supportedModelService.findAllCache();
+        else        
+            supportedModels = supportedModelService.getSupportedModels(apiUrl, model);
         
-        var supportedModels = supportedModelService.getSupportedModels(apiUrl, model);
         if (supportedModels.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         

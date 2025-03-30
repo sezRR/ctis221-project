@@ -7,6 +7,7 @@ import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.SupportedModelAddDt
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repositories.SupportedModelRepository;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repositories.specifications.SupportedModelSpecification;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
+import dev.sezrr.examples.llmchatservice.shared.exceptions.ConflictException;
 import dev.sezrr.examples.llmchatservice.shared.validation.CustomValidatorHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -57,7 +58,10 @@ public class SupportedModelServiceImpl implements SupportedModelService {
         supportedModel.setApiUrl(supportedModelAddDto.apiUrl());
         supportedModel.setActive(true);
 
-        customValidatorHelper.validateOrThrow(supportedModel, "Validation failed due to incorrect input values.");            
+        customValidatorHelper.validateOrThrow(supportedModel, "Validation failed due to incorrect input values.");
+        
+        if (supportedModelRepository.existsByModelAndApiUrl(supportedModel.getModel(), supportedModel.getApiUrl()))
+            throw new ConflictException("The model with the same name and API URL already exists.");
         
         var savedModel = supportedModelRepository.save(supportedModel);
         return new SupportedModelQueryDto(savedModel.getId(), savedModel.getModel(), savedModel.getApiUrl());

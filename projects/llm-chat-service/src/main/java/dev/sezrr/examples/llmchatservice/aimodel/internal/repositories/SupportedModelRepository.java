@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface SupportedModelRepository extends JpaRepository<SupportedModel, UUID>, JpaSpecificationExecutor<SupportedModel> {
     List<SupportedModel> findAllByApiUrl(String apiUrl);
     List<SupportedModel> findAllByModel(String model);
+    boolean existsByModelAndApiUrl(String model, String apiUrl);
 }

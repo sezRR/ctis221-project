@@ -1,5 +1,6 @@
 package dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Error {
@@ -17,6 +18,10 @@ public abstract class Error {
         this(errorDeclarations, errorStatus, null);
     }
 
+    public Error(ErrorDeclaration errorDeclaration, ErrorStatus errorStatus, String systemMessage) {
+        this(Collections.singletonList(errorDeclaration), errorStatus, systemMessage);
+    }
+    
     public List<ErrorDeclaration> getErrorDeclarations() {
         return errorDeclarations;
     }
