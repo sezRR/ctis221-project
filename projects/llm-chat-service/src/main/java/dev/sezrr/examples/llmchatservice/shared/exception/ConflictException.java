@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.exceptions;
+package dev.sezrr.examples.llmchatservice.shared.exception;
 
 public class ConflictException extends RuntimeException {
     public ConflictException(String message) {

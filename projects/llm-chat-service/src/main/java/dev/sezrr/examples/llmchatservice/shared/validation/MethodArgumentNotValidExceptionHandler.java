@@ -1,6 +1,6 @@
 package dev.sezrr.examples.llmchatservice.shared.validation;
 
-import dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors.custom.ValidationError;
+import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.custom.ValidationError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

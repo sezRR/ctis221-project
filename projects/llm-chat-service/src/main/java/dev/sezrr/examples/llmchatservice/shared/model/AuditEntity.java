@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.models;
+package dev.sezrr.examples.llmchatservice.shared.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

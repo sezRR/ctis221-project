@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors;
+package dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors;
 
 import java.io.Serializable;
 

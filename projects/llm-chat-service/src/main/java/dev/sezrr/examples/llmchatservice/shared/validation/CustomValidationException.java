@@ -1,8 +1,8 @@
 package dev.sezrr.examples.llmchatservice.shared.validation;
 
-import dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors.ErrorDeclaration;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors.ErrorStatus;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentities.errors.custom.ValidationError;
+import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.ErrorDeclaration;
+import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.ErrorStatus;
+import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.custom.ValidationError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

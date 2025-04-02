@@ -11,3 +11,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+server:
+  servlet:
+    context-path: /api
+app:
+  keycloak:
+    admin:
+      clientId: admin-cli
+      clientSecret: 0FXuDfNIXD6SQKvxPYLufABJjYZKIpRO
+    realm: llm-chat-wrapper
+    serverUrl: http://localhost:9082

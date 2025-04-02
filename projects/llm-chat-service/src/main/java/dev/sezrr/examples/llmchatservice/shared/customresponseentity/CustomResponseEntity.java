@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.customresponseentities;
+package dev.sezrr.examples.llmchatservice.shared.customresponseentity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
