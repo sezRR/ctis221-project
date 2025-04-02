@@ -1,6 +1,6 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.repositories.specifications;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.repository.specifications;
 
-import dev.sezrr.examples.llmchatservice.aimodel.internal.models.SupportedModel;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

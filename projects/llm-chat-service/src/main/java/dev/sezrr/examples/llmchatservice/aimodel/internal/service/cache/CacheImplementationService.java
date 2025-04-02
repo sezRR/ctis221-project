@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.services.cache;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.service.cache;
 
 import java.util.List;
 

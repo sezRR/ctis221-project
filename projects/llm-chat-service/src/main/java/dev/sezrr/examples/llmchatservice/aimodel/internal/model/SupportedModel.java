@@ -1,8 +1,8 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.models;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.model;
 
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
-import dev.sezrr.examples.llmchatservice.shared.models.AuditEntity;
-import dev.sezrr.examples.llmchatservice.shared.models.uuid7.UuidV7;
+import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
+import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,5 +32,5 @@ public class SupportedModel extends AuditEntity implements Serializable {
     @NotEmpty(message = SupportedModelConstants.VALIDATION_SUPPORTED_MODEL_API_URL_REQUIRED)
     @NotNull(message = SupportedModelConstants.VALIDATION_SUPPORTED_MODEL_API_URL_REQUIRED)
     @Column(name = "api_url", nullable = false)
-    private String apiUrl;
+    private String apiUrl; // TODO: API PROVIDERS -> baseApiUrl, endpoint, etc.
 }

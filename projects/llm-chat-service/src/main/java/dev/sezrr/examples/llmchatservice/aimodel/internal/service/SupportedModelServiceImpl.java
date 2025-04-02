@@ -1,13 +1,13 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.services;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.service;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.SupportedModelQueryDto;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.contracts.SupportedModelService;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.models.SupportedModel;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.SupportedModelAddDto;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.repositories.SupportedModelRepository;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.repositories.specifications.SupportedModelSpecification;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.SupportedModelRepository;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.specifications.SupportedModelSpecification;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
-import dev.sezrr.examples.llmchatservice.shared.exceptions.ConflictException;
+import dev.sezrr.examples.llmchatservice.shared.exception.ConflictException;
 import dev.sezrr.examples.llmchatservice.shared.validation.CustomValidatorHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

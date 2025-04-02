@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.aimodel.exposed.dto;
+package dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel;
 
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
 import jakarta.validation.constraints.NotEmpty;

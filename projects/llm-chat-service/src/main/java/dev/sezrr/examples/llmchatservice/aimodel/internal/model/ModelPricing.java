@@ -1,7 +1,7 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.models;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.model;
 
-import dev.sezrr.examples.llmchatservice.shared.models.AuditEntity;
-import dev.sezrr.examples.llmchatservice.shared.models.uuid7.UuidV7;
+import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
+import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

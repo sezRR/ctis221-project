@@ -1,6 +1,6 @@
-package dev.sezrr.examples.llmchatservice.aimodel.internal.repositories;
+package dev.sezrr.examples.llmchatservice.aimodel.internal.repository;
 
-import dev.sezrr.examples.llmchatservice.aimodel.internal.models.SupportedModel;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
