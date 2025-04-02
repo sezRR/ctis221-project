@@ -1,9 +1,24 @@
 #!/bin/bash
+# Script to initialize PostgreSQL databases
+# Exits immediately if a command exits with a non-zero status
 set -e
 
-echo "Creating databases if they don't exist..."
+# Define databases to create
+DATABASES=("mydatabase" "keycloak")
 
-psql -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'mydatabase'" | grep -q 1 || psql -U "myuser" -d postgres -c "CREATE DATABASE mydatabase"
-psql -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'keycloak'"  | grep -q 1 || psql -U "myuser" -d postgres -c "CREATE DATABASE keycloak"
+echo "Starting database initialization process..."
 
-echo "Databases are ready."
+# Loop through each database
+for DB in "${DATABASES[@]}"; do
+  echo "Checking if $DB exists..."
+  
+  # Check if database exists, create if it doesn't
+  if ! psql -U "$POSTGRES_USER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$DB'" | grep -q 1; then
+    echo "Creating database: $DB"
+    psql -U "$POSTGRES_USER" -d postgres -c "CREATE DATABASE $DB"
+  else
+    echo "Database $DB already exists"
+  fi
+done
+
+echo "Database initialization complete. All required databases are ready."
