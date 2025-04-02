@@ -1,6 +1,6 @@
 # LLM Chat Wrapper
 
-This project is an AI model wrapper developed for the Bilkent University CTIS 221 - Object-Oriented Programming course. It provides a modular and extensible framework for integrating and managing various AI models, including support for chat, embeddings, and other capabilities.
+This project is an AI model wrapper developed for the Bilkent University CTIS221 - Object-Oriented Programming course. It provides a modular and extensible framework for integrating and managing various AI models, including support for chat, embeddings, and other capabilities.
 
 ## Features
 
@@ -66,7 +66,7 @@ This project is an AI model wrapper developed for the Bilkent University CTIS 22
 
 ### Frontend (JavaFX GUI)
 
-TODO: Add instructions for running the JavaFX GUI.
+-   [ ] Add instructions for running the JavaFX GUI.
 
 ## API Documentation
 
@@ -74,11 +74,19 @@ The API documentation is available at:
 
 -   `http://localhost:8080/swagger-ui.html` for the backend services.
 
+-   [ ] MORE DOCUMENTATION
+
 ## Project Structure
 
 The project uses a monorepo style structure with the following projects:
 
--   **`llm-chat-service`**: Backend service for managing AI models and their configurations.
+-   **`llm-chat-service`**: Spring Boot Modular Monolith Backend service for managing AI models, users, chats and their configurations.
+    -   **`aimodel`**: AI model management module.
+    -   **`chat`**: Chat module for interacting with AI models, and CRUD operations for chat history.
+    -   **`authentication`**: User authentication and authorization module.
+    -   **`instruction`**: Instruction module for managing instructions.
+    -   **`tiering`**: Tiering module for managing user tiers.
+    -   **`shared`**: Shared module for common utilities and configurations.
 -   **`stream-hono`**: Backend service for real-time streaming and interaction.
 -   **`modulo-ai`**: Core library for AI model integration and provider management.
 -   **`javafx-gui`**: JavaFX GUI for interacting with the backend services.
@@ -91,6 +99,12 @@ The project uses a monorepo style structure with the following projects:
 -   **Hono**: Real-time streaming.
 -   **Bun**: JavaScript runtime for the frontend.
 -   **Docker**: Containerization.
+
+## Team Members
+
+-   [Arda Becanım](https://github.com/ArdaBejo)
+-   [Kerem Coşkun](https://github.com/Keremc9)
+-   [Sezer Tetik](https://github.com/sezRR)
 
 ## Contributing
 
