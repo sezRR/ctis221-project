@@ -1,7 +1,8 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.controller.v1;
 
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.ModelPricingService;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.model.ModelPricing;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
 import dev.sezrr.examples.llmchatservice.shared.customresponseentity.CustomResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,43 +14,20 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/modelPricings")
+@RequestMapping("/v1/model-pricings")
 public class ModelPricingController {
     private final ModelPricingService modelPricingService;
     
-    @GetMapping
-    public ResponseEntity<CustomResponseEntity<List<ModelPricing>>> getAdditionalPricings() {
-        var additionalPricings = modelPricingService.getAdditionalPricings();
-        
-        if (additionalPricings.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        
-        return ResponseEntity.ok(CustomResponseEntity.success(additionalPricings));
-    }
-    
-    @GetMapping("/model/{modelId}")
-    public ResponseEntity<CustomResponseEntity<ModelPricing>> getAdditionalPricingByModelId(@PathVariable String modelId) {
-        var additionalPricing = modelPricingService.getAdditionalPricingByModelId(UUID.fromString(modelId));
-        
-        if (additionalPricing == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        
-        return ResponseEntity.ok(CustomResponseEntity.success(additionalPricing));
-    }
-    
-    @GetMapping("/name/{modelName}")
-    public ResponseEntity<CustomResponseEntity<List<ModelPricing>>> getAdditionalPricingsByModel(@PathVariable String modelName) {
-        var additionalPricings = modelPricingService.getAdditionalPricingsByModelName(modelName);
-        
-        if (additionalPricings.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        
-        return ResponseEntity.ok(CustomResponseEntity.success(additionalPricings));
-    }
-    
-    @GetMapping("/api/{apiUrl}")
-    public ResponseEntity<CustomResponseEntity<List<ModelPricing>>> getAdditionalPricingsByApiUrl(@PathVariable String apiUrl) {
-        var additionalPricings = modelPricingService.getAdditionalPricingsByApiUrl(apiUrl);
+    @GetMapping("/active")
+    public ResponseEntity<CustomResponseEntity<List<ModelPricingQueryDto>>> getAdditionalPricings(
+            @RequestParam(required = false) String modelName,
+            @RequestParam(required = false) String apiUrl
+    ) {
+        List<ModelPricingQueryDto> additionalPricings;
+        if (modelName != null || apiUrl != null)
+            additionalPricings = modelPricingService.filterActiveAdditionalPricings(modelName, apiUrl);
+        else
+            additionalPricings = modelPricingService.getAdditionalPricings();
         
         if (additionalPricings.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -58,12 +36,32 @@ public class ModelPricingController {
     }
     
     @PostMapping
-    public ResponseEntity<CustomResponseEntity<ModelPricing>> addAdditionalPricing(@RequestBody ModelPricing modelPricing) {
-        var additionalPricing = modelPricingService.addAdditionalPricing(modelPricing);
+    public ResponseEntity<CustomResponseEntity<ModelPricingQueryDto>> addAdditionalPricing(@RequestBody ModelPricingAddDto modelPricingAddDto) {
+        var additionalPricing = modelPricingService.addAdditionalPricing(modelPricingAddDto);
         
         if (additionalPricing == null)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         
         return ResponseEntity.status(HttpStatus.CREATED).body(CustomResponseEntity.success(additionalPricing));
+    }
+    
+    @PutMapping("/{modelPricingId}/activate")
+    public ResponseEntity<CustomResponseEntity<ModelPricingQueryDto>> activatePricing(@PathVariable String modelPricingId) {
+        ModelPricingQueryDto activatedPricing = modelPricingService.activatePricing(UUID.fromString(modelPricingId));
+        
+        if (activatedPricing == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        
+        return ResponseEntity.ok(CustomResponseEntity.success(activatedPricing));
+    }
+    
+    @PutMapping("/{modelPricingId}/deactivate")
+    public ResponseEntity<CustomResponseEntity<ModelPricingQueryDto>> deactivatePricing(@PathVariable String modelPricingId) {
+        ModelPricingQueryDto deactivatedPricing = modelPricingService.deactivatePricing(UUID.fromString(modelPricingId));
+        
+        if (deactivatedPricing == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        
+        return ResponseEntity.ok(CustomResponseEntity.success(deactivatedPricing));
     }
 }

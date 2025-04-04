@@ -19,36 +19,16 @@ public class SupportedModelController {
     private final SupportedModelService supportedModelService;
     
     @GetMapping
-    public ResponseEntity<CustomResponseEntity<List<SupportedModel>>> getSupportedModels(
+    public ResponseEntity<CustomResponseEntity<List<SupportedModelQueryDto>>> getSupportedModels(
             @RequestParam(required = false) String apiUrl,
             @RequestParam(required = false) String model
     ) {
-        List<SupportedModel> supportedModels;
+        List<SupportedModelQueryDto> supportedModels;
         if (apiUrl == null && model == null)
             supportedModels = supportedModelService.findAllCache();
         else        
             supportedModels = supportedModelService.getSupportedModels(apiUrl, model);
         
-        if (supportedModels.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        
-        return ResponseEntity.ok(CustomResponseEntity.success(supportedModels));
-    }
-    
-    @GetMapping("/{model}")
-    public ResponseEntity<CustomResponseEntity<List<SupportedModel>>> getSupportedModelsByModelName(@PathVariable String model) {
-        var supportedModels = supportedModelService.getSupportedModelsByModelName(model);
-        
-        if (supportedModels.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        
-        return ResponseEntity.ok(CustomResponseEntity.success(supportedModels));
-    }
-    
-    @GetMapping("/api/{apiUrl}")
-    public ResponseEntity<CustomResponseEntity<List<SupportedModel>>> getSupportedModelsByApiUrl(@PathVariable String apiUrl) {
-        var supportedModels = supportedModelService.getSupportedModelsByApiUrl(apiUrl);
-
         if (supportedModels.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         

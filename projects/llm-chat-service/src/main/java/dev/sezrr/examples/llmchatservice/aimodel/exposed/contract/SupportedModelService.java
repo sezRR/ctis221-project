@@ -6,10 +6,12 @@ import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.service.cache.CacheImplementationService;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface SupportedModelService extends CacheImplementationService<SupportedModel> {
-    List<SupportedModel> getSupportedModels(String apiUrl, String model);
-    List<SupportedModel> getSupportedModelsByModelName(String model);
-    List<SupportedModel> getSupportedModelsByApiUrl(String apiUrl);
+public interface SupportedModelService extends CacheImplementationService<SupportedModelQueryDto> {
+    List<SupportedModelQueryDto> getSupportedModels(String apiUrl, String model);
+
+    SupportedModel getById(String id);
+    
     SupportedModelQueryDto addSupportedModel(SupportedModelAddDto supportedModelAddDto);
 }

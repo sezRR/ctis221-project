@@ -4,6 +4,7 @@ import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.Supp
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.model.mapper.SupportedModelDtoMapper;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.SupportedModelRepository;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.specifications.SupportedModelSpecification;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SupportedModelServiceImpl implements SupportedModelService {
@@ -30,24 +32,22 @@ public class SupportedModelServiceImpl implements SupportedModelService {
 
     @Cacheable(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME)
     @Override
-    public List<SupportedModel> findAllCache() {
-        return supportedModelRepository.findAll();
+    public List<SupportedModelQueryDto> findAllCache() {
+        return supportedModelRepository.findAll()
+                .stream()
+                .map(SupportedModelDtoMapper::mapToDto)
+                .toList();
     }
 
     @Override
-    public List<SupportedModel> getSupportedModels(String apiUrl, String model) {
+    public List<SupportedModelQueryDto> getSupportedModels(String apiUrl, String model) {
         Specification<SupportedModel> spec = SupportedModelSpecification.filterModels(apiUrl, model);
-        return supportedModelRepository.findAll(spec);
+        return supportedModelRepository.findAll(spec).stream().map(SupportedModelDtoMapper::mapToDto).toList();
     }
 
     @Override
-    public List<SupportedModel> getSupportedModelsByModelName(String model) {
-        return supportedModelRepository.findAllByModel(model);
-    }
-
-    @Override
-    public List<SupportedModel> getSupportedModelsByApiUrl(String apiUrl) {
-        return supportedModelRepository.findAllByApiUrl(apiUrl);
+    public SupportedModel getById(String id) {
+        return supportedModelRepository.findById(UUID.fromString(id)).orElse(null);
     }
 
     @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
@@ -64,6 +64,6 @@ public class SupportedModelServiceImpl implements SupportedModelService {
             throw new ConflictException("The model with the same name and API URL already exists.");
         
         var savedModel = supportedModelRepository.save(supportedModel);
-        return new SupportedModelQueryDto(savedModel.getId(), savedModel.getModel(), savedModel.getApiUrl());
+        return SupportedModelDtoMapper.mapToDto(savedModel);
     }
 }

@@ -15,6 +15,9 @@ public class WebSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/models", "/v1/models/{id}", "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/users", "/public/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/public/**", "/v1/users/{id}").permitAll()

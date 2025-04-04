@@ -2,56 +2,105 @@ package dev.sezrr.examples.llmchatservice.aimodel.internal.service;
 
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.ModelPricingService;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.ModelPricing;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
+import dev.sezrr.examples.llmchatservice.aimodel.internal.model.mapper.ModelPricingDtoMapper;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.ModelPricingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ModelPricingServiceImpl implements ModelPricingService {
-    private final SupportedModelService supportedModelService;
     private final ModelPricingRepository modelPricingRepository;
-    
+    private final SupportedModelService supportedModelService;
+
     @Override
-    public List<ModelPricing> getAdditionalPricings() {
-        return modelPricingRepository.findAll();
+    public List<ModelPricingQueryDto> getAdditionalPricings() {
+        return modelPricingRepository.findAll()
+                .stream()
+                .map(ModelPricingDtoMapper::mapToDto)
+                .toList();
     }
 
     @Override
-    public ModelPricing getAdditionalPricingByModelId(UUID modelId) {
-        return modelPricingRepository.findById(modelId)
+    public List<ModelPricingQueryDto> filterActiveAdditionalPricings(String modelName, String apiUrl) {
+        List<UUID> supportedModelIds = supportedModelService.getSupportedModels(apiUrl, modelName)
+                .stream()
+                .map(SupportedModelQueryDto::id)
+                .collect(Collectors.toList());
+
+        if (supportedModelIds.isEmpty())
+            return Collections.emptyList();
+
+        return modelPricingRepository.findActivePricingsBySupportedModels(supportedModelIds);
+    }
+
+    @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
+    @Override
+    public ModelPricingQueryDto addAdditionalPricing(ModelPricingAddDto modelPricingAddDto) {
+        SupportedModel supportedModel = supportedModelService.getById(modelPricingAddDto.modelId());
+        if (supportedModel == null)
+            return null;
+
+        if (modelPricingAddDto.active())
+            deactivateAllPricingsForModel(supportedModel.getId());
+
+        ModelPricing newPricing = new ModelPricing();
+        newPricing.setAdditionalPrice(modelPricingAddDto.additionalPrice());
+        newPricing.setDetails(modelPricingAddDto.details());
+        newPricing.setActive(modelPricingAddDto.active());
+        newPricing.setSupportedModel(supportedModel);
+
+        ModelPricing saved = modelPricingRepository.save(newPricing);
+        return ModelPricingDtoMapper.mapToDto(saved);
+    }
+
+    @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
+    @Override
+    public ModelPricingQueryDto activatePricing(UUID pricingId) {
+        ModelPricing pricingToActivate = modelPricingRepository.findById(pricingId)
                 .orElse(null);
+
+        assert pricingToActivate != null;
+        SupportedModel model = pricingToActivate.getSupportedModel();
+        deactivateAllPricingsForModel(model.getId());
+
+        pricingToActivate.setActive(true);
+        modelPricingRepository.save(pricingToActivate);
+
+        return ModelPricingDtoMapper.mapToDto(pricingToActivate);
     }
 
     @Override
-    public List<ModelPricing> getAdditionalPricingsByModelName(String modelName) {
-        var supportedModels = supportedModelService.getSupportedModelsByModelName(modelName);
-        supportedModelService.getSupportedModelsByModelName(modelName);
+    public ModelPricingQueryDto deactivatePricing(UUID pricingId) {
+        ModelPricing pricingToDeactivate = modelPricingRepository.findById(pricingId)
+                .orElse(null);
 
-        return modelPricingRepository.getModelPricingBySupportedModel_IdIn(supportedModels
-                .stream()
-                .map(SupportedModel::getId)
-                .toList());
+        assert pricingToDeactivate != null;
+        pricingToDeactivate.setActive(false);
+        modelPricingRepository.save(pricingToDeactivate);
+
+        return ModelPricingDtoMapper.mapToDto(pricingToDeactivate);
     }
 
-    @Override
-    public List<ModelPricing> getAdditionalPricingsByApiUrl(String apiUrl) {
-        var supportedModels = supportedModelService.getSupportedModelsByApiUrl(apiUrl);
-        supportedModelService.getSupportedModelsByApiUrl(apiUrl);
+    private void deactivateAllPricingsForModel(UUID modelId) {
+        List<ModelPricing> existing = modelPricingRepository.findBySupportedModelId(modelId);
 
-        return modelPricingRepository.getModelPricingBySupportedModel_IdIn(supportedModels
-                .stream()
-                .map(SupportedModel::getId)
-                .toList());
-    }
+        for (ModelPricing pricing : existing)
+            if (pricing.isActive())
+                pricing.setActive(false);
 
-    @Override
-    public ModelPricing addAdditionalPricing(ModelPricing modelPricing) {
-        return modelPricingRepository.save(modelPricing);
+        modelPricingRepository.saveAll(existing);
     }
 }
