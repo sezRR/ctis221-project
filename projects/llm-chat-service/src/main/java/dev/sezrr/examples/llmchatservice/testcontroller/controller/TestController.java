@@ -1,8 +1,8 @@
 package dev.sezrr.examples.llmchatservice.testcontroller.controller;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelAddDto;
 import dev.sezrr.examples.llmchatservice.testcontroller.config.WebClientConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

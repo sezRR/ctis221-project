@@ -1,9 +1,9 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.controller.v1;
 
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.ModelPricingService;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingAddDto;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.CustomResponseEntity;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingQueryDto;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.CustomResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

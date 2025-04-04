@@ -2,9 +2,9 @@ package dev.sezrr.examples.llmchatservice.aimodel.internal.service;
 
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.ModelPricingService;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingAddDto;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.core.constants.SupportedModelConstants;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.ModelPricing;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
@@ -38,7 +38,7 @@ public class ModelPricingServiceImpl implements ModelPricingService {
         List<UUID> supportedModelIds = supportedModelService.getSupportedModels(apiUrl, modelName)
                 .stream()
                 .map(SupportedModelQueryDto::id)
-                .collect(Collectors.toList());
+                .toList();
 
         if (supportedModelIds.isEmpty())
             return Collections.emptyList();

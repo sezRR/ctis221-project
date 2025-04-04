@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.modulith.docs.Documenter;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 class SupportedModelControllerTest {
 
 //    @Autowired

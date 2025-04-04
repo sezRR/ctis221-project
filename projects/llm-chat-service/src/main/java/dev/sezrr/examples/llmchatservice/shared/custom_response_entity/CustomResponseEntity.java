@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.customresponseentity;
+package dev.sezrr.examples.llmchatservice.shared.custom_response_entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -27,7 +27,7 @@ public class CustomResponseEntity<T> {
         this.data = data;
     }
 
-    public static CustomResponseEntity<?> success(String message) {
+    public static CustomResponseEntity<Object> success(String message) {
         return new CustomResponseEntity<>(message, true);
     }
 

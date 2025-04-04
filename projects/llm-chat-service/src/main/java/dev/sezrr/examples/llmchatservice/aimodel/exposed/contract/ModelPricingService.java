@@ -1,8 +1,7 @@
 package dev.sezrr.examples.llmchatservice.aimodel.exposed.contract;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingAddDto;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.model.ModelPricing;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingQueryDto;
 
 import java.util.List;
 import java.util.UUID;

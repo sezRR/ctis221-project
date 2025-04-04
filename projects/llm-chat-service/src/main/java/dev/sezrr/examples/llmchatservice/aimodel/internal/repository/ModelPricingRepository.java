@@ -1,6 +1,6 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.repository;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing.ModelPricingQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing.ModelPricingQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.ModelPricing;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;

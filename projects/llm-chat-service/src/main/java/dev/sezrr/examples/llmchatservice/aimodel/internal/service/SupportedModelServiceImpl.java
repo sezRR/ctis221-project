@@ -1,9 +1,9 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.service;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelAddDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelAddDto;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.mapper.SupportedModelDtoMapper;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.SupportedModelRepository;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.repository.specifications.SupportedModelSpecification;

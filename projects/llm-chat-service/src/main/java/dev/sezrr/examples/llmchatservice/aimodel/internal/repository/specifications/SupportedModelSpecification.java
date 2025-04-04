@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupportedModelSpecification {
+    private SupportedModelSpecification() {
+        // Private constructor to prevent instantiation
+        throw new IllegalStateException("Specification class cannot be instantiated");
+    }
+    
     public static Specification<SupportedModel> filterModels(String apiUrl, String model) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

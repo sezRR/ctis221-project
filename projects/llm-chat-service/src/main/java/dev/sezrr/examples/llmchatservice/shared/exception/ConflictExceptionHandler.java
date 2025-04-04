@@ -1,8 +1,8 @@
 package dev.sezrr.examples.llmchatservice.shared.exception;
 
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.ErrorDeclaration;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.ErrorStatus;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors.custom.ConflictError;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.errors.ErrorDeclaration;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.errors.ErrorStatus;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.errors.custom.ConflictError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

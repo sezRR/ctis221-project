@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.shared.customresponseentity.errors;
+package dev.sezrr.examples.llmchatservice.shared.custom_response_entity.errors;
 
 public class ErrorStatus {
     private String error;

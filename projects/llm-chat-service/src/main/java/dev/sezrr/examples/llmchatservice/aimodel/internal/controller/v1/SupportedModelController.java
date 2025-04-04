@@ -1,10 +1,9 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.controller.v1;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.exposed.contract.SupportedModelService;
-import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelAddDto;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.CustomResponseEntity;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelAddDto;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.CustomResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

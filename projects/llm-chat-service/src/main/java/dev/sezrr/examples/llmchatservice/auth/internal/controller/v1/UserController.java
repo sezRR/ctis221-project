@@ -2,7 +2,7 @@ package dev.sezrr.examples.llmchatservice.auth.internal.controller.v1;
 
 import dev.sezrr.examples.llmchatservice.auth.exposed.contract.UserService;
 import dev.sezrr.examples.llmchatservice.auth.exposed.dto.NewUserRecord;
-import dev.sezrr.examples.llmchatservice.shared.customresponseentity.CustomResponseEntity;
+import dev.sezrr.examples.llmchatservice.shared.custom_response_entity.CustomResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

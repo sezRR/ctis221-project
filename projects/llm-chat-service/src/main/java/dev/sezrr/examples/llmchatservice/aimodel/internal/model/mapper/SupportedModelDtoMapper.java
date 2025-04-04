@@ -1,10 +1,15 @@
 package dev.sezrr.examples.llmchatservice.aimodel.internal.model.mapper;
 
-import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supportedModel.SupportedModelQueryDto;
+import dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.supported_model.SupportedModelQueryDto;
 import dev.sezrr.examples.llmchatservice.aimodel.internal.model.SupportedModel;
 import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
 
 public class SupportedModelDtoMapper {
+    private SupportedModelDtoMapper() {
+        // Private constructor to prevent instantiation
+        throw new IllegalStateException("Mapper class cannot be instantiated");
+    }
+    
     public static SupportedModelQueryDto mapToDto(SupportedModel model) {
         return new SupportedModelQueryDto(
                 model.getId(),

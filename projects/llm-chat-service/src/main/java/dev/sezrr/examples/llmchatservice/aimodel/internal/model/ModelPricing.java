@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.sezrr.examples.llmchatservice.shared.model.AuditEntity;
 import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

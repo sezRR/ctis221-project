@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.modelPricing;
+package dev.sezrr.examples.llmchatservice.aimodel.exposed.dto.model_pricing;
 
 import java.io.Serializable;
 import java.util.UUID;
