@@ -50,6 +50,11 @@ public class SupportedModelServiceImpl implements SupportedModelService {
         return supportedModelRepository.findById(UUID.fromString(id)).orElse(null);
     }
 
+    @Override
+    public boolean existsById(UUID id) {
+        return supportedModelRepository.existsById(id);
+    }
+
     @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
     @Override
     public SupportedModelQueryDto addSupportedModel(SupportedModelAddDto supportedModelAddDto) {
