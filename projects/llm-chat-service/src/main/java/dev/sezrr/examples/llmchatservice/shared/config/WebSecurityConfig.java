@@ -1,42 +1,61 @@
 package dev.sezrr.examples.llmchatservice.shared.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class WebSecurityConfig {
 
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .addSecurityItem(
+                        new SecurityRequirement()
+                                .addList("Bearer Authentication"))
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        "Bearer Authentication",
+                                        createAPIKeyScheme()
+                                )
+                )
+                .info(
+                        new Info()
+                                .title("LLM Chat Wrapper - API Service")
+                                .description("Java Spring Framework Backend Service for LLM Chat Wrapper")
+                                .version("1.0")
+                );
+    }
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/models", "/v1/models/{id}", "/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/users", "/public/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/public/**", "/v1/users/{id}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,
-                                "/public/**",
-                                "/v1/users/{id}/verify",
-                                "/v1/users/forgot-password").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/configuration/**",
-                                "/swagger-ui/**",
-                                "/swagger-resources/**",
-                                "/swagger-ui.html",
-                                "/webjars/**",
-                                "/api-docs/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .build();
+        http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                    .requestMatchers("/v1/auth/**").permitAll()
+                    .requestMatchers("/v1/**").permitAll()
+                    // ALLOW SWAGGER
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/swagger-ui/index.html").permitAll()
+            );
+        
+        return http.build();
     }
 }
