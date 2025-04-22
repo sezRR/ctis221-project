@@ -1,4 +1,4 @@
-﻿package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
 
 import java.net.http.HttpClient;
 import java.net.URI;

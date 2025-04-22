@@ -10,4 +10,6 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
 
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui to javafx.fxml;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.model to com.fasterxml.jackson.databind;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.custom_response_entity to com.fasterxml.jackson.databind;
 }

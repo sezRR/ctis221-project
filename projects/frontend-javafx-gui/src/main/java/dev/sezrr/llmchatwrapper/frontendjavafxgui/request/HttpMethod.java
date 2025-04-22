@@ -1,4 +1,4 @@
-﻿package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
 
 public enum HttpMethod {
     GET("GET"),

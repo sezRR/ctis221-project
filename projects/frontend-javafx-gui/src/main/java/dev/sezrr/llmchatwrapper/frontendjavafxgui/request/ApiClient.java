@@ -1,15 +1,13 @@
-﻿package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiClient {
-    private final String baseApiUrl;
     private RequestStrategy requestStrategy;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ApiClient(String baseApiUrl, RequestStrategy requestStrategy) {
-        this.baseApiUrl = baseApiUrl;
+    public ApiClient(RequestStrategy requestStrategy) {
         this.requestStrategy = requestStrategy;
     }
 
@@ -18,23 +16,23 @@ public class ApiClient {
     }
 
     public String get(String endpoint) {
-        return requestStrategy.get(baseApiUrl + endpoint);
+        return requestStrategy.get(endpoint);
     }
 
     public String post(String endpoint, String body) {
-        return requestStrategy.post(baseApiUrl + endpoint, body);
+        return requestStrategy.post(endpoint, body);
     }
 
     public String put(String endpoint, String body) {
-        return requestStrategy.put(baseApiUrl + endpoint, body);
+        return requestStrategy.put(endpoint, body);
     }
 
     public String patch(String endpoint, String body) {
-        return requestStrategy.patch(baseApiUrl + endpoint, body);
+        return requestStrategy.patch(endpoint, body);
     }
 
     public String delete(String endpoint) {
-        return requestStrategy.delete(baseApiUrl + endpoint);
+        return requestStrategy.delete(endpoint);
     }
 
     public <T> T get(String endpoint, TypeReference<T> typeReference) {
