@@ -1,0 +1,61 @@
+﻿package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
+
+import java.net.http.HttpClient;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+
+public abstract class BaseRequestStrategy implements RequestStrategy {
+    protected String baseApiUrl;
+    protected final HttpClient httpClient = HttpClient.newHttpClient();
+    private String authToken;
+    
+    public BaseRequestStrategy(String baseApiUrl) {
+        this.baseApiUrl = baseApiUrl;
+    }
+    
+    protected String buildUrl(String endpoint) {
+        return baseApiUrl + endpoint;
+    }
+    
+    protected String sendRequest(HttpMethod method, String endpoint, String body) {
+        try {
+            HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(buildUrl(endpoint)))
+                .header("Authorization", "Bearer " + authToken)
+                .header("Content-Type", "application/json");
+
+            switch (method) {
+                case GET:
+                    requestBuilder.GET();
+                    break;
+                case POST:
+                    requestBuilder.POST(BodyPublishers.ofString(body));
+                    break;
+                case PUT:
+                    requestBuilder.PUT(BodyPublishers.ofString(body));
+                    break;
+                case PATCH:
+                    requestBuilder.method("PATCH", BodyPublishers.ofString(body));
+                    break;
+                case DELETE:
+                    requestBuilder.DELETE();
+                    break;
+            }
+
+            HttpRequest request = requestBuilder.build();
+            HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+    
+     public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+     }
+}
+
