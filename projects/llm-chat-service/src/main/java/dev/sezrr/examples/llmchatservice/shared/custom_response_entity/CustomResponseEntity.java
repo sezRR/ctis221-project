@@ -31,7 +31,7 @@ public class CustomResponseEntity<T> {
         return new CustomResponseEntity<>(message, true);
     }
 
-    public static CustomResponseEntity<String> failure(String message) {
+    public static CustomResponseEntity<Object> failure(String message) {
         return new CustomResponseEntity<>(message, false);
     }
 

@@ -25,10 +25,10 @@ public abstract class BaseInstruction extends AuditEntity {
     @NotNull(message = "Instruction cannot be null")
     private String instruction;
 
-    public BaseInstruction() {
+    protected BaseInstruction() {
     }
 
-    public BaseInstruction(UUID modelId, String instruction) {
+    protected BaseInstruction(UUID modelId, String instruction) {
         super();
         this.modelId = modelId;
         this.instruction = instruction;
