@@ -1,0 +1,61 @@
+/* CSS for the LoginView in JavaFX */
+
+/* PROPERTIES */
+* {
+    -primary-accent: #232323;
+    -secondary-accent: #777777;
+}
+
+.main-container {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+.heading-container {
+    -fx-padding: 12px 16px;
+    -fx-background-color: -primary-accent;
+}
+
+.heading-container FontIcon, .heading-container .heading {
+    -fx-fill: whitesmoke;
+}
+
+.heading {
+    -fx-font-size: 16px;
+    -fx-text-fill: -primary-accent;
+    -fx-font-weight: bold;
+}
+
+.welcome-text {
+    -fx-font-size: 18px;
+    -fx-text-fill: -secondary-accent;
+    -fx-padding: 10px 0;
+    -fx-font-weight: bold;
+}
+
+.button-oauth2 {
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-border-color: #adadad;
+    -fx-text-fill: -primary-accent;
+    -fx-background-color: #FFFFFF;
+}
+
+.button-oauth2 FontIcon {
+    -fx-fill: -primary-accent;
+}
+
+.button-oauth2:hover {
+    -fx-background-color: #d7d7d7;
+    -fx-cursor: hand;
+}
+
+.guest-link {
+    -fx-fill: -secondary-accent;
+    -fx-cursor: hand;
+    -fx-underline: true;
+}
