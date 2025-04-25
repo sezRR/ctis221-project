@@ -1,10 +1,10 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth.AuthController;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth.AuthService;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.AuthController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.HelloController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthService;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import javafx.application.Application;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;

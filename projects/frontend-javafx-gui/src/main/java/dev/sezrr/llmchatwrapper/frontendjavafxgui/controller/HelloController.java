@@ -1,7 +1,7 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth.*;
-import javafx.application.Platform;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;

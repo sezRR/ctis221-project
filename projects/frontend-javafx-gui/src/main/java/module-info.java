@@ -13,9 +13,17 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
 
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui;
-    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.model to com.fasterxml.jackson.databind;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.custom_response_entity to com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth to javafx.fxml, com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene to javafx.fxml, com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui to javafx.fxml;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token to com.fasterxml.jackson.databind, javafx.fxml;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth to com.fasterxml.jackson.databind, javafx.fxml;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils to com.fasterxml.jackson.databind, javafx.fxml;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.controller;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.controller to com.fasterxml.jackson.databind, javafx.fxml;
 }

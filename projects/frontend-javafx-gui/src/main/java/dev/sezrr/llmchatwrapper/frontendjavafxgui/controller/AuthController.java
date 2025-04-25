@@ -1,9 +1,9 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller;
 
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthService;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.HelloController;
 
 public class AuthController {
     private AuthService authService;

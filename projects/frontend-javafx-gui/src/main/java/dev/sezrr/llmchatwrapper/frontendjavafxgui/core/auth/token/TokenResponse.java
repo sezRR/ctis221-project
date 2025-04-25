@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

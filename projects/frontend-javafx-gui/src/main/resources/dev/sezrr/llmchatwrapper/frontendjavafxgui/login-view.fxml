@@ -9,7 +9,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 
-<BorderPane stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth.AuthController">
+<BorderPane stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.AuthController">
    <bottom>
       <BorderPane styleClass="heading-container" BorderPane.alignment="CENTER">
          <left>

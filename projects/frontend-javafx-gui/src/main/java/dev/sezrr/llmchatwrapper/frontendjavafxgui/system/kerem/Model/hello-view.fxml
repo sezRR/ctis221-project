@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="365.0" layoutY="44.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="148.0" text="Add Model" />
+      <Label layoutX="48.0" layoutY="42.0" prefHeight="35.0" prefWidth="85.0" text="Model Name:" />
+      <Label layoutX="48.0" layoutY="82.0" prefHeight="35.0" prefWidth="70.0" text="API URL:" />
+      <TextField layoutX="146.0" layoutY="47.0" prefHeight="26.0" prefWidth="186.0" />
+      <TextField layoutX="146.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
+      <TextArea layoutX="37.0" layoutY="224.0" prefHeight="200.0" prefWidth="476.0" />
+      <Button layoutX="197.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="148.0" text="Search" />
+      <Button layoutX="368.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="142.0" text="Delete" />
+      <Button layoutX="37.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="136.0" text="Display" />
+   </children>
+</AnchorPane>

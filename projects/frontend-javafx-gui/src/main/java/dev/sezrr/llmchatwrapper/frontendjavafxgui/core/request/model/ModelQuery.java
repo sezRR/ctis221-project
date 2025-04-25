@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.model;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model;
 
 public class ModelQuery {
     private String id;

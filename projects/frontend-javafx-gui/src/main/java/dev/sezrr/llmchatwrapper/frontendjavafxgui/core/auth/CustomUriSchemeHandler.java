@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 
 import java.io.IOException;
 import java.nio.file.Files;

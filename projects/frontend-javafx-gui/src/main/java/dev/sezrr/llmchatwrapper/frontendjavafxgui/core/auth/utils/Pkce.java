@@ -1,20 +1,20 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-final class Pkce {
+public final class Pkce {
     private static final SecureRandom RNG = new SecureRandom();
 
-    static String createVerifier() {
+    public static String createVerifier() {
         byte[] bytes = new byte[64];
         RNG.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
-    static String challengeS256(String verifier) {
+    public static String challengeS256(String verifier) {
         try {
             byte[] sha = MessageDigest.getInstance("SHA-256")
                     .digest(verifier.getBytes(StandardCharsets.US_ASCII));

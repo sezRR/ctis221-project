@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="your.package.ChatAppController">
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="20" style="-fx-background-color: #f8f9fd; -fx-padding: 20;">
+            <ImageView fx:id="profileImage" fitWidth="80" fitHeight="80"/>
+            <Label text="Henry Jabbawockiez"/>
+            <VBox spacing="10">
+                <Button text="HOME" styleClass="sidebar-button"/>
+                <Button text="CHAT" styleClass="sidebar-button"/>
+                <Button text="CONTACT" styleClass="sidebar-button"/>
+                <Button text="NOTIFICATIONS" styleClass="sidebar-button"/>
+                <Button text="CALENDAR" styleClass="sidebar-button"/>
+                <Button text="SETTINGS" styleClass="sidebar-button"/>
+            </VBox>
+            <Button text="LOG OUT" style="-fx-background-color: transparent; -fx-text-fill: gray;"/>
+        </VBox>
+    </left>
+
+    <!-- Center Chat List -->
+    <center>
+        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Chats" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <Button text="+ Create New Chat" style="-fx-background-color: #2979ff; -fx-text-fill: white;"/>
+            </HBox>
+            <TextField promptText="Search" style="-fx-background-color: #f1f3f5; -fx-padding: 10;"/>
+            <ListView fx:id="chatListView" prefHeight="500" />
+        </VBox>
+    </center>
+
+    <!-- Right Chat View -->
+    <right>
+        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 20;">
+            <Label fx:id="chatTitle" text="Nika Jerrardo" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+            <Label text="last online 5 hours ago" style="-fx-text-fill: #999;"/>
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox fx:id="messageContainer" spacing="10" style="-fx-padding: 10;"/>
+            </ScrollPane>
+            <HBox spacing="10" style="-fx-padding: 10;">
+                <TextField fx:id="messageField" promptText="Type a message here"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="➤" fx:id="sendButton" style="-fx-font-size: 16;"/>
+            </HBox>
+        </VBox>
+    </right>
+</BorderPane>

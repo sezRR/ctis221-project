@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="565.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ui.MessageUI">
+   <children>
+      <SplitPane dividerPositions="0.22371134020618558" prefHeight="565.0" prefWidth="972.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="563.0" prefWidth="182.0">
+               <children>
+                  <Button layoutX="26.0" layoutY="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="151.0" text="Create New Chat" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="27.0" layoutY="524.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" text="Delete Chat" textFill="#f80000">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="27.0" layoutY="480.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" text="Download Chat" textFill="#075afa">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <TextField alignment="CENTER" layoutX="13.0" layoutY="100.0" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button contentDisplay="CENTER" defaultButton="true" layoutX="55.0" layoutY="140.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="91.0" text="Get Chat" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="563.0" prefWidth="605.0">
+               <children>
+                  <TextArea editable="false" layoutX="29.0" layoutY="83.0" prefHeight="461.0" prefWidth="176.0" />
+                  <TextField layoutX="28.0" layoutY="29.0" prefHeight="26.0" prefWidth="119.0" promptText=" Search Chats">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font></TextField>
+                  <Button defaultButton="true" layoutX="154.0" layoutY="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" textOverrun="LEADING_ELLIPSIS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <ScrollPane hbarPolicy="NEVER" hmax="10.0" hvalue="1.0" layoutX="223.0" layoutY="83.0" prefHeight="461.0" prefWidth="542.0" vbarPolicy="ALWAYS" vmax="40000.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="502.0">
+                           <children>
+                              <TextField layoutX="14.0" layoutY="406.0" prefHeight="41.0" prefWidth="400.0" promptText="Type a message here...">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font></TextField>
+                              <Button layoutX="421.0" layoutY="407.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="77.0" text="SEND" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children></AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

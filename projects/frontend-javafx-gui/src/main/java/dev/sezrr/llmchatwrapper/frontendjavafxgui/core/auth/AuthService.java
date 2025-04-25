@@ -1,7 +1,12 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.Pkce;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.RefreshTokenClient;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenResponse;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 

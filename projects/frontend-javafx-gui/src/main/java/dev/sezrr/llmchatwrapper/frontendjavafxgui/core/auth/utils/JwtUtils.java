@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,7 @@ public final class JwtUtils {
     public static String preferredUsername(String idToken) {
         return get(idToken, "preferred_username");
     }
-    static long expires(String idToken) {
+    public static long expires(String idToken) {
         return Long.parseLong(get(idToken, "exp"));
     }
     private static String get(String jwt, String claim) {

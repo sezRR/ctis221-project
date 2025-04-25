@@ -2,7 +2,7 @@ package dev.sezrr.examples.llmchatservice.auth.internal.service;
 
 import dev.sezrr.examples.llmchatservice.auth.exposed.contract.UserService;
 import dev.sezrr.examples.llmchatservice.auth.exposed.dto.NewUserRecord;
-import dev.sezrr.examples.llmchatservice.shared.config.KeycloakConfig;
+import dev.sezrr.examples.llmchatservice.auth.internal.config.KeycloakConfig;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UsersResource;

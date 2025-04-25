@@ -1,7 +1,13 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.AuthController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.Pkce;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.RefreshTokenClient;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenResponse;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -31,7 +37,11 @@ public class AuthApplication extends Application {
 
     private AuthController controller;
 
-    static final ObjectMapper MAPPER = new ObjectMapper();   // shared
+    private static final ObjectMapper MAPPER = new ObjectMapper();   // shared
+    
+    public static ObjectMapper getMapper() {
+        return MAPPER;
+    }
 
     @Override public void start(Stage stage) throws Exception {
 

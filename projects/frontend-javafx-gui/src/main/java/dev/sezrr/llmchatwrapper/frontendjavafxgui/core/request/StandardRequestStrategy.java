@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.request;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request;
 
 public class StandardRequestStrategy extends BaseRequestStrategy {
     public StandardRequestStrategy(String baseApiUrl) {

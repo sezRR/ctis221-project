@@ -3,7 +3,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx/17.0.1" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.HelloController"
+      fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.HelloController"
       alignment="CENTER" spacing="20" prefWidth="400" prefHeight="300">
    <Label fx:id="welcomeText" text="Welcome!"/>
    <Button text="Logout" onAction="#onLogoutButtonClick"/>

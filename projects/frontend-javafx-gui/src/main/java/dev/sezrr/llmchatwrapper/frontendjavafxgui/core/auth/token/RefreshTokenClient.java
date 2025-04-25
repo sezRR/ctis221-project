@@ -1,4 +1,6 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token;
+
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthApplication;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -7,8 +9,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-final class RefreshTokenClient {
-    static TokenResponse refresh(String refreshToken, String tokenUrl, String clientId) throws Exception {
+public final class RefreshTokenClient {
+    public static TokenResponse refresh(String refreshToken, String tokenUrl, String clientId) throws Exception {
         String body = "grant_type=refresh_token" +
                 "&client_id=" + url(clientId) +
                 "&refresh_token=" + url(refreshToken);
@@ -24,10 +26,10 @@ final class RefreshTokenClient {
         if (resp.statusCode() != 200)
             throw new RuntimeException("Refresh failed: " + resp.body());
 
-        return AuthApplication.MAPPER.readValue(resp.body(), TokenResponse.class);
+        return AuthApplication.getMapper().readValue(resp.body(), TokenResponse.class);
     }
 
-    private static String url(String s) {
+    public static String url(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
 }
