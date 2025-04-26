@@ -1,7 +1,9 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class ApiClient {
     private RequestStrategy requestStrategy;
@@ -40,8 +42,8 @@ public class ApiClient {
         return convertResponse(response, typeReference);
     }
 
-    public <T> T post(String endpoint, String body, TypeReference<T> typeReference) {
-        String response = post(endpoint, body);
+    public <T, F> T post(String endpoint, F objectBody, TypeReference<T> typeReference) throws JsonProcessingException {
+        String response = post(endpoint, convertObjectToStringJson(objectBody));
         return convertResponse(response, typeReference);
     }
 
@@ -53,6 +55,15 @@ public class ApiClient {
     public <T> T patch(String endpoint, String body, TypeReference<T> typeReference) {
         String response = patch(endpoint, body);
         return convertResponse(response, typeReference);
+    }
+    
+    private <T> String convertObjectToStringJson(T object) {
+        try {
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            return ow.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to convert object to JSON", e);
+        }
     }
 
     private <T> T convertResponse(String response, TypeReference<T> typeReference) {

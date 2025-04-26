@@ -1,18 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button layoutX="365.0" layoutY="44.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="148.0" text="Add Model" />
-      <Label layoutX="48.0" layoutY="42.0" prefHeight="35.0" prefWidth="85.0" text="Model Name:" />
-      <Label layoutX="48.0" layoutY="82.0" prefHeight="35.0" prefWidth="70.0" text="API URL:" />
-      <TextField layoutX="146.0" layoutY="47.0" prefHeight="26.0" prefWidth="186.0" />
-      <TextField layoutX="146.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
-      <TextArea layoutX="37.0" layoutY="224.0" prefHeight="200.0" prefWidth="476.0" />
-      <Button layoutX="197.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="148.0" text="Search" />
-      <Button layoutX="368.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="142.0" text="Delete" />
-      <Button layoutX="37.0" layoutY="149.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="136.0" text="Display" />
-   </children>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin.AdminViewModelController">
+   <top>
+      <VBox spacing="8.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label onMouseClicked="#backToUserChat" styleClass="link" text="&lt; Return to the User Chat View" underline="true" />
+            <Label prefWidth="216.0" text="ADMIN VIEW - MODEL">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets bottom="12.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <GridPane alignment="CENTER" hgap="8.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="4.0" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" prefWidth="225.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" prefWidth="139.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" prefHeight="36.0" valignment="CENTER" vgrow="ALWAYS" />
+              </rowConstraints>
+               <children>
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Display" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <graphic>
+                        <FontIcon iconLiteral="far-eye" iconSize="12" text="" />
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="modelName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="36.0" promptText="Enter model name to add..." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Model Name:" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="API URL:" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                  <TextField fx:id="apiUrl" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="36.0" promptText="Enter API URL to add..." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addModel" prefHeight="76.0" prefWidth="117.0" text="Add Model" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-plus" iconSize="12" />
+                     </graphic>
+                  </Button>
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="0.0" prefWidth="210.0" text="Search" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-search" iconSize="12" text="" />
+                     </graphic>
+                  </Button>
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="66.0" prefWidth="142.0" text="Delete" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-trash" iconSize="12" />
+                     </graphic>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="12.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <padding>
+      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+   </padding>
+   <stylesheets>
+      <URL value="@admin-model-view.css" />
+      <URL value="@../common.css" />
+   </stylesheets>
+   <bottom>
+      <TableView fx:id="models" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="modelIdColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="modelNameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="199.0" text="Model Name" />
+            <TableColumn fx:id="modelApiUrlColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="205.0" text="Api URL" />
+        </columns>
+      </TableView>
+   </bottom>
+</BorderPane>

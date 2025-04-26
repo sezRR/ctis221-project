@@ -1,11 +1,6 @@
 /* CSS for the LoginView in JavaFX */
 
 /* PROPERTIES */
-* {
-    -primary-accent: #232323;
-    -secondary-accent: #777777;
-}
-
 .main-container {
     -fx-background-color: white;
     -fx-alignment: center;

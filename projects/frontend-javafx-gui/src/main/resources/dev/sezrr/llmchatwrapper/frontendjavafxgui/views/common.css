@@ -1,0 +1,30 @@
+* {
+    -primary-accent: #232323;
+    -secondary-accent: #777777;
+    -border-color: #adadad;
+}
+
+Button {
+    -fx-font-size: 12px;
+    -fx-padding: 4px 8px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-border-color: -border-color;
+    -fx-text-fill: -primary-accent;
+    -fx-background-color: white;
+}
+
+Button:hover {
+    -fx-background-color: #d7d7d7;
+    -fx-cursor: hand;
+}
+
+Button:pressed {
+    -fx-background-color: #b0b0b0;
+}
+
+Button FontIcon {
+    -fx-fill: -primary-accent;
+}

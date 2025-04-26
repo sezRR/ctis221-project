@@ -14,7 +14,8 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
     requires org.yaml.snakeyaml;
 
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui;
-    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind, javafx.fxml;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind, javafx.fxml, javafx.base;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity to com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene to javafx.fxml, com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui to javafx.fxml;
@@ -32,4 +33,6 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.login to com.fasterxml.jackson.databind, javafx.fxml;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat to com.fasterxml.jackson.databind, javafx.fxml;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin to com.fasterxml.jackson.databind, javafx.fxml;
 }

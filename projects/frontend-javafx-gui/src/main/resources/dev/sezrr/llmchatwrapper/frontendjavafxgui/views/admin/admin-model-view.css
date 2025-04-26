@@ -1,0 +1,12 @@
+.link:hover {
+    -fx-cursor: hand;
+}
+
+Button {
+    -fx-background-color: -primary-accent;
+    -fx-text-fill: whitesmoke;
+}
+
+Button FontIcon {
+    -fx-fill: whitesmoke;
+}

@@ -44,11 +44,6 @@ public class ModelQuery {
 
     @Override
     public String toString() {
-        return "ModelQuery{" +
-                "id='" + id + '\'' +
-                ", model='" + model + '\'' +
-                ", apiUrl='" + apiUrl + '\'' +
-                ", activeModelPricing=" + activeModelPricing +
-                '}';
+        return id + "\t" + model + "\t" + apiUrl;
     }
 }
