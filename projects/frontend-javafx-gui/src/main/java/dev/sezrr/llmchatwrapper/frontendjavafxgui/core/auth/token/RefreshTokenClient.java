@@ -1,6 +1,6 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthApplication;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthService;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -26,7 +26,7 @@ public final class RefreshTokenClient {
         if (resp.statusCode() != 200)
             throw new RuntimeException("Refresh failed: " + resp.body());
 
-        return AuthApplication.getMapper().readValue(resp.body(), TokenResponse.class);
+        return AuthService.getMapper().readValue(resp.body(), TokenResponse.class);
     }
 
     public static String url(String s) {

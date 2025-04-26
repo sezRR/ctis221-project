@@ -1,6 +1,6 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.Main;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +23,7 @@ public class SceneManager {
         try {
             SceneControllerPair pair = scenes.computeIfAbsent(fxmlName, name -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(Main.class.getResource(name));
+                    FXMLLoader loader = new FXMLLoader(App.class.getResource(name));
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
                     Object controller = loader.getController();

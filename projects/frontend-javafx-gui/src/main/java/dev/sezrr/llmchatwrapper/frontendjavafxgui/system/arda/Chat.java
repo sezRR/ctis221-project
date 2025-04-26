@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.arda;
 
 import java.util.ArrayList;
 import java.util.List;

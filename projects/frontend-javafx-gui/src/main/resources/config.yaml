@@ -1,0 +1,6 @@
+google:
+  realm: "llm-chat-wrapper"
+  auth_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/auth"
+  token_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/token"
+  client_id: "desktop-app"
+  scope: "openid email profile offline_access"

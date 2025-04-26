@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.arda;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.custom_response_entity.errors;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.errors;
 
 import java.util.Collections;
 import java.util.List;

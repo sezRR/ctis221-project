@@ -1,4 +1,4 @@
-package Model;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.kerem.Model;
 
 public class Model {
 

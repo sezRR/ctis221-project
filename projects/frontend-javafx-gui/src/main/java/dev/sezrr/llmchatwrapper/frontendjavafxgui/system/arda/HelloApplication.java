@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.arda;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

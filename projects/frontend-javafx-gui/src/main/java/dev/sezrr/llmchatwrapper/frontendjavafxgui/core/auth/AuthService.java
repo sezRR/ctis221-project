@@ -1,12 +1,15 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.MessageUIController;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.Pkce;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.RefreshTokenClient;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenResponse;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 
@@ -27,53 +30,78 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public class AuthService {
-    private static final String REALM     = "llm-chat-wrapper";
-    private static final String AUTH_URL  = "http://localhost:9082/realms/" + REALM + "/protocol/openid-connect/auth";
-    private static final String TOKEN_URL = "http://localhost:9082/realms/" + REALM + "/protocol/openid-connect/token";
-    private static final String CLIENT_ID = "desktop-app";
-    private static final String SCOPE     = "openid email profile offline_access";
-
     private final HostServices hostServices;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
+    
+    private static final Consumer<String> onSuccessSwitchToChatView = (username) -> {
+        // Handle success callback
+        System.out.println("Login successful for user: " + username);
+        
+        // Switch to the main application view
+        MessageUIController messageUIController = SceneManager.switchScene("user-chat-view.fxml");
+    };
+    
+    private static void onSuccessSwitchToChatView(String username) {
+        // Handle failure callback
+        System.out.println("Login successful for user: " + username);
+        
+        // Switch back to the login view
+        MessageUIController messageUIController = SceneManager.switchScene("user-chat-view.fxml");
+    }
+    
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
 
     public AuthService(HostServices hostServices) {
         this.hostServices = hostServices;
+        var isSuccess = trySilentLogin();
+        if (!isSuccess)
+            // Load the login view
+            SceneManager.switchScene("login-view.fxml");
     }
     
-    public AuthService(HostServices hostServices, Consumer<String> onSuccess) {
-        this.hostServices = hostServices;
-        trySilentLogin(onSuccess);
-    }
-
-    public void startAuthFlow(Consumer<String> onSuccess) {
-        if (!trySilentLogin(onSuccess)) {
+    public void startAuthFlow() {
+        if (!trySilentLogin()) {
             try {
-                beginOAuthFlow(onSuccess);
+                beginOAuthFlow();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private boolean trySilentLogin(Consumer<String> onSuccess) {
+    private boolean trySilentLogin() {
         return TokenStore.load().map(stored -> {
             long now = System.currentTimeMillis() / 1000;
             if (now < JwtUtils.expires(stored.idToken())) {
-                Platform.runLater(() -> onSuccess.accept(JwtUtils.preferredUsername(stored.idToken())));
+                onSuccessSwitchToChatView(JwtUtils.preferredUsername(stored.idToken()));
                 return true;
             }
             try {
-                TokenResponse fresh = RefreshTokenClient.refresh(stored.refreshToken(), TOKEN_URL, CLIENT_ID);
+                TokenResponse fresh = RefreshTokenClient.refresh(stored.refreshToken(), AuthConfig.TOKEN_URL, AuthConfig.CLIENT_ID);
                 TokenStore.save(fresh);
-                Platform.runLater(() -> onSuccess.accept(JwtUtils.preferredUsername(fresh.idToken())));
+                onSuccessSwitchToChatView(JwtUtils.preferredUsername(fresh.idToken()));
                 return true;
             } catch (Exception ignored) {
                 return false;
             }
         }).orElse(false);
     }
-
-    private void beginOAuthFlow(Consumer<String> onSuccess) throws IOException {
+    
+    private String constructAuthUrl(String redirectUri, String codeChallenge, String state) {
+        return AuthConfig.AUTH_URL +
+                "?client_id=" + url(AuthConfig.CLIENT_ID) +
+                "&response_type=code" +
+                "&redirect_uri=" + url(redirectUri) +
+                "&scope=" + url(AuthConfig.SCOPE) +
+                "&code_challenge=" + url(codeChallenge) +
+                "&code_challenge_method=S256" +
+                "&state=" + url(state) +
+                "&kc_idp_hint=google";
+    }
+    
+    private void beginOAuthFlow() throws IOException {
         int port = findFreePort();
         String redirectUri = "http://127.0.0.1:" + port + "/cb";
 
@@ -81,21 +109,16 @@ public class AuthService {
         String codeChallenge = Pkce.challengeS256(codeVerifier);
         String state         = UUID.randomUUID().toString();
 
-        String authUrl = AUTH_URL +
-                "?client_id=" + url(CLIENT_ID) +
-                "&response_type=code" +
-                "&redirect_uri=" + url(redirectUri) +
-                "&scope=" + url(SCOPE) +
-                "&code_challenge=" + url(codeChallenge) +
-                "&code_challenge_method=S256" +
-                "&state=" + url(state) +
-                "&kc_idp_hint=google";
-
+        String authUrl = constructAuthUrl(redirectUri, codeChallenge, state);
         hostServices.showDocument(authUrl);
 
+        createHttpServerToGetToken(port, state, redirectUri, codeVerifier);
+    }
+
+    private void createHttpServerToGetToken(int port, String state, String redirectUri, String codeVerifier) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/cb", exchange -> {
-            Map<String,String> params = parseQuery(exchange.getRequestURI().getRawQuery());
+            Map<String, String> params = parseQuery(exchange.getRequestURI().getRawQuery());
             if (!state.equals(params.get("state"))) {
                 exchange.sendResponseHeaders(400, -1);
                 return;
@@ -103,23 +126,31 @@ public class AuthService {
             TokenResponse tok = exchangeForTokens(params.get("code"), redirectUri, codeVerifier);
             TokenStore.save(tok);
 
-            String cookie = "id_token=" + URLEncoder.encode(tok.idToken(), StandardCharsets.UTF_8) +
-                    "; Max-Age=" + tok.expiresIn() +
-                    "; Path=/; HttpOnly; SameSite=Lax";
-            exchange.getResponseHeaders().add("Set-Cookie", cookie);
+            setHTTPOnlyCookie(exchange, tok);
 
-            byte[] body = "<html><body><h2>You may return to the app.</h2></body></html>"
-                    .getBytes(StandardCharsets.UTF_8);
-            exchange.sendResponseHeaders(200, body.length);
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(body);
-            }
+            showSuccessHTML(exchange);
             server.stop(0);
 
-            String user = JwtUtils.preferredUsername(tok.idToken());
-            Platform.runLater(() -> onSuccess.accept(user));
+            String username = JwtUtils.preferredUsername(tok.idToken());
+            Platform.runLater(() -> onSuccessSwitchToChatView(username)); // Ensure scene switch happens on JavaFX Application Thread
         });
         server.start();
+    }
+
+    private static void setHTTPOnlyCookie(HttpExchange exchange, TokenResponse tok) {
+        String cookie = "id_token=" + URLEncoder.encode(tok.idToken(), StandardCharsets.UTF_8) +
+                "; Max-Age=" + tok.expiresIn() +
+                "; Path=/; HttpOnly; SameSite=Lax";
+        exchange.getResponseHeaders().add("Set-Cookie", cookie);
+    }
+
+    private static void showSuccessHTML(HttpExchange exchange) throws IOException {
+        byte[] body = "<html><body><h2>You may return to the app.</h2></body></html>"
+                .getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, body.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(body);
+        }
     }
 
     private static int findFreePort() throws IOException {
@@ -131,7 +162,7 @@ public class AuthService {
     private static Map<String,String> parseQuery(String raw) throws IOException {
         Map<String,String> map = new HashMap<>();
         if (raw == null || raw.isEmpty()) return map;
-        for (String pair : raw.split("&")) {
+        for (String pair : raw.split("&")) { // Custom URL Query Param Parsing for format ?key=value&key2=value2
             int eq = pair.indexOf('=');
             String k = URLDecoder.decode(eq > 0 ? pair.substring(0, eq) : pair, StandardCharsets.UTF_8);
             String v = eq > 0 && eq < pair.length() - 1
@@ -144,12 +175,12 @@ public class AuthService {
 
     private TokenResponse exchangeForTokens(String code, String redirectUri, String codeVerifier) {
         String body = "grant_type=authorization_code" +
-                "&client_id=" + url(CLIENT_ID) +
+                "&client_id=" + url(AuthConfig.CLIENT_ID) +
                 "&code=" + url(code) +
                 "&redirect_uri=" + url(redirectUri) +
                 "&code_verifier=" + url(codeVerifier);
 
-        HttpRequest req = HttpRequest.newBuilder(URI.create(TOKEN_URL))
+        HttpRequest req = HttpRequest.newBuilder(URI.create(AuthConfig.TOKEN_URL))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();

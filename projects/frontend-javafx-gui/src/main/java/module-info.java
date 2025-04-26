@@ -10,12 +10,12 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
     requires com.fasterxml.jackson.databind;
     requires jdk.httpserver;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires java.rmi;
+    requires org.yaml.snakeyaml;
 
-    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind;
-    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.custom_response_entity to com.fasterxml.jackson.databind;
-    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.auth to javafx.fxml, com.fasterxml.jackson.databind;
+    exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity to com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene to javafx.fxml, com.fasterxml.jackson.databind;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui to javafx.fxml;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token;

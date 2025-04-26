@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.custom_response_entity;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
