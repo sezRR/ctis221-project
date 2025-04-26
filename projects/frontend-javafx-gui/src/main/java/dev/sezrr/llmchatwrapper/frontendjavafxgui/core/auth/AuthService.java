@@ -40,6 +40,7 @@ public class AuthService {
         
         // Switch back to the login view
         UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
+        userChatViewController.init(username);
     }
     
     public static ObjectMapper getMapper() {
@@ -68,13 +69,13 @@ public class AuthService {
         return TokenStore.load().map(stored -> {
             long now = System.currentTimeMillis() / 1000;
             if (now < JwtUtils.expires(stored.idToken())) {
-                onSuccessSwitchToChatView(JwtUtils.preferredUsername(stored.idToken()));
+                onSuccessSwitchToChatView(JwtUtils.preferredName(stored.idToken()));
                 return true;
             }
             try {
                 TokenResponse fresh = RefreshTokenClient.refresh(stored.refreshToken(), AuthConfig.TOKEN_URL, AuthConfig.CLIENT_ID);
                 TokenStore.save(fresh);
-                onSuccessSwitchToChatView(JwtUtils.preferredUsername(fresh.idToken()));
+                onSuccessSwitchToChatView(JwtUtils.preferredName(fresh.idToken()));
                 return true;
             } catch (Exception ignored) {
                 return false;
@@ -124,7 +125,7 @@ public class AuthService {
             showSuccessHTML(exchange);
             server.stop(0);
 
-            String username = JwtUtils.preferredUsername(tok.idToken());
+            String username = JwtUtils.preferredName(tok.idToken());
             Platform.runLater(() -> onSuccessSwitchToChatView(username)); // Ensure scene switch happens on JavaFX Application Thread
         });
         server.start();

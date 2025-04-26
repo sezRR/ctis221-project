@@ -30,7 +30,7 @@ public class HelloController {
 
         // SET THE USERNAME
         String username = TokenStore.load()
-                .map(stored -> JwtUtils.preferredUsername(stored.idToken()))
+                .map(stored -> JwtUtils.preferredName(stored.idToken()))
                     .orElseThrow(() -> new RuntimeException("Invalid token found"));
         
         // Set the welcome text

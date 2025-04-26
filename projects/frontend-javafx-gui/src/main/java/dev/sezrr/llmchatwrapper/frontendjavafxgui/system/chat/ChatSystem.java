@@ -13,17 +13,19 @@ public class ChatSystem {
     public static Chat getChat(UUID uuid) {
         return chats.get(uuid);
     }
+
     public static Chat searchChat(UUID uuid) {
-        for(Chat chat : chats.values()) {
-            if(chat.getChatId().equals(uuid)) {
+        for (Chat chat : chats.values()) {
+            if (chat.getChatId().equals(uuid)) {
                 return chat;
             }
         }
         return null;
     }
+
     public static boolean deleteChat(UUID uuid) {
-        Chat chat=searchChat(uuid);
-        if(chat!=null) {
+        Chat chat = searchChat(uuid);
+        if (chat != null) {
             chats.remove(uuid);
             return true;
         }
@@ -31,7 +33,7 @@ public class ChatSystem {
     }
 
     public static boolean addChat(Chat chat) {
-        if(searchChat(chat.getChatId()) == null) {
+        if (searchChat(chat.getChatId()) == null) {
             chats.put(chat.getChatId(), chat);
             return true;
         }
@@ -51,20 +53,19 @@ public class ChatSystem {
         return false;
     }
 
-    public static String displayChats()
-    {
+    public static String displayChats() {
         String output = "";
-        for(Chat chat : chats.values()) {
+        for (Chat chat : chats.values()) {
             output += chat.toString() + "\n";
         }
         return output;
     }
 
     public static boolean downloadChat(UUID uuid) throws IOException {
-        PrintWriter output=null;
-        File file = new File("chats/"+uuid+".txt");
-        if(file.exists()) {
-            FileWriter fw = new FileWriter(file,true);
+        PrintWriter output = null;
+        File file = new File("chats/" + uuid + ".txt");
+        if (file.exists()) {
+            FileWriter fw = new FileWriter(file, true);
             PrintWriter pw = new PrintWriter(fw);
             output.println(displayChats());
             fw.close();
@@ -74,5 +75,24 @@ public class ChatSystem {
 
         }
         throw new ExportException("No file found");
+    }
+
+    public static int calculateTokenCount(String message) {
+        if (message == null || message.trim().isEmpty()) {
+            return 0;
+        }
+
+        String[] words = message.trim().split("\\s+"); // kelimelere ayır
+        int tokenCount = 0;
+
+        for (String word : words) {
+            if (word.length() <= 6) {
+                tokenCount += 1;
+            } else {
+                tokenCount += (int) Math.ceil(word.length() / 6.0); // 6'ya bölüp yukarı yuvarla
+            }
+        }
+
+        return tokenCount;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public final class TokenStore {
 
-    private static final Path DIR  = Path.of(System.getProperty("user.home"), ".javafx-oauth");
+    private static final Path DIR  = Path.of(System.getProperty("user.home"), ".llmchatwrapper");
     private static final Path FILE = DIR.resolve("tokens.json");
     private static final ObjectMapper M = new ObjectMapper().registerModule(new JavaTimeModule());
 

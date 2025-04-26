@@ -5,7 +5,7 @@ package dev.sezrr.examples.llmchatservice.shared.custom_response_entity.paginati
  *
  * @param <T> the type of the content
  */
-public class PaginationResponse<T> {
+public abstract class PaginationResponse<T> {
     private final T content;
     private final boolean hasMore;
     

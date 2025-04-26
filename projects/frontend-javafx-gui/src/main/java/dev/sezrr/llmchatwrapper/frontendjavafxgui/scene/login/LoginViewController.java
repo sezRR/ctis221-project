@@ -3,6 +3,7 @@ package dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.login;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthService;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ public class LoginViewController {
     
     @FXML
     private void onGuestLoginButtonClick(MouseEvent event) {
-        SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
+        UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
+        userChatViewController.init("Guest");
     }
 }

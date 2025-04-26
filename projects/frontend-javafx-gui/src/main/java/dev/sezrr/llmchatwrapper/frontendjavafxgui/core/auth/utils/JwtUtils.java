@@ -11,6 +11,11 @@ public final class JwtUtils {
     public static String preferredUsername(String idToken) {
         return get(idToken, "preferred_username");
     }
+    
+    public static String preferredName(String idToken) {
+        return get(idToken, "given_name");
+    }
+    
     public static long expires(String idToken) {
         return Long.parseLong(get(idToken, "exp"));
     }

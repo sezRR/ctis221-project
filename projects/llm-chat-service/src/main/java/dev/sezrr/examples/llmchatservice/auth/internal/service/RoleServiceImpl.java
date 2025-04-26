@@ -20,10 +20,10 @@ public class RoleServiceImpl implements RoleService {
     
     @Override
     public void assignRole(String userId, String role) {
-        UserResource user = userService.getUser(userId);
-
-        RolesResource rolesResource = keycloak.realm(keycloakConfig.getRealm()).roles();
-        
-        user.roles().realmLevel().add(List.of());
+//        UserResource user = userService.getUser(userId);
+//
+//        RolesResource rolesResource = keycloak.realm(keycloakConfig.getRealm()).roles();
+//        
+//        user.roles().realmLevel().add(List.of());
     }
 }
