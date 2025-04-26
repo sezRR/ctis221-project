@@ -7,8 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SceneManager {
     private static Stage primaryStage;
@@ -19,11 +21,14 @@ public class SceneManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T switchScene(String fxmlName) {
+    public static <T> T switchScene(String fxmlPath) {
         try {
-            SceneControllerPair pair = scenes.computeIfAbsent(fxmlName, name -> {
+            SceneControllerPair pair = scenes.computeIfAbsent(fxmlPath, name -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(App.class.getResource(name));
+                    URL resourceUrl = App.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/views/" + fxmlPath);
+                    Objects.requireNonNull(resourceUrl, "Cannot find FXML resource: " + fxmlPath); // Add null check
+                    
+                    FXMLLoader loader = new FXMLLoader(resourceUrl);
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
                     Object controller = loader.getController();

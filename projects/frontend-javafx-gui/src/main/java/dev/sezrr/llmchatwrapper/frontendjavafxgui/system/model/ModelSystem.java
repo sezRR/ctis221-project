@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.kerem.Model;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.model;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.AuthController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.login.LoginViewController;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.AuthService;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import javafx.application.Application;
@@ -22,8 +23,8 @@ public class App extends Application {
         stage.setTitle("LLM Chat Wrapper");
         
         
-        AuthController authController = SceneManager.switchScene("login-view.fxml");
-        authController.setAuthService(new AuthService(getHostServices()));
+        LoginViewController loginViewController = SceneManager.switchScene(SceneConstant.LOGIN_VIEW);
+        loginViewController.setAuthService(new AuthService(getHostServices()));
         
         stage.show();
     }

@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.controller;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.scene;
 
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
@@ -39,7 +39,8 @@ public class HelloController {
 
     @FXML
     private void onLogoutButtonClick(ActionEvent event) {
-        SceneManager.switchScene("login-view.fxml");
+        SceneManager.switchScene(SceneConstant.LOGIN_VIEW);
+        
         // Delete the auth token
         TokenStore.delete();
     }

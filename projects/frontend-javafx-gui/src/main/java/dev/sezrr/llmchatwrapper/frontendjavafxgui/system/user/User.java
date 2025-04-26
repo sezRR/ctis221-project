@@ -1,5 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.arda;
-import java.util.ArrayList;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.user;
 import java.util.UUID;
 
 public class User {

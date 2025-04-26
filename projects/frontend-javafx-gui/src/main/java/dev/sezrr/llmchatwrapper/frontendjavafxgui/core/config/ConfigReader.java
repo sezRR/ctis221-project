@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.config;
 
 import org.yaml.snakeyaml.Yaml;
 

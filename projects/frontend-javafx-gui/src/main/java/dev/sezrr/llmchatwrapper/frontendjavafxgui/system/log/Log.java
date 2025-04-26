@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.kerem.Log;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.log;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

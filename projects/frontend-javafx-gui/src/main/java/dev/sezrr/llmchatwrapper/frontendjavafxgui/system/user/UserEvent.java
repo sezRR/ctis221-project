@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.kerem.Log;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.user;
 
 public enum UserEvent {
     USER_LOG_IN,

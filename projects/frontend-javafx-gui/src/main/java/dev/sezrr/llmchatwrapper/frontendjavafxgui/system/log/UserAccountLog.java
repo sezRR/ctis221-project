@@ -1,4 +1,6 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.kerem.Log;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.log;
+
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.user.UserEvent;
 
 import java.io.*;
 

@@ -1,6 +1,6 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.ConfigReader;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.config.ConfigReader;
 
 public class AuthConfig {
     public static final String REALM     = ConfigReader.get("google.realm");

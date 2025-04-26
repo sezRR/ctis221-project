@@ -1,4 +1,6 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.arda;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.chat;
+
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.user.UserType;
 
 import java.util.UUID;
 

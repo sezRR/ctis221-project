@@ -8,8 +8,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-
-<BorderPane stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.AuthController">
+<BorderPane stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.login.LoginViewController">
    <bottom>
       <BorderPane styleClass="heading-container" BorderPane.alignment="CENTER">
          <left>
@@ -30,7 +29,7 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text" text="Welcome back!" />
          <VBox alignment="CENTER" spacing="8.0">
             <children>
-                <Button id="oauth2-google" graphicTextGap="8.0" onAction="#onLoginButtonClick" styleClass="button-oauth2" text="Sign in with Google">
+                <Button id="oauth2-google" graphicTextGap="8.0" onAction="#onGoogleLoginButtonClick" styleClass="button-oauth2" text="Sign in with Google">
                   <graphic>
                      <FontIcon iconLiteral="fab-google" iconSize="16" />
                   </graphic>
@@ -38,7 +37,7 @@
                      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                   </padding>
                </Button>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="guest-link" text="Continue as a Guest" />
+               <Text onMouseClicked="#onGuestLoginButtonClick" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="guest-link" text="Continue as a Guest" />
             </children>
          </VBox>
       </VBox>

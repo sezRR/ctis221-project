@@ -3,7 +3,8 @@ package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.controller.MessageUIController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.JwtUtils;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.utils.Pkce;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.RefreshTokenClient;
@@ -33,20 +34,12 @@ public class AuthService {
     private final HostServices hostServices;
     private static final ObjectMapper mapper = new ObjectMapper();
     
-    private static final Consumer<String> onSuccessSwitchToChatView = (username) -> {
-        // Handle success callback
-        System.out.println("Login successful for user: " + username);
-        
-        // Switch to the main application view
-        MessageUIController messageUIController = SceneManager.switchScene("user-chat-view.fxml");
-    };
-    
     private static void onSuccessSwitchToChatView(String username) {
         // Handle failure callback
         System.out.println("Login successful for user: " + username);
         
         // Switch back to the login view
-        MessageUIController messageUIController = SceneManager.switchScene("user-chat-view.fxml");
+        UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
     }
     
     public static ObjectMapper getMapper() {
@@ -58,7 +51,7 @@ public class AuthService {
         var isSuccess = trySilentLogin();
         if (!isSuccess)
             // Load the login view
-            SceneManager.switchScene("login-view.fxml");
+            SceneManager.switchScene(SceneConstant.LOGIN_VIEW);
     }
     
     public void startAuthFlow() {
