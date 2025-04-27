@@ -27,18 +27,22 @@ public class CustomResponseEntity<T> {
         this.data = data;
     }
 
-    public static CustomResponseEntity<Object> success(String message) {
+    public static CustomResponseEntity<?> success(String message) {
         return new CustomResponseEntity<>(message, true);
     }
 
     public static CustomResponseEntity<Object> failure(String message) {
         return new CustomResponseEntity<>(message, false);
     }
-
+    
     public static <T> CustomResponseEntity<T> success(T data) {
         return new CustomResponseEntity<>(true, data);
     }
-
+    
+    public static <T> CustomResponseEntity<T> success(String message, T data) {
+        return new CustomResponseEntity<>(message, true, data);
+    }
+    
     public boolean isSuccess() {
         return success;
     }

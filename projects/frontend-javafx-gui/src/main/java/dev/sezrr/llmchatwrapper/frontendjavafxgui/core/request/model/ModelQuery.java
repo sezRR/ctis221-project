@@ -8,6 +8,11 @@ public class ModelQuery {
 
     public ModelQuery() {
     }
+    
+    public ModelQuery(String model, String apiUrl) {
+        this.model = model;
+        this.apiUrl = apiUrl;
+    }
 
     // Getters and setters
     public String getId() {

@@ -57,6 +57,11 @@ public class ApiClient {
         return convertResponse(response, typeReference);
     }
     
+    public <T> T delete(String endpoint, TypeReference<T> typeReference) {
+        String response = delete(endpoint);
+        return convertResponse(response, typeReference);
+    }
+    
     private <T> String convertObjectToStringJson(T object) {
         try {
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -68,6 +73,9 @@ public class ApiClient {
 
     private <T> T convertResponse(String response, TypeReference<T> typeReference) {
         try {
+            if (response == null || response.isEmpty())
+                return null;
+            
             return objectMapper.readValue(response, typeReference);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse response", e);

@@ -1,7 +1,9 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request;
 
+import java.net.ConnectException;
 import java.net.http.HttpClient;
 import java.net.URI;
+import java.net.http.HttpConnectTimeoutException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -47,8 +49,12 @@ public abstract class BaseRequestStrategy implements RequestStrategy {
 
             HttpRequest request = requestBuilder.build();
             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            
             return response.body();
         } catch (Exception e) {
+            if (e instanceof ConnectException || e.getMessage().contains("Connection refused") || e instanceof HttpConnectTimeoutException)
+                throw new RuntimeException("ConnectionError: " + "Server (backend) is not reachable");
+            
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }

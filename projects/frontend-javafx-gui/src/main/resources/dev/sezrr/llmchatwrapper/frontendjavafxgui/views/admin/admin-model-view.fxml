@@ -68,7 +68,7 @@
                         <FontIcon iconLiteral="fas-search" iconSize="12" text="" />
                      </graphic>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="66.0" prefWidth="142.0" text="Delete" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                  <Button fx:id="buttonDeleteModel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteModel" prefHeight="66.0" prefWidth="142.0" text="Delete" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <graphic>
                         <FontIcon iconLiteral="fas-trash" iconSize="12" />
                      </graphic>

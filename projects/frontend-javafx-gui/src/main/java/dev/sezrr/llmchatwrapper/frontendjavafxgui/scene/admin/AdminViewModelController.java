@@ -1,31 +1,27 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiClient;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiConfig;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.StandardRequestStrategy;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelAdd;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.alert.AlertUtil;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelQuery;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.CustomResponseEntity;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.model.ModelSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.util.List;
-
 public class AdminViewModelController {
-    private final ApiClient apiClient = new ApiClient(new StandardRequestStrategy(ApiConfig.BASE_API));
-
     @FXML
     private TableView<ModelQuery> models;
+    
+    @FXML
+    private Button buttonDeleteModel;
 
     @FXML
     private TableColumn<ModelQuery, String> modelIdColumn;
@@ -50,12 +46,21 @@ public class AdminViewModelController {
 
     public void init() {
         try {
+            clearFields();
             initColumns();
-            
-            CustomResponseEntity<List<ModelQuery>> response = apiClient.get("/models", new TypeReference<>() {});
+
+            var allModels = ModelSystem.getAllModels(); 
+            if (allModels == null || allModels.isEmpty()) {
+                models.getItems().clear();
+                buttonDeleteModel.setDisable(true);
+                AlertUtil.showInfo("No Models Found", "No models found in the system.");
+                return;
+            } else if (buttonDeleteModel.isDisable()) {
+                buttonDeleteModel.setDisable(false);
+            }
 
             models.getItems().clear();
-            models.getItems().addAll(response.getData());
+            models.getItems().addAll(allModels);
 
             // TODO: Listeners are added for all items in the table, so it will print the selected item multiple times
             models.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -64,12 +69,26 @@ public class AdminViewModelController {
                 }
             });
         } catch (Exception ex) {
-            showError("Failed to load models", ex.getMessage());
+            AlertUtil.showError("Failed to load models", ex.getMessage());
         }
     }
 
+    private void clearFields() {
+        modelName.clear();
+        apiUrl.clear();
+        
+        // Clear focus
+        modelName.requestFocus();
+        modelName.getParent().requestFocus();
+        apiUrl.requestFocus();
+        apiUrl.getParent().requestFocus();
+        models.getSelectionModel().clearSelection();
+    }
+    
     @FXML
     private void backToUserChat(MouseEvent event) {
+        clearFields();
+        
         UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
         userChatViewController.setCurrentViewValue(UserChatViewController.View.USER_VIEW);
     }
@@ -77,35 +96,55 @@ public class AdminViewModelController {
     @FXML
     private void addModel(ActionEvent event) {
         if (!areInputsValid()) {
-            showError("Invalid Input", "Please fill in all fields.");
+            AlertUtil.showError("Invalid Input", "Please fill in all fields.");
             return;
         }
 
         try {
             String model = modelName.getText().trim();
-            String apiUrlValue = apiUrl.getText().trim();
+            String apiUrlValue = apiUrl.getText().trim().toLowerCase();
 
-            ModelAdd modelAdd = new ModelAdd(model, apiUrlValue);
-            CustomResponseEntity<ModelQuery> response = apiClient.post("/models", modelAdd, new TypeReference<>() {});
+            var result = ModelSystem.addModel(new ModelRequest(model, apiUrlValue));
+            if (!result.isSuccess()) {
+                AlertUtil.showError("Failed to add model", result.getMessage());
+                return;
+            }
+            
+            AlertUtil.showSuccess("Model added", "Model added successfully");
 
-            System.out.println("Model added: " + response.getData());
-
-            // Optionally refresh the list after adding
+            // Refresh the list after adding
             init();
         } catch (Exception ex) {
-            showError("Failed to add model", ex.getMessage());
+            AlertUtil.showError("Failed to add model", ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void deleteModel(ActionEvent event) {
+        ModelQuery selectedModel = models.getSelectionModel().getSelectedItem();
+        if (selectedModel == null) {
+            AlertUtil.showError("No model selected", "Please select a model to delete.");
+            return;
+        }
+
+        try {
+            String modelId = selectedModel.getId();
+            boolean result = ModelSystem.deleteModel(modelId);
+            if (!result) {
+                AlertUtil.showError("Failed to delete model", "Model not found.");
+                return;
+            }
+            
+            AlertUtil.showSuccess("Model deleted", "Model deleted successfully");
+
+            // Refresh the list after deletion
+            init();
+        } catch (Exception ex) {
+            AlertUtil.showError("Failed to delete model", ex.getMessage());
         }
     }
 
     private boolean areInputsValid() {
         return !modelName.getText().trim().isEmpty() && !apiUrl.getText().trim().isEmpty();
-    }
-
-    private void showError(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

@@ -42,11 +42,11 @@ public class CustomResponseEntity<T> {
         this.data = data;
     }
 
-    public static CustomResponseEntity<Object> success(String message) {
+    public static CustomResponseEntity<?> success(String message) {
         return new CustomResponseEntity<>(message, true);
     }
 
-    public static CustomResponseEntity<String> failure(String message) {
+    public static CustomResponseEntity<?> failure(String message) {
         return new CustomResponseEntity<>(message, false);
     }
 

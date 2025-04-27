@@ -71,4 +71,14 @@ public class SupportedModelServiceImpl implements SupportedModelService {
         var savedModel = supportedModelRepository.save(supportedModel);
         return SupportedModelDtoMapper.mapToDto(savedModel);
     }
+
+    @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
+    @Override
+    public boolean deleteSupportedModel(UUID id) {
+        if (supportedModelRepository.existsById(id)) {
+            supportedModelRepository.deleteById(id);
+            return true;
+        }
+        return false; 
+    }
 }

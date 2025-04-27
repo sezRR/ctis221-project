@@ -15,4 +15,6 @@ public interface SupportedModelService extends CacheImplementationService<Suppor
     boolean existsById(UUID id);
     
     SupportedModelQueryDto addSupportedModel(SupportedModelAddDto supportedModelAddDto);
+    
+    boolean deleteSupportedModel(UUID id);
 }

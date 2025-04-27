@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,5 +43,14 @@ public class SupportedModelController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         return ResponseEntity.ok(CustomResponseEntity.success(supportedModel));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomResponseEntity<Boolean>> deleteSupportedModel(@PathVariable UUID id) {
+        var result = supportedModelService.deleteSupportedModel(id);
+        if (!result)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.ok(CustomResponseEntity.success("Model deleted successfully", true));
     }
 }
