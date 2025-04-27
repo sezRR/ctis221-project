@@ -25,6 +25,15 @@ public class ModelSystem {
         return CustomResponseEntity.success("Model added successfully");
     }
     
+    public static ModelQuery getModel(String model) throws Exception {
+        for (ModelQuery modelQ: models) {
+            if (modelQ.getModel().equals(model)) {
+                return modelQ;
+            }
+        }
+        return null;
+    }
+    
     public static boolean hasModel(String model, String apiUrl) {
         for (ModelQuery modelQ: models) {
             if (modelQ.getModel().equals(model) && modelQ.getApiUrl().equals(apiUrl)) {
@@ -58,7 +67,6 @@ public class ModelSystem {
     }
 
     public static String displayModels() {
-
         String output = "";
         for (ModelQuery model : models) {
             output += model.getModel() + "\t" + model.getApiUrl() + "\n";
@@ -77,6 +85,20 @@ public class ModelSystem {
             models = response.getData();
         } 
         
+        return models;
+    }
+    
+    public static List<ModelQuery> getModelsByApiUrlAndModel(String model, String apiUrl) {
+        List<ModelQuery> filteredModels = new ArrayList<>();
+        for (ModelQuery modelQ : models) {
+            if (modelQ.getApiUrl().equals(apiUrl) || modelQ.getModel().equals(model)) {
+                filteredModels.add(modelQ);
+            }
+        }
+        return filteredModels;
+    }
+    
+    public static List<ModelQuery> getModels() {
         return models;
     }
 }

@@ -9,10 +9,7 @@ import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewControl
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.model.ModelSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -22,6 +19,12 @@ public class AdminViewModelController {
     
     @FXML
     private Button buttonDeleteModel;
+
+    @FXML
+    private Button buttonDetails;
+
+    @FXML
+    private Button buttonUpdate;
 
     @FXML
     private TableColumn<ModelQuery, String> modelIdColumn;
@@ -38,25 +41,29 @@ public class AdminViewModelController {
     @FXML
     private TextField apiUrl;
     
+    @FXML
+    private Label selectedIndicator;
+    
+    @FXML
+    private Button buttonResetSearch;
+    
     private void initColumns() {
         modelIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         modelNameColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         modelApiUrlColumn.setCellValueFactory(new PropertyValueFactory<>("apiUrl"));
     }
-
+    
     public void init() {
         try {
             clearFields();
             initColumns();
 
-            var allModels = ModelSystem.getAllModels(); 
+            var allModels  = ModelSystem.getAllModels();
+            
             if (allModels == null || allModels.isEmpty()) {
                 models.getItems().clear();
-                buttonDeleteModel.setDisable(true);
                 AlertUtil.showInfo("No Models Found", "No models found in the system.");
                 return;
-            } else if (buttonDeleteModel.isDisable()) {
-                buttonDeleteModel.setDisable(false);
             }
 
             models.getItems().clear();
@@ -65,14 +72,24 @@ public class AdminViewModelController {
             // TODO: Listeners are added for all items in the table, so it will print the selected item multiple times
             models.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
+                    buttonDeleteModel.setDisable(false);
+                    buttonUpdate.setDisable(false);
+                    buttonDetails.setDisable(false);
                     System.out.println("Selected model: " + newValue);
+
+                    selectedIndicator.setText("Selected Model: " + newValue.getId());
+                } else {
+                    buttonDeleteModel.setDisable(true);
+                    buttonUpdate.setDisable(true);
+                    buttonDetails.setDisable(true);
+                    selectedIndicator.setText("Selected model: None");
                 }
             });
         } catch (Exception ex) {
             AlertUtil.showError("Failed to load models", ex.getMessage());
         }
     }
-
+    
     private void clearFields() {
         modelName.clear();
         apiUrl.clear();
@@ -91,6 +108,32 @@ public class AdminViewModelController {
         
         UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);
         userChatViewController.setCurrentViewValue(UserChatViewController.View.USER_VIEW);
+    }
+    
+    @FXML
+    private void searchModel(ActionEvent e) {
+        String modelNameText = modelName.getText().trim();
+        String apiUrlText = apiUrl.getText().trim();
+        
+        var result = ModelSystem.getModelsByApiUrlAndModel(modelNameText, apiUrlText);
+        if (result.isEmpty()) {
+            AlertUtil.showInfo("No Models Found", "No models found with the given criteria.");
+            return;
+        }
+
+        models.getItems().clear();
+        models.getItems().addAll(result);
+        buttonResetSearch.setDisable(false);
+    }
+    
+    @FXML
+    private void onResetSearchButtonClicked(ActionEvent event) {
+        clearFields();
+        buttonResetSearch.setDisable(true);
+
+        models.getItems().clear();
+        var allModelsCache = ModelSystem.getModels();
+        models.getItems().addAll(allModelsCache);
     }
 
     @FXML
@@ -126,6 +169,8 @@ public class AdminViewModelController {
             AlertUtil.showError("No model selected", "Please select a model to delete.");
             return;
         }
+        
+        buttonResetSearch.setDisable(true);
 
         try {
             String modelId = selectedModel.getId();
@@ -142,6 +187,16 @@ public class AdminViewModelController {
         } catch (Exception ex) {
             AlertUtil.showError("Failed to delete model", ex.getMessage());
         }
+    }
+    
+    @FXML
+    private void onClickButtonDetails(ActionEvent e) {
+        AlertUtil.showInfo("Implementation", "This feature is not implemented yet.");
+    }
+    
+    @FXML
+    private void onClickButtonUpdate(ActionEvent e) {
+        AlertUtil.showInfo("Implementation", "This feature is not implemented yet.");
     }
 
     private boolean areInputsValid() {
