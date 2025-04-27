@@ -6,6 +6,13 @@ public class StandardRequestStrategy extends BaseRequestStrategy {
     }
 
     @Override
+    public void validateRequest(String endpoint, String body) throws Exception {
+        if (body == null || body.isEmpty()) {
+            throw new IllegalArgumentException("Request body cannot be null or empty");
+        }
+    }
+    
+    @Override
     public String get(String endpoint) {
         return sendRequest(HttpMethod.GET, endpoint, null);
     }

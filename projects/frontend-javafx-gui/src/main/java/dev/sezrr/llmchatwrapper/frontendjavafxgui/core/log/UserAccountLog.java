@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.log;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.log;
 
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.user.UserEvent;
 
@@ -9,15 +9,12 @@ public class UserAccountLog extends Log<UserEvent> {
     PrintWriter output = null;
     File file = new File("log.txt");
 
-
-    void log(String message) throws IOException {
+    @Override
+    public void log(String message) throws IOException {
         FileWriter fw = new FileWriter(file, true);
         PrintWriter output = new PrintWriter(fw);
         output.println(prefix + message);
         fw.close();
         output.close();
     }
-
-
-
 }

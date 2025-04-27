@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
@@ -26,7 +27,7 @@
                   <VBox alignment="CENTER" spacing="8.0" BorderPane.alignment="TOP_LEFT">
                      <children>
                         <ComboBox fx:id="currentView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Current View" />
-                        <TextField alignment="CENTER" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
+                        <TextField alignment="CENTER" disable="true" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -60,15 +61,34 @@
                <center>
                   <VBox alignment="TOP_CENTER" spacing="16.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Create New Chat">
+                        <Button disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Create New Chat">
                            <graphic>
                               <FontIcon iconLiteral="fas-plus" />
                            </graphic>
                         </Button>
-                        <ScrollPane hbarPolicy="NEVER" prefHeight="325.0" prefWidth="195.0" VBox.vgrow="ALWAYS">
+                        <ScrollPane fx:id="chatsContainer" fitToWidth="true" hbarPolicy="NEVER" prefHeight="338.0" prefWidth="195.0" VBox.vgrow="ALWAYS">
                            <padding>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                            </padding>
+                           <content>
+                              <javafx.scene.layout.HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: lightgray; -fx-background-radius: 8;" styleClass="chat">
+                                  <children>
+                                      <Label fx:id="chatTitle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-text-fill: black; -fx-font-size: 14px;" text="Your First Chat" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <FontIcon iconLiteral="fas-ellipsis-h" iconSize="12" selectionFill="BLACK" HBox.hgrow="NEVER">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </FontIcon>
+                                  </children>
+                                 <padding>
+                                    <Insets bottom="6.0" left="12.0" right="12.0" top="6.0" />
+                                 </padding>
+                              </javafx.scene.layout.HBox>
+                           </content>
                         </ScrollPane>
                      </children>
                      <BorderPane.margin>
@@ -146,7 +166,7 @@
                         </HBox>
                         <HBox alignment="CENTER" spacing="8.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Download Chat">
+                              <Button disable="true" mnemonicParsing="false" text="Download Chat">
                                  <graphic>
                                     <FontIcon iconLiteral="fas-download" />
                                  </graphic>
@@ -172,12 +192,12 @@
                               <Font name="Arial Bold" size="14.0" />
                            </font>
                         </TextField>
-                        <Button disable="true" mnemonicParsing="false" prefHeight="39.0" prefWidth="77.0" text="SEND" textAlignment="CENTER">
+                        <Button alignment="CENTER" disable="true" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="39.0" prefWidth="77.0" text="SEND" textAlignment="CENTER">
                            <font>
                               <Font name="Arial" size="14.0" />
                            </font>
                            <graphic>
-                              <FontIcon iconLiteral="fas-arrow-up" iconSize="12" />
+                              <FontIcon iconLiteral="fas-arrow-up" iconSize="12" textAlignment="CENTER" />
                            </graphic>
                         </Button>
                      </children>
@@ -190,4 +210,8 @@
         </items>
       </SplitPane>
    </children>
+   <stylesheets>
+      <URL value="@user-chat-view.css" />
+      <URL value="@../common.css" />
+   </stylesheets>
 </VBox>

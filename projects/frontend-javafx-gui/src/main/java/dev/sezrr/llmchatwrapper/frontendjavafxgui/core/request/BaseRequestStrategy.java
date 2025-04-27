@@ -63,5 +63,8 @@ public abstract class BaseRequestStrategy implements RequestStrategy {
      public void setAuthToken(String authToken) {
         this.authToken = authToken;
      }
+     
+     // Abstract method to be implemented by subclasses
+    public abstract void validateRequest(String endpoint, String body) throws Exception;
 }
 

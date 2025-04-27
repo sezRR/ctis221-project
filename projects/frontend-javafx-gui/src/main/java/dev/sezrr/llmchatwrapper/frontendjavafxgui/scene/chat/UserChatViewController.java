@@ -1,6 +1,7 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat;
 
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.auth.token.TokenStore;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component.Chat;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin.AdminViewModelController;
@@ -8,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 
 public class UserChatViewController {
     @FXML
@@ -15,6 +18,12 @@ public class UserChatViewController {
     
     @FXML
     private ComboBox<String> currentView;
+    
+    @FXML
+    private ScrollPane chatsContainer;
+    
+    @FXML
+    private VBox chatsContent;
     
     public void init(String username) {
         this.username.setText(username);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<fx:root alignment="CENTER_LEFT" spacing="24.0" style="-fx-background-color: #232323; -fx-background-radius: 4; -fx-padding: 8 16;" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label fx:id="chatTitle" style="-fx-text-fill: whitesmoke; -fx-font-size: 14px;" text="Default Chat Title" />
+      <FontIcon iconColor="WHITE" iconLiteral="fas-ellipsis-h" iconSize="12" />
+    </children>
+    <padding>
+        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+    </padding>
+</fx:root>
