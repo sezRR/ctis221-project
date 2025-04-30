@@ -24,6 +24,14 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatService chatService;
 
+    @Override
+    public void batchSave(List<ChatMessageAddDto> chatMessagesAddDto) {
+        var chatMessages = chatMessagesAddDto.stream()
+                .map(ChatMessageDtoMapper::mapFromDto)
+                .toList();
+        
+        chatMessageRepository.saveAll(chatMessages);
+    }
 
     @Override
     public CursorPaginationResponse<List<ChatMessageQueryDto>> getMessagesBefore(UUID chatId, UUID beforeMessageId, int size) {

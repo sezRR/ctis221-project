@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ChatMessageService {
+    void batchSave(List<ChatMessageAddDto> chatMessagesAddDto);
+    
     CursorPaginationResponse<List<ChatMessageQueryDto>> getMessagesBefore(UUID chatId, UUID beforeMessageId, int size);
     ChatMessageQueryDto sendMessage(ChatMessageAddDto chatMessageAddDto);
     ChatMessageQueryDto updateMessage(UUID chatId, UUID messageId, String content);

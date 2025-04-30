@@ -2,16 +2,29 @@ spring:
   application:
     name: llm-chat-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydatabase
+    url: jdbc:postgresql://postgres:5432/mydatabase
     username: myuser
     password: secret
     driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: redis
+      port: 6379
   jpa:
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
-      
+      ddl-auto: update
+  ai:
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: false
+    ollama:
+      chat:
+        model: llama3.2
+
 server:
   servlet:
     context-path: /api
@@ -22,4 +35,4 @@ app:
       clientId: admin-cli
       clientSecret: CO7Hpc6PqviIDfPQMJU324LpeERoZ2Fx
     realm: llm-chat-wrapper
-    serverUrl: http://localhost:9082
+    serverUrl: http://keycloak:9082

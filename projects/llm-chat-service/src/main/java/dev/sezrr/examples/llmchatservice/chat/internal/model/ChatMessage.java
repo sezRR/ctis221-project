@@ -3,11 +3,14 @@ package dev.sezrr.examples.llmchatservice.chat.internal.model;
 import dev.sezrr.examples.llmchatservice.shared.model.uuid7.UuidV7;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.MessageType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -17,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "chat_messages")
 @EntityListeners(AuditingEntityListener.class)
-public class ChatMessage {
+public class ChatMessage implements Message {
     @Id
     @UuidV7
     private UUID id;
@@ -25,7 +28,7 @@ public class ChatMessage {
     private String message;
     
     @Enumerated(EnumType.STRING)
-    private SenderRole senderRole;
+    private MessageType senderRole;
     
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -38,6 +41,28 @@ public class ChatMessage {
     public ChatMessage(UUID chatId, String message, String role) {
         this.chatId = chatId;
         this.message = message;
-        this.senderRole = SenderRole.valueOf(role);
+        this.senderRole = MessageType.fromValue(role);
+    }
+
+    public ChatMessage(UUID chatId, String message, MessageType role) {
+        this.chatId = chatId;
+        this.message = message;
+        this.senderRole = role;
+    }
+
+
+    @Override
+    public MessageType getMessageType() {
+        return this.senderRole;
+    }
+
+    @Override
+    public String getText() {
+        return this.message;
+    }
+
+    @Override
+    public Map<String, Object> getMetadata() {
+        return Map.of();
     }
 }

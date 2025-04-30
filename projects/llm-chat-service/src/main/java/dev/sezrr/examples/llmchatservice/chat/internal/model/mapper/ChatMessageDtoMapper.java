@@ -28,4 +28,12 @@ public class ChatMessageDtoMapper {
                 dto.role()
         );
     }
+
+    public static ChatMessage mapFromDto(ChatMessageQueryDto dto) {
+        return new ChatMessage(
+                dto.chatId(),
+                dto.message(),
+                dto.senderRole()
+        );
+    }
 }
