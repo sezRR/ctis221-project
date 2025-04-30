@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: ${PG_URL}/mydatabase
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    org.springframework.boot.autoconfigure.security: WARN
+    org.springframework.web: WARN
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: env,beans

@@ -37,3 +37,4 @@ out/
 .vscode/
 
 keycloak-import/
+.env

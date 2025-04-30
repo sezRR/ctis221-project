@@ -13,9 +13,9 @@ for DB in "${DATABASES[@]}"; do
   echo "Checking if $DB exists..."
   
   # Check if database exists, create if it doesn't
-  if ! psql -U "$POSTGRES_USER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$DB'" | grep -q 1; then
+  if ! psql -U "$PG_USER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$DB'" | grep -q 1; then
     echo "Creating database: $DB"
-    psql -U "$POSTGRES_USER" -d postgres -c "CREATE DATABASE $DB"
+    psql -U "$PG_USER" -d postgres -c "CREATE DATABASE $DB"
   else
     echo "Database $DB already exists"
   fi

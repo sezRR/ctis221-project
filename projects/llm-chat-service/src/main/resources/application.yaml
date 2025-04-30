@@ -1,11 +1,8 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: llm-chat-service
-  datasource:
-    url: jdbc:postgresql://postgres:5432/mydatabase
-    username: myuser
-    password: secret
-    driver-class-name: org.postgresql.Driver
   data:
     redis:
       host: redis
@@ -28,11 +25,12 @@ spring:
 server:
   servlet:
     context-path: /api
-    
+  port: 8080
+  
 app:
   keycloak:
     admin:
       clientId: admin-cli
-      clientSecret: CO7Hpc6PqviIDfPQMJU324LpeERoZ2Fx
+      clientSecret: ${KEYCLOAK_CLIENT_SECRET}
     realm: llm-chat-wrapper
     serverUrl: http://keycloak:9082
