@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: llm-chat-service
   data:
