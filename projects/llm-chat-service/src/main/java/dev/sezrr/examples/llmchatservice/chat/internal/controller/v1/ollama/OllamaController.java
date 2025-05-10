@@ -3,6 +3,8 @@ package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.ollama;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -10,11 +12,16 @@ import reactor.core.publisher.Flux;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/v1/ollama")
 public class OllamaController {
+    @Qualifier("ollamaChatClient")
     private final ChatClient chatClient;
-    
+
+    @Autowired
+    public OllamaController(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
+
     @PostMapping(value = "/{userId}/chats/{chatId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> home(@PathVariable String userId, @PathVariable String chatId, @RequestBody String message) {
         return chatClient.prompt()

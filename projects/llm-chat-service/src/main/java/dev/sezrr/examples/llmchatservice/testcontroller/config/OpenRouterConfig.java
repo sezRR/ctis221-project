@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.ollama;
+package dev.sezrr.examples.llmchatservice.testcontroller.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -9,15 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ChatClientConfig {
-
+public class OpenRouterConfig {
     @Bean
-    @Qualifier("ollamaChatClient")
-    public ChatClient chatClient(
-            @Qualifier("ollamaChatModel") ChatModel ollamaChatModel,
-            @Qualifier("chatMemoryService") ChatMemory chatMemory
-    ) {
-        return ChatClient.builder(ollamaChatModel)
+    @Qualifier("openrouterChatClient")
+    public ChatClient openrouterChatClient(@Qualifier("openAiChatModel") ChatModel chatModel,
+                                           @Qualifier("chatMemoryService") ChatMemory chatMemory) {
+        return ChatClient.builder(chatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
                 .build();
     }
