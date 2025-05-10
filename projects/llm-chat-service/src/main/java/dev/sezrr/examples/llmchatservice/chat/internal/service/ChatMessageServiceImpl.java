@@ -26,7 +26,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public void batchSave(List<ChatMessageAddDto> chatMessagesAddDto) {
-        var chatMessages = chatMessagesAddDto.stream()
+        List<ChatMessage> chatMessages = chatMessagesAddDto.stream()
                 .map(ChatMessageDtoMapper::mapFromDto)
                 .toList();
         

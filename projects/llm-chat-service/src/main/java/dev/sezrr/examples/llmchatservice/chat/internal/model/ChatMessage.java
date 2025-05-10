@@ -25,6 +25,8 @@ public class ChatMessage implements Message {
     @UuidV7
     private UUID id;
     private UUID chatId;
+    
+    @Column(columnDefinition = "TEXT")
     private String message;
     
     @Enumerated(EnumType.STRING)

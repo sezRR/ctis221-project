@@ -21,9 +21,9 @@ spring:
         model: llama3.2
 
 server:
-  servlet:
-    context-path: /api
   port: 8080
+  servlet:
+      context-path: /api
   
 app:
   keycloak:

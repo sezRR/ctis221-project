@@ -41,7 +41,7 @@ public class ChatController {
     @PutMapping("/{chatId}/title")
     public ResponseEntity<CustomResponseEntity<ChatQueryDto>> updateChatTitle(
             @PathVariable UUID chatId,
-            @RequestParam String title) {
+            @RequestBody String title) {
         var updatedChat = chatService.updateChatTitle(chatId, title);
         return updatedChat != null ? ResponseEntity.ok(CustomResponseEntity.success(updatedChat)) : ResponseEntity.notFound().build();
     }

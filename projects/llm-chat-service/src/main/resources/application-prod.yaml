@@ -12,9 +12,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-  ai:
-    ollama:
-      base-url: http://host.docker.internal:11434
 logging:
   level:
     org.springframework.boot.autoconfigure.security: WARN
@@ -24,3 +21,17 @@ management:
     web:
       exposure:
         exclude: env,beans
+server:
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+    mime-types:
+      - text/html
+      - text/xml
+      - text/plain
+      - text/css
+      - text/javascript
+      - application/javascript
+      - application/json
+      - application/xml
+      - image/svg+xml
