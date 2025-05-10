@@ -2,11 +2,10 @@
     -fx-cursor: hand;
 }
 
-Button {
-    -fx-background-color: -primary-accent;
-    -fx-text-fill: whitesmoke;
-}
-
-Button FontIcon {
-    -fx-fill: whitesmoke;
+.calculations-container {
+    -fx-background-color: #efefef;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-border-color: darkgray;
+    
 }

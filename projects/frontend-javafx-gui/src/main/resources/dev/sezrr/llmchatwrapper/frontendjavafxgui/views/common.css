@@ -4,6 +4,84 @@
     -border-color: #adadad;
 }
 
+/* polished-tabs.css */
+
+/* Main TabPane styling */
+.tab-pane {
+    -fx-tab-min-width: 90px;
+    -fx-tab-max-width: 150px;
+    -fx-tab-min-height: 30px;
+}
+
+/* Remove default border around the tab content */
+.tab-pane .tab-header-area {
+    -fx-padding: 5 5 0 5;
+}
+
+/* Background area of the TabPane */
+.tab-pane .tab-header-background {
+    -fx-background-color: none;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Normal tab styling */
+.tab {
+    -fx-background-radius: 5 5 0 0;
+    -fx-background-color: #e0e0e0;
+    -fx-padding: 3 10 3 10;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-cursor: hand;
+}
+
+/* Selected tab styling */
+.tab:selected {
+    -fx-background-color: #ffffff;
+    -fx-background-insets: 0;
+    -fx-border-color: #cccccc #cccccc transparent #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5 5 0 0;
+}
+
+
+/* Tab text styling */
+.tab .tab-label {
+    -fx-text-fill: #555555;
+    -fx-font-weight: normal;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* Tab content area styling */
+.tab-pane > .tab-content-area {
+    -fx-background-color: #fcfcfc;
+    -fx-border-color: lightgray;
+    -fx-background-radius: 0 6 6 6;
+    -fx-border-radius: 0 0 6 6;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 15;
+}
+
+/* Hover effects */
+.tab:hover {
+    -fx-background-color: #eaeaea;
+}
+
+.tab:selected:hover {
+    -fx-background-color: #ffffff;
+}
+
+/* Disable focus ring */
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
 Button {
     -fx-font-size: 12px;
     -fx-padding: 4px 8px;

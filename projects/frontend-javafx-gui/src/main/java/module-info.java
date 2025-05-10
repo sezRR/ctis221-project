@@ -1,17 +1,17 @@
 module dev.sezrr.llmchatwrapper.frontendjavafxgui {
-    requires javafx.controls;
     requires javafx.fxml;
 
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
     requires org.kordamp.bootstrapfx.core;
-    requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires jdk.httpserver;
     requires com.fasterxml.jackson.datatype.jsr310;
     requires java.rmi;
     requires org.yaml.snakeyaml;
+    requires org.controlsfx.controls;
+    requires java.net.http;
 
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model to com.fasterxml.jackson.databind, javafx.fxml;
@@ -35,4 +35,5 @@ module dev.sezrr.llmchatwrapper.frontendjavafxgui {
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat to com.fasterxml.jackson.databind, javafx.fxml;
     exports dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin;
     opens dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin to com.fasterxml.jackson.databind, javafx.fxml;
+    opens dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component to javafx.fxml;
 }

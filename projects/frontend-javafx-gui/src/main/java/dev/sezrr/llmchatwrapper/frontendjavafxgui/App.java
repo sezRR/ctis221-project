@@ -22,7 +22,6 @@ public class App extends Application {
         SceneManager.init(stage);
         stage.setTitle("LLM Chat Wrapper");
         
-        
         LoginViewController loginViewController = SceneManager.switchScene(SceneConstant.LOGIN_VIEW);
         loginViewController.setAuthService(new AuthService(getHostServices()));
         

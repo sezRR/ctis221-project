@@ -1,10 +1,13 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ModelQuery {
     private String id;
     private String model;
     private String apiUrl;
-    private Object activeModelPricing; // TODO: Replace with actual type
+    private ModelPricingQuery activeModelPricing;
 
     public ModelQuery() {
     }
@@ -39,11 +42,11 @@ public class ModelQuery {
         this.apiUrl = apiUrl;
     }
 
-    public Object getActiveModelPricing() {
+    public ModelPricingQuery getActiveModelPricing() {
         return activeModelPricing;
     }
 
-    public void setActiveModelPricing(Object activeModelPricing) {
+    public void setActiveModelPricing(ModelPricingQuery activeModelPricing) {
         this.activeModelPricing = activeModelPricing;
     }
 

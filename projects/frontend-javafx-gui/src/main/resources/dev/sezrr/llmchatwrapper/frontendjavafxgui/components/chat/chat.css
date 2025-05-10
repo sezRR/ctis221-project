@@ -1,0 +1,10 @@
+.chat-item {
+    -fx-background-color: #232323;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.chat-item:hover {
+    -fx-background-color: #444444; /* Darker gray on hover */
+}

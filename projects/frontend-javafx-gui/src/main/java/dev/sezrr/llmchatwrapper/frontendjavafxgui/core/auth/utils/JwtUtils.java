@@ -16,9 +16,14 @@ public final class JwtUtils {
         return get(idToken, "given_name");
     }
     
+    public static String userId(String idToken) {
+        return get(idToken, "sub");
+    }
+    
     public static long expires(String idToken) {
         return Long.parseLong(get(idToken, "exp"));
     }
+    
     private static String get(String jwt, String claim) {
         try {
             String payload = jwt.split("\\.")[1];

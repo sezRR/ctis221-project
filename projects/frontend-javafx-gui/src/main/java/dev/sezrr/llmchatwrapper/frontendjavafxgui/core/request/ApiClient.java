@@ -42,7 +42,7 @@ public class ApiClient {
         return convertResponse(response, typeReference);
     }
 
-    public <T, F> T post(String endpoint, F objectBody, TypeReference<T> typeReference) throws JsonProcessingException {
+    public <T, F> T post(String endpoint, F objectBody, TypeReference<T> typeReference) {
         String response = post(endpoint, convertObjectToStringJson(objectBody));
         return convertResponse(response, typeReference);
     }
@@ -75,9 +75,10 @@ public class ApiClient {
         try {
             if (response == null || response.isEmpty())
                 return null;
-            
+            System.out.println(response);
             return objectMapper.readValue(response, typeReference);
         } catch (Exception e) {
+            System.out.println("Failed to parse response: " + e.getMessage());
             throw new RuntimeException("Failed to parse response", e);
         }
     }
