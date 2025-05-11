@@ -21,7 +21,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, UUID> 
           AND (:beforeId IS NULL OR m.createdAt < (
             SELECT cm.createdAt FROM ChatMessage cm WHERE cm.id = :beforeId
           ))
-        ORDER BY m.createdAt DESC
+        ORDER BY m.createdAt ASC
     """)
     List<ChatMessage> findMessagesBefore(UUID chatId, UUID beforeId, Pageable pageable);
 }

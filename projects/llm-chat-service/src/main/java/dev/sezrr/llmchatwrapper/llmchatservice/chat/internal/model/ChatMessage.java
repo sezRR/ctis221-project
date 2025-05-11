@@ -32,6 +32,8 @@ public class ChatMessage implements Message {
     @Enumerated(EnumType.STRING)
     private MessageType senderRole;
     
+    private String model; // If senderRole is USER, this will be null
+    
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -44,6 +46,13 @@ public class ChatMessage implements Message {
         this.chatId = chatId;
         this.message = message;
         this.senderRole = MessageType.fromValue(role);
+    }
+
+    public ChatMessage(UUID chatId, String message, String role, String model) {
+        this.chatId = chatId;
+        this.message = message;
+        this.senderRole = MessageType.fromValue(role);
+        this.model = model;
     }
 
     public ChatMessage(UUID chatId, String message, MessageType role) {

@@ -44,7 +44,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                     .orElseThrow(() -> new EntityNotFoundException("Message not found"));
         }
 
-        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.ASC, "createdAt"));
         List<ChatMessage> messages = beforeMessage == null
                 ? chatMessageRepository.findByChatId(chatId, pageable)
                 : chatMessageRepository.findMessagesBefore(chatId, beforeMessageId, pageable);

@@ -27,9 +27,9 @@ public class ChatController {
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<ChatQueryDto> getChat(@PathVariable UUID chatId) {
+    public ResponseEntity<CustomResponseEntity<ChatQueryDto>> getChat(@PathVariable UUID chatId) {
         var chat = chatService.getChat(chatId);
-        return chat != null ? ResponseEntity.ok(chat) : ResponseEntity.notFound().build();
+        return chat != null ? ResponseEntity.ok(CustomResponseEntity.success(chat)) : ResponseEntity.notFound().build();
     }
 
     @PostMapping

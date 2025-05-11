@@ -1,11 +1,10 @@
 package dev.sezrr.llmchatwrapper.llmchatservice;
 
-import dev.sezrr.llmchatwrapper.llmchatservice.shared.config.OpenRouterProperties;
+import dev.sezrr.llmchatwrapper.llmchatservice.chat.internal.config.OpenRouterProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.modulith.Modulithic;
 
 @EnableConfigurationProperties(OpenRouterProperties.class)

@@ -16,6 +16,7 @@ public class ChatMessageDtoMapper {
                 chatMessage.getChatId(),
                 chatMessage.getMessage(),
                 chatMessage.getSenderRole(),
+                chatMessage.getModel(),
                 chatMessage.getCreatedAt() != null ? chatMessage.getCreatedAt().toString() : null,
                 chatMessage.getUpdatedAt() != null ? chatMessage.getUpdatedAt().toString() : null
         );
@@ -25,7 +26,8 @@ public class ChatMessageDtoMapper {
         return new ChatMessage(
                 dto.chatId(),
                 dto.message(),
-                dto.role()
+                dto.role(),
+                dto.model()
         );
     }
 

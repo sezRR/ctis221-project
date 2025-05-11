@@ -5,6 +5,7 @@ import java.util.UUID;
 public record ChatMessageAddDto(
         UUID chatId,
         String message,
-        String role
+        String role,
+        String model
 ) {
 }

@@ -9,6 +9,7 @@ public record ChatMessageQueryDto(
         UUID chatId,
         String message,
         MessageType senderRole,
+        String model,
         String createdAt,
         String updatedAt
 ) {

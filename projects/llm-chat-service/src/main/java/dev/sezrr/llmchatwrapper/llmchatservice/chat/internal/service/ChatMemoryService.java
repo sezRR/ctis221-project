@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+@Component("chatMemoryService")
 @RequiredArgsConstructor
 public class ChatMemoryService implements ChatMemory {
     private final ChatService chatService;
@@ -28,12 +28,18 @@ public class ChatMemoryService implements ChatMemory {
         var chat = chatService.isChatExists(UUID.fromString(conversationId));
         if (!chat)
             throw new IllegalArgumentException("Chat not found");
-
-        List<ChatMessageAddDto> messagesToSave = messages.stream()
+        
+        List<Message> filteredMessages = messages.stream()
+                .filter(message -> message.getMessageType() != MessageType.SYSTEM)
+                .filter(message -> message.getMetadata().containsKey("model"))
+                .toList();
+        
+        List<ChatMessageAddDto> messagesToSave = filteredMessages.stream()
                 .map(message -> new ChatMessageAddDto(
                         UUID.fromString(conversationId),
                         message.getText(),
-                        message.getMessageType().getValue()))
+                        message.getMessageType().getValue(),
+                        message.getMetadata().get("model").toString()))
                 .toList();
 
         chatMessageService.batchSave(messagesToSave);
@@ -50,14 +56,18 @@ public class ChatMemoryService implements ChatMemory {
                 .map(entity -> {
                     String text = entity.message();
                     MessageType role = entity.senderRole();
+                    String model = entity.model();
+                    
                     return switch (role) {
-                        case USER      -> new UserMessage(text);
-                        case ASSISTANT -> new AssistantMessage(text, Map.of());
-                        case SYSTEM    -> new SystemMessage(text);
-                        default       -> throw new IllegalStateException("Unknown role: " + role);
+                        case USER -> UserMessage.builder()
+                                .text(text)
+                                .metadata(Map.of("model", model))
+                                .build();
+                        case ASSISTANT -> new AssistantMessage(text, Map.of("model", model));
+                        case SYSTEM -> new SystemMessage(text);
+                        default -> throw new IllegalStateException("Unknown role: " + role);
                     };
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
     @Override
