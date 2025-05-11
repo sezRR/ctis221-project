@@ -9,12 +9,12 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
-public abstract class BaseRequestStrategy implements RequestStrategy {
+public abstract class BaseRestRequestStrategy implements RestRequestStrategy {
     protected String baseApiUrl;
     protected final HttpClient httpClient = HttpClient.newHttpClient();
     private String authToken;
     
-    public BaseRequestStrategy(String baseApiUrl) {
+    public BaseRestRequestStrategy(String baseApiUrl) {
         this.baseApiUrl = baseApiUrl;
     }
     

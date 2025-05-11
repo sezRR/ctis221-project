@@ -29,11 +29,25 @@ public class ChatComponent extends HBox {
 
     private TextField titleEditor = new TextField();
 
-
     private Consumer<ChatComponent> onDeleted;
+    private Consumer<ChatComponent> onTitleUpdated;
+    private Consumer<ChatComponent> onClick;
     
     public void setOnDeleted(Consumer<ChatComponent> onDeleted) {
         this.onDeleted = onDeleted;
+    }
+    
+    public void setOnTitleUpdated(Consumer<ChatComponent> onTitleUpdated) {
+        this.onTitleUpdated = onTitleUpdated;
+    }
+    
+    public void setOnClick(Consumer<ChatComponent> onClick) {
+        this.onClick = onClick;
+        this.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                onClick.accept(this);
+            }
+        });
     }
 
     private void showTitleEditor() {
@@ -63,6 +77,10 @@ public class ChatComponent extends HBox {
 
     private void confirmTitleEdit() {
         String newTitle = titleEditor.getText().trim();
+        if (newTitle.length() > 20) {
+            AlertUtil.showError("Error", "Title cannot exceed 20 characters.");
+            return;
+        }
         if (!newTitle.isEmpty()) {
             try {
                 CustomResponseEntity<ChatQuery> updatedChat = ChatSystem.updateChatTitle(chatId, newTitle);
@@ -70,6 +88,9 @@ public class ChatComponent extends HBox {
                     AlertUtil.showError("Error", "Failed to update chat title.");
                 } else {
                     chatTitle.setText(updatedChat.getData().getTitle());
+                    if (onTitleUpdated != null) {
+                        onTitleUpdated.accept(this);
+                    }
                     AlertUtil.showInfo("Success", "Title updated.");
                 }   
             } catch (Exception e) {
@@ -122,15 +143,17 @@ public class ChatComponent extends HBox {
                 if (this.getParent() instanceof VBox parent) {
                     parent.getChildren().remove(this); // ✅ Safe removal
                     if (onDeleted != null) {
-                        onDeleted.accept(this); // 👈 notify parent
+                        System.out.println("Invoking onDeleted callback...");
+                        onDeleted.accept(this);
                         AlertUtil.showSuccess("Success", "Chat deleted successfully.");
+                    } else {
+                        System.out.println("onDeleted is null");
                     }
                 }
             } else {
                 System.out.println("Failed to delete chat with ID: " + chatId);
             }
         });
-
 
         // Add items to context menu
         contextMenu.getItems().addAll(updateItem, deleteItem);

@@ -1,0 +1,50 @@
+/* Shared chat bubble */
+.chat-bubble {
+    -fx-padding: 10;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-max-width: 400;
+    -fx-background-insets: 0;
+}
+
+.avatar-icon {
+    -fx-fill: #666;
+}
+
+/* Text styles */
+.model-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #888;
+}
+
+/* Layout difference */
+.assistant-message {
+    -fx-alignment: top-left;
+    -fx-padding: 4 24 4 8;
+}
+
+.user-message {
+    -fx-alignment: top-right;
+    -fx-padding: 4 8 4 24;
+}
+
+.user-message .chat-bubble {
+    -fx-background-color: #dcf8c6;
+}
+
+.assistant-message .chat-bubble {
+    -fx-background-color: #f1f0f0;
+}
+
+.code-block {
+    -fx-fill: #333;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 13px;
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 8px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4px;
+    -fx-wrap-text: true;
+}

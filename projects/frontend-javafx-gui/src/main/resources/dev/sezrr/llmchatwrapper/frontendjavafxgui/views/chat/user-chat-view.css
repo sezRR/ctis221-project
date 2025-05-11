@@ -1,16 +1,52 @@
+/* === ScrollPane Modern Styling === */
 ScrollPane {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
+    -fx-background-color: #f9f9f9; /* soft light background for content */
     -fx-border-color: transparent;
     -fx-border-width: 0;
+    -fx-padding: 0;
 }
 
+ScrollPane .viewport {
+    -fx-background-color: transparent; /* remove default gray */
+}
+
+/* === SplitPane Divider === */
 .split-pane:horizontal > .split-pane-divider {
-    -fx-background-color: -border-color;
+    -fx-background-color: #d0d0d0; /* subtle divider */
     -fx-padding: 1;
-    -fx-background-radius: 1;
+    -fx-background-radius: 2;
+}
+
+/* === Chat Item Hover === */
+.chat {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 6;
+    -fx-padding: 10 14;
+    -fx-spacing: 10;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
 }
 
 .chat:hover {
-    -fx-cursor: hand;
+    -fx-background-color: #e4e4e4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 4, 0.1, 0, 1);
+}
+
+/* === Optional font + icon refinements === */
+.chat Label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.chat FontIcon {
+    -fx-fill: #666666;
+    -fx-icon-size: 14px;
+}
+
+.sendmessage-container HBox {
+    -fx-background-color: #e4e4e4;
+}
+
+#first {
+    -fx-background-radius: 6 6 0 0;
 }

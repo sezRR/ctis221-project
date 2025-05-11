@@ -3,7 +3,7 @@ package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.model;
 import com.fasterxml.jackson.core.type.TypeReference;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiClient;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiConfig;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.StandardRequestStrategy;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.StandardRestRequestStrategy;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelPricingRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelQuery;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ModelSystem {
     private static List<ModelQuery> models = new ArrayList<>();
-    private static final ApiClient apiClient = new ApiClient(new StandardRequestStrategy(ApiConfig.BASE_API));
+    private static final ApiClient apiClient = new ApiClient(new StandardRestRequestStrategy(ApiConfig.BASE_API));
 
     public static CustomResponseEntity<?> addModel(ModelRequest modelRequest) throws Exception {
         if (hasModel(modelRequest.model(), modelRequest.apiUrl()))

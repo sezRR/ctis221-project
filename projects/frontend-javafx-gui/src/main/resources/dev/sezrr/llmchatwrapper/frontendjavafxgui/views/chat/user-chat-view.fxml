@@ -2,217 +2,166 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController">
-   <children>
-      <SplitPane dividerPositions="0.22" VBox.vgrow="ALWAYS">
-        <items>
-            <BorderPane maxWidth="450.0" minHeight="-Infinity" minWidth="-Infinity">
-               <top>
-                  <VBox alignment="CENTER" spacing="8.0" BorderPane.alignment="TOP_LEFT">
-                     <children>
-                        <ComboBox fx:id="currentView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Current View" />
-                        <TextField alignment="CENTER" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                  </VBox>
-               </top>
-               <bottom>
-                  <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="16.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="username" lineSpacing="4.0" text="\%username%">
-                                 <graphic>
-                                    <FontIcon iconLiteral="fas-user" iconSize="16" text="" />
-                                 </graphic>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <Button mnemonicParsing="false" onAction="#signOut" text="Log out">
-                           <graphic>
-                              <FontIcon iconLiteral="fas-sign-out-alt" />
-                           </graphic>
-                        </Button>
-                     </children>
-                     <padding>
-                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-                     </padding>
-                  </HBox>
-               </bottom>
-               <center>
-                  <VBox alignment="TOP_CENTER" spacing="16.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createNewChat" text="Create New Chat">
-                           <graphic>
-                              <FontIcon iconLiteral="fas-plus" />
-                           </graphic>
-                        </Button>
-                        <ScrollPane fx:id="chatsContainer" fitToWidth="true" hbarPolicy="NEVER" prefHeight="338.0" prefWidth="195.0" VBox.vgrow="ALWAYS">
-                           <padding>
-                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                           </padding>
-                           <content>
-                              <VBox fx:id="chatsContent" spacing="8.0" />
-<!--                              <javafx.scene.layout.HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: lightgray; -fx-background-radius: 8;" styleClass="chat">-->
-<!--                                 <children>-->
-<!--                                    <Label fx:id="chatTitle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-text-fill: black; -fx-font-size: 14px;" text="Your First Chat" HBox.hgrow="ALWAYS">-->
-<!--                                       <font>-->
-<!--                                          <Font name="System Bold" size="12.0" />-->
-<!--                                       </font>-->
-<!--                                    </Label>-->
-<!--                                    <FontIcon iconLiteral="fas-ellipsis-h" iconSize="12" selectionFill="BLACK" HBox.hgrow="NEVER">-->
-<!--                                       <HBox.margin>-->
-<!--                                          <Insets />-->
-<!--                                       </HBox.margin>-->
-<!--                                    </FontIcon>-->
-<!--                                 </children>-->
-<!--                                 <padding>-->
-<!--                                    <Insets bottom="6.0" left="12.0" right="12.0" top="6.0" />-->
-<!--                                 </padding>-->
-<!--                              </javafx.scene.layout.HBox>-->
-                           </content>
-                        </ScrollPane>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets bottom="12.0" top="12.0" />
-                     </BorderPane.margin>
-                  </VBox>
-               </center>
-               <padding>
-                  <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-               </padding>
-            </BorderPane>
-            <BorderPane minHeight="-Infinity" minWidth="-Infinity">
-               <center>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
-                     <content>
-                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="428.0" prefWidth="723.0" spacing="24.0">
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Group>
-                                       <children>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="39.0" layoutX="38.0" stroke="BLACK" strokeType="INSIDE" width="214.0" />
-                                          <Label layoutX="50.0" layoutY="11.0" text="Welcome to the LLM Chat Wrapper!" />
-                                          <FontIcon iconLiteral="fas-robot" iconSize="24" layoutY="26.0" wrappingWidth="30.0" />
-                                          <Label layoutX="176.0" layoutY="39.0" text="ChatGPT 4o-mini">
-                                             <font>
-                                                <Font size="10.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </Group>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Group>
-                                       <children>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="39.0" layoutX="38.0" stroke="BLACK" strokeType="INSIDE" width="511.0" />
-                                          <Label layoutX="50.0" layoutY="11.0" prefHeight="17.0" prefWidth="566.0" text="I am your helpful assistant, here to provide clear and efficient support whenever you need it." />
-                                          <FontIcon iconLiteral="fas-robot" iconSize="24" layoutY="26.0" wrappingWidth="30.0" />
-                                          <Label layoutX="473.0" layoutY="41.0" text="ChatGPT 4o-mini">
-                                             <font>
-                                                <Font size="10.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </Group>
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-                           </padding>
+<VBox prefHeight="594.0" prefWidth="1047.0" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController">
+    <children>
+        <SplitPane dividerPositions="0.22" VBox.vgrow="ALWAYS">
+            <items>
+                <BorderPane maxWidth="450.0" minHeight="-Infinity" minWidth="-Infinity" styleClass="root">
+                    <top>
+                        <VBox alignment="CENTER" spacing="8.0" BorderPane.alignment="TOP_LEFT">
+                            <children>
+                                <ComboBox fx:id="currentView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Current View" />
+                                <TextField alignment="CENTER" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </TextField>
+                            </children>
                         </VBox>
-                     </content>
-                  </ScrollPane>
-               </center>
-               <top>
-                  <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Your First Chat">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <MenuButton disable="true" mnemonicParsing="false" text="ChatGPT 4o-mini">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                                  <MenuItem mnemonicParsing="false" text="Action 2" />
-                                </items>
-                              </MenuButton>
-                           </children>
+                    </top>
+                    <bottom>
+                        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="16.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label fx:id="username" lineSpacing="4.0" text="\%username%">
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-user" iconSize="16" text="" />
+                                            </graphic>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <Button mnemonicParsing="false" onAction="#signOut" text="Log out">
+                                    <graphic>
+                                        <FontIcon iconLiteral="fas-sign-out-alt" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                            <padding>
+                                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER" spacing="8.0">
-                           <children>
-                              <Button disable="true" mnemonicParsing="false" text="Download Chat">
-                                 <graphic>
-                                    <FontIcon iconLiteral="fas-download" />
-                                 </graphic>
-                              </Button>
-                              <Button disable="true" mnemonicParsing="false" text="Chat Settings">
-                                 <graphic>
-                                    <FontIcon iconLiteral="fas-cog" />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-                     </padding>
-                  </HBox>
-               </top>
-               <bottom>
-                  <HBox spacing="24.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <TextField disable="true" prefHeight="41.0" prefWidth="595.0" promptText="Message sending is not available in this version!">
-                           <font>
-                              <Font name="Arial Bold" size="14.0" />
-                           </font>
-                        </TextField>
-                        <Button alignment="CENTER" disable="true" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="39.0" prefWidth="77.0" text="SEND" textAlignment="CENTER">
-                           <font>
-                              <Font name="Arial" size="14.0" />
-                           </font>
-                           <graphic>
-                              <FontIcon iconLiteral="fas-arrow-up" iconSize="12" textAlignment="CENTER" />
-                           </graphic>
-                        </Button>
-                     </children>
-                     <padding>
-                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-                     </padding>
-                  </HBox>
-               </bottom>
-            </BorderPane>
-        </items>
-      </SplitPane>
-   </children>
-   <stylesheets>
-      <URL value="@user-chat-view.css" />
-      <URL value="@../common.css" />
-   </stylesheets>
+                    </bottom>
+                    <center>
+                        <VBox alignment="TOP_CENTER" spacing="16.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createNewChat" text="Create New Chat">
+                                    <graphic>
+                                        <FontIcon iconLiteral="fas-plus" />
+                                    </graphic>
+                                </Button>
+                                <ScrollPane fx:id="chatsContainer" fitToWidth="true" hbarPolicy="NEVER" prefHeight="338.0" prefWidth="195.0" VBox.vgrow="NEVER">
+                                    <padding>
+                                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                    </padding>
+                                    <content>
+                                        <VBox fx:id="chatsContent" spacing="8.0" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                            <BorderPane.margin>
+                                <Insets bottom="12.0" top="12.0" />
+                            </BorderPane.margin>
+                        </VBox>
+                    </center>
+                    <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                    </padding>
+                </BorderPane>
+                <BorderPane fx:id="chatScreenContainer" minHeight="-Infinity" minWidth="-Infinity" styleClass="root">
+                    <center>
+                        <VBox fx:id="chatViewContainer" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ScrollPane fx:id="scrollpaneContainer" fitToHeight="false" fitToWidth="true" prefHeight="360.0" vbarPolicy="AS_NEEDED">
+                                    <content>
+                                        <VBox fx:id="chatMessagesContainer" spacing="12.0" VBox.vgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                                            </padding>
+                                        </VBox>
+                                    </content>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </center>
+                    <top>
+
+                    </top>
+                    <bottom>
+                        <VBox styleClass="sendmessage-container" BorderPane.alignment="CENTER">
+                            <children>
+                                <HBox id="first" spacing="24.0">
+                                    <children>
+                                        <TextField fx:id="messageTextField" maxWidth="1.7976931348623157E308" prefHeight="36.0" promptText="Type your message here..." HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font name="Arial" size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                                    </padding>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </HBox>
+                                <HBox prefHeight="42.0" prefWidth="728.0" spacing="48.0">
+                                    <children>
+                                        <ComboBox fx:id="modelsCombo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="0.0" promptText="Select your AI Model" HBox.hgrow="ALWAYS" />
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="NEVER">
+                                            <children>
+                                                <Label text="Context Window Usage:">
+                                                    <font>
+                                                        <Font size="16.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label text="0%" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                    <font>
+                                                        <Font size="16.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Button fx:id="messageSendButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#sendMessage" text="SEND" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font name="Arial" size="14.0" />
+                                            </font>
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-arrow-up" iconSize="12" textAlignment="CENTER" />
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="8.0" left="16.0" right="16.0" />
+                                    </padding>
+                                </HBox>
+                            </children>
+                            <BorderPane.margin>
+                                <Insets left="24.0" right="24.0" />
+                            </BorderPane.margin>
+                        </VBox>
+                    </bottom>
+                </BorderPane>
+            </items>
+        </SplitPane>
+    </children>
+    <stylesheets>
+        <URL value="@user-chat-view.css" />
+        <URL value="@../common.css" />
+    </stylesheets>
 </VBox>

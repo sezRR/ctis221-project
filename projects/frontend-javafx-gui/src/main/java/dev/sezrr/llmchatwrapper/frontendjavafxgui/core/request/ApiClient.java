@@ -4,37 +4,60 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import reactor.core.publisher.Flux;
 
 public class ApiClient {
-    private RequestStrategy requestStrategy;
+    private RestRequestStrategy restRequestStrategy;
+    private StreamingRequestStrategy streamingRequestStrategy;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ApiClient(RequestStrategy requestStrategy) {
-        this.requestStrategy = requestStrategy;
+    public ApiClient(RestRequestStrategy restRequestStrategy) {
+        this.restRequestStrategy = restRequestStrategy;
     }
-
-    public void setStrategy(RequestStrategy requestStrategy) {
-        this.requestStrategy = requestStrategy;
+    
+    public ApiClient(StreamingRequestStrategy streamingRequestStrategy) {
+        this.streamingRequestStrategy = streamingRequestStrategy;
+    }
+    
+    public ApiClient(RestRequestStrategy restRequestStrategy, StreamingRequestStrategy streamingRequestStrategy) {
+        this.restRequestStrategy = restRequestStrategy;
+        this.streamingRequestStrategy = streamingRequestStrategy;
+    }
+    
+    public void setStreamingRequestStrategy(StreamingRequestStrategy streamingRequestStrategy) {
+        this.streamingRequestStrategy = streamingRequestStrategy;
+    }
+    
+    public void setRestRequestStrategy(RestRequestStrategy restRequestStrategy) {
+        this.restRequestStrategy = restRequestStrategy;
     }
 
     public String get(String endpoint) {
-        return requestStrategy.get(endpoint);
+        return restRequestStrategy.get(endpoint);
     }
 
+    public Flux<String> stream(String endpoint, String body) {
+        if (streamingRequestStrategy == null) {
+            throw new IllegalStateException("StreamingRequestStrategy is not set");
+        }
+        
+        return streamingRequestStrategy.stream(endpoint, body);
+    }
+    
     public String post(String endpoint, String body) {
-        return requestStrategy.post(endpoint, body);
+        return restRequestStrategy.post(endpoint, body);
     }
 
     public String put(String endpoint, String body) {
-        return requestStrategy.put(endpoint, body);
+        return restRequestStrategy.put(endpoint, body);
     }
 
     public String patch(String endpoint, String body) {
-        return requestStrategy.patch(endpoint, body);
+        return restRequestStrategy.patch(endpoint, body);
     }
 
     public String delete(String endpoint) {
-        return requestStrategy.delete(endpoint);
+        return restRequestStrategy.delete(endpoint);
     }
 
     public <T> T get(String endpoint, TypeReference<T> typeReference) {

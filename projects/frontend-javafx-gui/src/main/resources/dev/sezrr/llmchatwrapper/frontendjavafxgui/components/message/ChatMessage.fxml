@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<!--<fx:root alignment="TOP_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10" styleClass="root" type="HBox" VBox.vgrow="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">-->
+<!--    <children>-->
+<!--        &lt;!&ndash; Icon for assistant only &ndash;&gt;-->
+<!--        <FontIcon fx:id="avatarIcon" iconLiteral="fas-robot" iconSize="24" styleClass="avatar-icon" />-->
+
+<!--        &lt;!&ndash; Chat bubble &ndash;&gt;-->
+<!--        <VBox fx:id="bubbleContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="2" styleClass="chat-bubble" VBox.vgrow="NEVER">-->
+<!--            <children>-->
+<!--                <TextFlow fx:id="messageText" lineSpacing="4.0" maxWidth="Infinity" />-->
+<!--            <HBox fx:id="modelContainer" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">-->
+<!--               <children>-->
+<!--                      <Label fx:id="modelName" alignment="CENTER_RIGHT" styleClass="model-label" />-->
+<!--               </children>-->
+<!--            </HBox>-->
+<!--            </children>-->
+<!--        </VBox>-->
+
+<!--    </children>-->
+<!--</fx:root>-->
+
+<?import javafx.scene.layout.StackPane?>
+<fx:root alignment="TOP_LEFT" spacing="10" type="HBox"
+         xmlns="http://javafx.com/javafx/23.0.1"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+        <FontIcon fx:id="avatarIcon" iconLiteral="fas-robot" iconSize="24" styleClass="avatar-icon"/>
+        <VBox fx:id="bubbleContainer" spacing="2" styleClass="chat-bubble">
+
+            <!-- REPLACE TextFlow with this -->
+            <StackPane fx:id="markdownHolder"
+                       maxWidth="400" prefWidth="400"
+                       styleClass="chat-markdown"/>
+
+
+            <HBox fx:id="modelContainer" alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                <Label fx:id="modelName" styleClass="model-label"/>
+            </HBox>
+        </VBox>
+    </children>
+</fx:root>

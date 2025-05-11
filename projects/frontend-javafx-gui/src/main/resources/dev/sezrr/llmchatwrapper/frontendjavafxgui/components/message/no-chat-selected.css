@@ -1,0 +1,41 @@
+/* General placeholder layout */
+.no-chat-placeholder {
+    -fx-padding: 40 20 20 20;
+    -fx-spacing: 18;
+    -fx-alignment: center;
+}
+
+/* Headline message */
+.no-chat-placeholder Label.title {
+    -fx-text-fill: #555;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Subtext */
+.no-chat-placeholder Label.subtitle {
+    -fx-text-fill: #888;
+    -fx-font-size: 14px;
+}
+
+/* Section label above examples */
+.no-chat-placeholder Label.section-label {
+    -fx-text-fill: #999;
+    -fx-font-size: 12px;
+}
+
+/* Suggested questions */
+.no-chat-placeholder Label.suggestion {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-text-fill: #333;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.no-chat-placeholder Label.suggestion:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #000;
+}

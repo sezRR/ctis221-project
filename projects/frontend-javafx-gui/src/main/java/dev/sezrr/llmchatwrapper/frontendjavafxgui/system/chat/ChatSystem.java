@@ -1,13 +1,14 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.chat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiClient;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiConfig;
-import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.StandardRequestStrategy;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.*;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatMessageQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatRequest;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.pagination.CursorPaginationResponse;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.CustomResponseEntity;
+import javafx.application.Platform;
+import reactor.core.publisher.Flux;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,10 +16,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.server.ExportException;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ChatSystem {
     private static Map<UUID, Chat> chats = new HashMap<>();
-    private static final ApiClient apiClient = new ApiClient(new StandardRequestStrategy(ApiConfig.BASE_API));
+    private static final ApiClient apiClient = new ApiClient(new StandardRestRequestStrategy(ApiConfig.BASE_API), new StandardStreamingRequestStrategy(ApiConfig.BASE_API));
 
     public static Chat getChat(UUID uuid) {
         return chats.get(uuid);
@@ -95,6 +97,59 @@ public class ChatSystem {
         return true;
     }
     
+    public static List<String> getAvailableModels() {
+        CustomResponseEntity<List<String>> response = apiClient.get("/providers/openrouter/models", new TypeReference<>() {
+        });
+        
+        if (response == null || !response.isSuccess() || response.getData() == null || response.getData().isEmpty()) {
+            return List.of();
+        }
+        
+        return response.getData();
+    }
+
+    public static void sendMessageToChat(UUID chatId, String model, String message,
+                                         Consumer<String> onNext,
+                                         Consumer<Throwable> onError,
+                                         Runnable onComplete) {
+        Flux<String> stream = apiClient.stream(
+                "/providers/openrouter/" + chatId + "/chats/" + chatId + "?model=" + model,
+                message
+        );
+
+        stream.subscribe(
+                token -> Platform.runLater(() -> onNext.accept(token)),   // Ensure UI-safe message update
+                error -> Platform.runLater(() -> onError.accept(error)),  // Ensure UI-safe error handling
+                () -> Platform.runLater(onComplete)                       // Ensure UI-safe completion
+        );
+    }
+    
+    public static CustomResponseEntity<ChatQuery> getChatById(String chatId) {
+        CustomResponseEntity<ChatQuery> response = apiClient.get("/chats/" + chatId, new TypeReference<>() {
+        });
+        
+        if (response == null || !response.isSuccess()) {
+            return null;
+        }
+        
+        ChatQuery chatQuery = response.getData();
+        UUID chatIdNew = chatQuery.getChatId();
+        String titleNew = chatQuery.getTitle();
+        String descriptionNew = chatQuery.getDescription();
+        UUID userIdNew = chatQuery.getUserId();
+
+        // Build ChatDetail
+        ChatDetail chatDetail = new ChatDetail(chatIdNew, null, titleNew, userIdNew);
+
+        // Construct Chat
+        Chat chat = new Chat();
+        chat.setChatId(chatIdNew);
+        chat.setChatDetail(chatDetail);
+        
+        chats.put(chatIdNew, chat);
+        return response;
+    }
+
     public static CustomResponseEntity<ChatQuery> updateChatTitle(UUID chatId, String title) {
         CustomResponseEntity<ChatQuery> response = apiClient.put("/chats/" + chatId + "/title", title, new TypeReference<>() {
         });
@@ -176,6 +231,18 @@ public class ChatSystem {
 
     public static CustomResponseEntity<ChatQuery> createNewChat(ChatRequest chatRequest) {
         CustomResponseEntity<ChatQuery> response = apiClient.post("/chats", chatRequest, new TypeReference<>() {
+        });
+        
+        if (response == null || !response.isSuccess()) {
+            return null;
+        }
+        
+        return response;
+    }
+    
+    public static CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> getMessages(UUID chatId, UUID beforeMessageId, int size) {
+        String url = String.format("/chats/%s/messages?size=%d", chatId, size);
+        CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> response = apiClient.get(url, new TypeReference<>() {
         });
         
         if (response == null || !response.isSuccess()) {

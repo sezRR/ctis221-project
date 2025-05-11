@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.llmchatservice.shared.config;
+package dev.sezrr.llmchatwrapper.llmchatservice.chat.internal.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

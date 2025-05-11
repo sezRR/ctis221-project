@@ -1,10 +1,17 @@
 * {
     -primary-accent: #232323;
-    -secondary-accent: #777777;
-    -border-color: #adadad;
+    -secondary-accent: #888888;
+    -background-soft: #f9f9f9;
+    -hover-gray: #e4e4e4;
+    -border-color: #d0d0d0;
 }
 
-/* polished-tabs.css */
+.root {
+    -fx-background-color: -background-soft;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
 
 /* Main TabPane styling */
 .tab-pane {
