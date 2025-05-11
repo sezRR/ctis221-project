@@ -1,7 +1,6 @@
-package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.ollama;
+package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.provider;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +11,7 @@ import reactor.core.publisher.Flux;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
 @RestController
-@RequestMapping("/v1/ollama")
+@RequestMapping("/v1/providers/ollama")
 public class OllamaController {
     @Qualifier("ollamaChatClient")
     private final ChatClient chatClient;

@@ -1,11 +1,9 @@
-package dev.sezrr.examples.llmchatservice.testcontroller.controller;
+package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.provider;
 
 import dev.sezrr.examples.llmchatservice.shared.config.OpenRouterProperties;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,12 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
 @RestController
-@RequestMapping("/v1/openrouter")
+@RequestMapping("/v1/providers/openrouter")
 public class OpenRouterStreamingController {
     private final ChatClient chatClient;
     private final OpenRouterProperties openRouterProperties;

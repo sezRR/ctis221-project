@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.chat.internal.controller.v1.ollama;
+package dev.sezrr.examples.llmchatservice.chat.internal.service;
 
 import dev.sezrr.examples.llmchatservice.chat.exposed.contract.ChatMessageService;
 import dev.sezrr.examples.llmchatservice.chat.exposed.contract.ChatService;

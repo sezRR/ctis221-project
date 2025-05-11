@@ -1,4 +1,4 @@
-package dev.sezrr.examples.llmchatservice.testcontroller.config;
+package dev.sezrr.examples.llmchatservice.chat.internal.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
