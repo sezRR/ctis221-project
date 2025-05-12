@@ -13,7 +13,7 @@ public class ChatMessageQuery {
     private String model;
     private String createdAt;
     private String updatedAt;
-
+    
     public UUID getMessageId() {
         return messageId;
     }

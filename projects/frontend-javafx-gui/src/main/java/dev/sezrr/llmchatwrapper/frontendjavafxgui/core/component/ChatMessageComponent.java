@@ -73,12 +73,22 @@ public class ChatMessageComponent extends HBox {
     }
 
     public void appendMessageText(String token) {
-        // Simply append the token without trying to add spaces
-        fullTextBuffer.append(token).append(" ");
+//        fullTextBuffer.append(token).append(" ");
+        fullTextBuffer.append(token);
         markdownView.setMdString(fullTextBuffer.toString());
     }
 
     public void finalizeMessage() {
-        markdownView.setMdString(fullTextBuffer.toString()); // Re-assign to force proper render
+        String finalText = fullTextBuffer.toString();
+        markdownView.setMdString(finalText); // Update the content
+
+        markdownHolder.getChildren().remove(markdownView); // Remove to trigger re-render
+        markdownView.setVisible(false);                    // Force JavaFX to treat it as updated
+        markdownView.applyCss();                           // Force style re-evaluation
+        markdownView.layout();                             // Force layout pass
+        markdownView.setVisible(true);
+        markdownHolder.getChildren().add(markdownView);    // Add again
+
+        markdownHolder.requestLayout();                    // Extra layout hint for parent
     }
 }

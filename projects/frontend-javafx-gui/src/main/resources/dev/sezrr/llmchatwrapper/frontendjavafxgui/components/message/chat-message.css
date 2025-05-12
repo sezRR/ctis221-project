@@ -5,7 +5,7 @@
     -fx-border-radius: 6;
     -fx-border-color: #ccc;
     -fx-border-width: 1;
-    -fx-max-width: 400;
+    /*-fx-max-width: 400;*/
     -fx-background-insets: 0;
 }
 

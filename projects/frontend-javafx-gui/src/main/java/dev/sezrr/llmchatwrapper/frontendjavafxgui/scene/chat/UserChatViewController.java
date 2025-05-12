@@ -8,6 +8,7 @@ import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component.ChatHeaderCompo
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component.ChatMessageComponent;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component.NoChatSelectedComponent;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.enums.MessageSender;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatMessageQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.MessageType;
@@ -247,6 +248,7 @@ public class UserChatViewController {
 
         if (!isChatSelected || forceToggle) {
             removeMessages();
+            selectedChatId = null;
         }
 
         updateEmptyPlaceholderVisibility();
@@ -289,6 +291,17 @@ public class UserChatViewController {
         }
     }
 
+    public void forceReRenderMessages(List<ChatMessageQuery> messages) {
+        chatMessagesContainer.getChildren().clear();
+        for (var message : messages) {
+            if (message.getSenderRole() == MessageType.ASSISTANT) {
+                chatMessagesContainer.getChildren().add(new ChatMessageComponent(message.getMessage(), message.getModel(), MessageSender.ASSISTANT));
+            } else {
+                chatMessagesContainer.getChildren().add(new ChatMessageComponent(message.getMessage(), message.getModel(), MessageSender.USER));
+            }
+        }
+    }
+
     private ChatComponent createChatComponent(ChatQuery chat) {
         ChatComponent component = new ChatComponent();
         component.setChatTitle(chat.getTitle());
@@ -301,18 +314,11 @@ public class UserChatViewController {
             updateViews(true, true);
             chatHeaderComponent.setTitle(chatComponent.getChatTitle());
             chatHeaderComponent.setButtonsDisabled(false);
-            
+            selectedChatId = chatComponent.getChatId().toString();
             try {
                 var response = ChatSystem.getMessages(chatComponent.getChatId(), null, 50);
                 if (response != null && response.isSuccess()) {
-                    chatMessagesContainer.getChildren().clear();
-                    for (var message : response.getData().getContent()) {
-                        if (message.getSenderRole() == MessageType.ASSISTANT) {
-                            chatMessagesContainer.getChildren().add(new ChatMessageComponent(message.getMessage(), message.getModel(), MessageSender.ASSISTANT));
-                        } else {
-                            chatMessagesContainer.getChildren().add(new ChatMessageComponent(message.getMessage(), message.getModel(), MessageSender.USER));
-                        }
-                    }
+                    forceReRenderMessages(response.getData().getContent());
                 } else {
                     AlertUtil.showError("Failed to load messages", "Could not retrieve chat messages.");
                 }
@@ -320,7 +326,12 @@ public class UserChatViewController {
                 ex.printStackTrace();
                 AlertUtil.showError("Error", "An error occurred while loading messages.");
             }
+
+            Platform.runLater(() -> {
+                scrollpaneContainer.setVvalue(1.0); // Keep scroll at bottom
+            });
         });
+
         return component;
     }
 
@@ -405,11 +416,18 @@ public class UserChatViewController {
 
 //            newMessage.setMessageText(""); // Clear input area
 
+            ChatQuery finalChatQuery = chatQuery;
             ChatSystem.sendMessageToChat(
                     chatQuery.getChatId(),
                     selectedModel,
                     message,
-                    newMessage::appendMessageText,
+                    (newLlmMessage) -> {
+                        newMessage.appendMessageText(newLlmMessage);
+                        // scroll
+                        Platform.runLater(() -> {
+                            scrollpaneContainer.setVvalue(1.0); // Keep scroll at bottom
+                        });
+                    },
                     error -> {
                         error.printStackTrace();
                         AlertUtil.showError("Streaming Error", "An error occurred while receiving the response:\n" + error.getMessage());
@@ -420,19 +438,18 @@ public class UserChatViewController {
                     },
                     () -> {
                         System.out.println("Stream completed");
-
+                        newMessage.finalizeMessage(); // Re-render markdown properly
                         Platform.runLater(() -> {
-                            newMessage.finalizeMessage(); // Re-render markdown properly
                             scrollpaneContainer.setVvalue(1.0); // Keep scroll at bottom
                             messageTextField.setDisable(false);
                             messageSendButton.setDisable(false);
                         });
-                    }
-            );
+                    });
 
             Platform.runLater(() -> {
-                scrollpaneContainer.setVvalue(1.0);   // scroll to bottom
+                scrollpaneContainer.setVvalue(1.0); // Keep scroll at bottom
             });
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             AlertUtil.showError("Failed to send message", "Something went wrong while sending the message.");

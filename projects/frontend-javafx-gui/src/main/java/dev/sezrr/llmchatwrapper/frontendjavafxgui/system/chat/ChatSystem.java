@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 
 public class ChatSystem {
     private static Map<UUID, Chat> chats = new HashMap<>();
+    private static Map<UUID, List<ChatMessageQuery>> messages = new HashMap<>(); // Cache for messages
     private static final ApiClient apiClient = new ApiClient(new StandardRestRequestStrategy(ApiConfig.BASE_API), new StandardStreamingRequestStrategy(ApiConfig.BASE_API));
 
     public static Chat getChat(UUID uuid) {
@@ -249,6 +250,22 @@ public class ChatSystem {
             return null;
         }
         
+        // Cache the messages in the chat object
+        messages.put(chatId, response.getData().getContent());
+        
         return response;
+    }
+
+    public static Map<UUID, List<ChatMessageQuery>> getMessages() {
+        return messages;
+    }
+    
+    public static List<ChatMessageQuery> getMessages(UUID chatId) {
+        List<ChatMessageQuery> chatMessages = messages.get(chatId);
+        return Objects.requireNonNullElseGet(chatMessages, ArrayList::new);
+    }
+    
+    public static void addMessageToCache(UUID chatId, ChatMessageQuery message) {
+        messages.computeIfAbsent(chatId, k -> new ArrayList<>()).add(message);
     }
 }

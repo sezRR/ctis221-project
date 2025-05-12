@@ -12,6 +12,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class StandardStreamingRequestStrategy implements StreamingRequestStrategy {
@@ -22,8 +24,6 @@ public class StandardStreamingRequestStrategy implements StreamingRequestStrateg
         this.httpClient = HttpClient.newHttpClient();
         this.baseApi = baseApi;
     }
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Flux<String> stream(String endpoint, String body) {
         return Flux.create(emitter -> {
@@ -38,44 +38,39 @@ public class StandardStreamingRequestStrategy implements StreamingRequestStrateg
                         .thenAccept(response -> {
                             try (BufferedReader reader = new BufferedReader(
                                     new InputStreamReader(response.body(), StandardCharsets.UTF_8))) {
+
+                                List<String> dataLines = new ArrayList<>();
                                 String line;
-                                StringBuilder dataBuilder = new StringBuilder();
-
                                 while ((line = reader.readLine()) != null) {
-                                    if (line.isEmpty()) {
-                                        String eventData = dataBuilder.toString().trim();
-                                        dataBuilder.setLength(0);
-                                        if (eventData.isEmpty()) continue;
+                                    if (line.startsWith("data:")) {
+                                        // strip off "data:" prefix (preserves empty lines too)
+                                        dataLines.add(line.substring(5));
+                                    }
+                                    else if (line.isEmpty()) {
+                                        // end of one SSE event
+                                        String rawData = String.join("\n", dataLines);
+                                        dataLines.clear();
 
-                                        if (eventData.equals("[DONE]")) {
+                                        if ("[DONE]".equals(rawData.trim())) {
                                             emitter.complete();
                                             return;
                                         }
 
-                                        // Parse JSON and extract the 'text'
-                                        try {
-                                            // Just forward the plain token
-                                            emitter.next(eventData);
-                                        } catch (Exception ex) {
-                                            System.err.println("Invalid JSON chunk: " + ex.getMessage());
-                                        }
-                                    } else if (line.startsWith("data:")) {
-                                        dataBuilder.append(line.substring(5)).append("\n");
+                                        emitter.next(rawData);
                                     }
                                 }
 
                                 emitter.complete();
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e) {
                                 emitter.error(e);
                             }
                         })
-                        .exceptionally(e -> {
-                            emitter.error(e);
-                            return null;
-                        });
+                        .exceptionally(e -> { emitter.error(e); return null; });
             } catch (Exception e) {
                 emitter.error(e);
             }
         }, FluxSink.OverflowStrategy.BUFFER);
     }
+
 }
