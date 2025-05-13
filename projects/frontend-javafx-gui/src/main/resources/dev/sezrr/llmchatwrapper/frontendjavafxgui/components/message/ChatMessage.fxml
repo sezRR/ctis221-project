@@ -24,17 +24,17 @@
 <!--    </children>-->
 <!--</fx:root>-->
 
-<fx:root alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" spacing="10" type="HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10" type="HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
     <children>
         <FontIcon fx:id="avatarIcon" iconLiteral="fas-robot" iconSize="24" styleClass="avatar-icon" />
-        <VBox fx:id="bubbleContainer" spacing="2" styleClass="chat-bubble" HBox.hgrow="ALWAYS">
+        <VBox fx:id="bubbleContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="2" styleClass="chat-bubble" HBox.hgrow="ALWAYS">
 
             <!-- REPLACE TextFlow with this -->
-            <StackPane fx:id="markdownHolder" maxWidth="1.7976931348623157E308" styleClass="chat-markdown" />
+            <StackPane fx:id="markdownHolder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="chat-markdown" VBox.vgrow="ALWAYS" />
 
 
-            <HBox fx:id="modelContainer" alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+            <HBox fx:id="modelContainer" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                 <Label fx:id="modelName" styleClass="model-label" />
             </HBox>
         </VBox>

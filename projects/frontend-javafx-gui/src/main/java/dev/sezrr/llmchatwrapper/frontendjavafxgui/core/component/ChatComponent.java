@@ -163,6 +163,9 @@ public class ChatComponent extends HBox {
             if (event.getButton() == MouseButton.PRIMARY) {
                 contextMenu.show(contextMenuIcon, event.getScreenX(), event.getScreenY());
             }
+
+            // Disable event bubbling to prevent showing the context menu on the icon
+            event.consume();
         });
     }
 

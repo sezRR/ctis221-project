@@ -14,21 +14,28 @@ import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatRequest
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.MessageType;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.CustomResponseEntity;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.utils.NumberFormatUtil;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.admin.AdminViewModelController;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.chat.Chat;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.chat.ChatSystem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,6 +63,15 @@ public class UserChatViewController {
 
     @FXML
     private ComboBox<String> modelsCombo;
+    
+    @FXML
+    private TextField searchField;
+
+    @FXML private ContextMenu sortMenu;
+
+    @FXML private Button sortButton;
+    
+    @FXML private TextArea texta;
 
     private final NoChatSelectedComponent noChatSelectedComponent = new NoChatSelectedComponent();
     private final ChatHeaderComponent chatHeaderComponent = new ChatHeaderComponent();
@@ -65,6 +81,9 @@ public class UserChatViewController {
 
     @FXML
     private ScrollPane scrollpaneContainer;
+    
+    @FXML
+    private Label contextWindowPercentage;
 
     private final HBox emptyPlaceholder = new HBox();
 
@@ -106,6 +125,12 @@ public class UserChatViewController {
         long visibleChats = chatsContent.getChildren().stream()
                 .filter(node -> node instanceof ChatComponent)
                 .count();
+        
+        if (visibleChats > 0)
+            chatsContent.setAlignment(Pos.TOP_LEFT);
+        else
+            chatsContent.setAlignment(Pos.CENTER);
+        
         emptyPlaceholder.setVisible(visibleChats == 0);
     }
 
@@ -147,6 +172,8 @@ public class UserChatViewController {
         });
 
         initModelsCombo();
+        
+        sortButton.setDisable(ChatSystem.getChats().isEmpty());
     }
 
     private void initNoChatSelectedComponent() {
@@ -164,14 +191,18 @@ public class UserChatViewController {
         if (isChatSelected) {
             noChatSelectedComponent.setVisible(false);
             noChatSelectedComponent.setManaged(false);
+            scrollpaneContainer.setFitToHeight(false);
+            chatMessagesContainer.setAlignment(Pos.TOP_LEFT);
         } else {
             noChatSelectedComponent.setVisible(true);
             noChatSelectedComponent.setManaged(true);
+            scrollpaneContainer.setFitToHeight(true);
+            chatMessagesContainer.setAlignment(Pos.CENTER);
         }
     }
 
     private void initChatHeaderComponent() {
-        chatHeaderComponent.setTitle("New Chat");
+        chatHeaderComponent.setTitle(ChatSystem.getNewChatTitle());
 //        chatHeaderComponent.setModel("ChatGPT 4o-mini"); // TODO: FIX
         chatHeaderComponent.setButtonsDisabled(false);
         chatHeaderComponent.setVisible(false);
@@ -255,6 +286,11 @@ public class UserChatViewController {
         updateAlignmentChatViewContainer();
         toggleNoChatSelectedComponent();
         toggleChatHeaderComponent();
+        clearTextField();
+    }
+    
+    private void clearTextField() {
+        texta.clear();
     }
 
     @FXML
@@ -268,11 +304,11 @@ public class UserChatViewController {
     @FXML
     private void createNewChat(ActionEvent e) {
         updateViews(false, true);
-        chatHeaderComponent.setTitle("New Chat");
+        chatHeaderComponent.setTitle(ChatSystem.getNewChatTitle());
 
         messageTextField.setText("");
         selectedChatId = null;
-
+        contextWindowPercentage.setText("0%");
         // TODO: WHEN USER SEND A MESSAGE, THEN CREATE A CHAT
     }
 
@@ -319,6 +355,9 @@ public class UserChatViewController {
                 var response = ChatSystem.getMessages(chatComponent.getChatId(), null, 50);
                 if (response != null && response.isSuccess()) {
                     forceReRenderMessages(response.getData().getContent());
+                    
+                    var tokens = ChatSystem.calculateTotalTokensForChat(chatComponent.getChatId());
+                    contextWindowPercentage.setText(NumberFormatUtil.formatNumber(tokens / ChatSystem.getMaxTokens() * 100) + "%");
                 } else {
                     AlertUtil.showError("Failed to load messages", "Could not retrieve chat messages.");
                 }
@@ -358,7 +397,7 @@ public class UserChatViewController {
 
         ChatRequest chatRequest = new ChatRequest(
                 userId,
-                "New Chat",
+                ChatSystem.getNewChatTitle(),
                 "Description"
         );
 
@@ -378,6 +417,7 @@ public class UserChatViewController {
                     chatsContent.getChildren().addFirst(component);
                     updateViews(true);
                     selectedChatId = chatQuery.getChatId().toString();
+                    sortButton.setDisable(ChatSystem.getChats().isEmpty());
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -444,6 +484,8 @@ public class UserChatViewController {
                             messageTextField.setDisable(false);
                             messageSendButton.setDisable(false);
                         });
+                        
+                        ChatSystem.getMessages(finalChatQuery.getChatId(), null, 50); // TODO: PERFORMANCE OPTIMIZATION
                     });
 
             Platform.runLater(() -> {
@@ -473,5 +515,49 @@ public class UserChatViewController {
         public String getView() {
             return view;
         }
+    }
+    
+    // ARDA'S SORT
+    @FXML
+    private void ShowTotalMessages(ActionEvent evt) {
+        String result = ChatSystem.showTotalMessages();
+        texta.setText(result);
+    }
+
+    @FXML
+    private void ShowTotalTokens(ActionEvent evt) {
+        texta.setText(ChatSystem.showTotalTokens());
+    }
+
+    @FXML
+    private void SortByCreateDate(ActionEvent evt) {
+        String sorted = ChatSystem.sortByCreationDate();
+        texta.setText(sorted);
+    }
+
+    @FXML
+    private void SortByTitles(ActionEvent evt) {
+        String sorted = ChatSystem.sortByTitle();
+        texta.setText(sorted);
+    }
+
+    @FXML
+    private void onSearchChat(KeyEvent e) {
+        if (e.getCode() != KeyCode.ENTER) {
+            return;
+        }
+        
+        String query = searchField.getText().trim();
+        Chat found = ChatSystem.searchChatByTitle(query);
+        if (found != null) {
+            texta.setText("Found chat: " + found.getChatDetail().getTitle());
+        } else {
+            texta.setText("No chat found matching \"" + query + "\"");
+        }
+    }
+
+    @FXML
+    private void onSortButtonClicked(ActionEvent evt) {
+        sortMenu.show(sortButton, Side.BOTTOM, 0, 0);
     }
 }

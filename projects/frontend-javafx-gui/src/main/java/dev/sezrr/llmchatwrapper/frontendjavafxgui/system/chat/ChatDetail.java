@@ -1,5 +1,6 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.system.chat;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ChatDetail {
@@ -7,6 +8,7 @@ public class ChatDetail {
     private UUID userId;
     private UUID modelId;
     private String title;
+    private String createdAt;
 
     public ChatDetail(UUID id) {
         this.id = id;
@@ -17,6 +19,18 @@ public class ChatDetail {
         this.modelId = modelId;
         this.title = title;
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatDetail that = (ChatDetail) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     public UUID getId() {
@@ -45,6 +59,14 @@ public class ChatDetail {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

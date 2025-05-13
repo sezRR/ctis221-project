@@ -73,7 +73,6 @@ public class ChatMessageComponent extends HBox {
     }
 
     public void appendMessageText(String token) {
-//        fullTextBuffer.append(token).append(" ");
         fullTextBuffer.append(token);
         markdownView.setMdString(fullTextBuffer.toString());
     }
@@ -81,14 +80,5 @@ public class ChatMessageComponent extends HBox {
     public void finalizeMessage() {
         String finalText = fullTextBuffer.toString();
         markdownView.setMdString(finalText); // Update the content
-
-        markdownHolder.getChildren().remove(markdownView); // Remove to trigger re-render
-        markdownView.setVisible(false);                    // Force JavaFX to treat it as updated
-        markdownView.applyCss();                           // Force style re-evaluation
-        markdownView.layout();                             // Force layout pass
-        markdownView.setVisible(true);
-        markdownHolder.getChildren().add(markdownView);    // Add again
-
-        markdownHolder.requestLayout();                    // Extra layout hint for parent
     }
 }

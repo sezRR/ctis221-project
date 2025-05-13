@@ -4,9 +4,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -23,7 +26,7 @@
                         <VBox alignment="CENTER" spacing="8.0" BorderPane.alignment="TOP_LEFT">
                             <children>
                                 <ComboBox fx:id="currentView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Current View" />
-                                <TextField alignment="CENTER" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
+                                <TextField fx:id="searchField" onKeyPressed="#onSearchChat" prefHeight="30.0" prefWidth="187.0" promptText="Enter an id to get the Chat">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -55,21 +58,35 @@
                         </HBox>
                     </bottom>
                     <center>
-                        <VBox alignment="TOP_CENTER" spacing="16.0" BorderPane.alignment="CENTER">
+                        <VBox alignment="TOP_CENTER" spacing="4.0" BorderPane.alignment="CENTER">
                             <children>
                                 <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createNewChat" text="Create New Chat">
                                     <graphic>
                                         <FontIcon iconLiteral="fas-plus" />
                                     </graphic>
                                 </Button>
-                                <ScrollPane fx:id="chatsContainer" fitToWidth="true" hbarPolicy="NEVER" prefHeight="338.0" prefWidth="195.0" VBox.vgrow="NEVER">
+                        <Button fx:id="sortButton" onAction="#onSortButtonClicked" prefHeight="29" prefWidth="202" text="Sort">
+                           <contextMenu>
+                              <ContextMenu fx:id="sortMenu">
+                                 <items>
+                                    <MenuItem fx:id="sortByCreateDate" onAction="#SortByCreateDate" text="Create Date" />
+                                    <MenuItem fx:id="sortByTitles" onAction="#SortByTitles" text="Titles" />
+                                 </items>
+                              </ContextMenu>
+                           </contextMenu>
+                           <graphic>
+                              <FontIcon iconLiteral="fas-sort-amount-down-alt" />
+                           </graphic>
+                        </Button>
+                                <ScrollPane fx:id="chatsContainer" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="273.0" prefWidth="205.0" VBox.vgrow="ALWAYS">
                                     <padding>
                                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                                     </padding>
                                     <content>
-                                        <VBox fx:id="chatsContent" spacing="8.0" />
+                                        <VBox fx:id="chatsContent" prefWidth="205.0" spacing="8.0" />
                                     </content>
                                 </ScrollPane>
+                        <TextArea fx:id="texta" prefHeight="228.0" prefWidth="205.0" promptText="Sorting output will appear here…" wrapText="true" />
                             </children>
                             <BorderPane.margin>
                                 <Insets bottom="12.0" top="12.0" />
@@ -82,11 +99,11 @@
                 </BorderPane>
                 <BorderPane fx:id="chatScreenContainer" minHeight="-Infinity" minWidth="-Infinity" styleClass="root">
                     <center>
-                        <VBox fx:id="chatViewContainer" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="chatViewContainer" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                             <children>
-                                <ScrollPane fx:id="scrollpaneContainer" fitToHeight="false" fitToWidth="true" prefHeight="408.0" prefWidth="814.0" vbarPolicy="AS_NEEDED">
+                                <ScrollPane fx:id="scrollpaneContainer" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="408.0" prefWidth="814.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
                                     <content>
-                                        <VBox fx:id="chatMessagesContainer" spacing="12.0" VBox.vgrow="ALWAYS">
+                                        <VBox fx:id="chatMessagesContainer" maxHeight="1.7976931348623157E308" spacing="12.0" VBox.vgrow="ALWAYS">
                                             <padding>
                                                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                                             </padding>
@@ -130,7 +147,7 @@
                                                         <Font size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="0%" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                <Label fx:id="contextWindowPercentage" text="0%" textAlignment="CENTER" HBox.hgrow="NEVER">
                                                     <font>
                                                         <Font size="16.0" />
                                                     </font>

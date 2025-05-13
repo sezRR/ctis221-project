@@ -50,3 +50,7 @@ ScrollPane .viewport {
 #first {
     -fx-background-radius: 6 6 0 0;
 }
+
+.center-align {
+    -fx-alignment: center;
+}

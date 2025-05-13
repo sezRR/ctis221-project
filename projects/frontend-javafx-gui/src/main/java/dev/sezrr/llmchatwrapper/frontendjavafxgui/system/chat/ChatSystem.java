@@ -23,6 +23,14 @@ public class ChatSystem {
     private static Map<UUID, List<ChatMessageQuery>> messages = new HashMap<>(); // Cache for messages
     private static final ApiClient apiClient = new ApiClient(new StandardRestRequestStrategy(ApiConfig.BASE_API), new StandardStreamingRequestStrategy(ApiConfig.BASE_API));
 
+    public static Map<UUID, Chat> getChats() {
+        return chats;
+    }
+
+    public static Map<UUID, List<ChatMessageQuery>> getMessages() {
+        return messages;
+    }
+
     public static Chat getChat(UUID uuid) {
         return chats.get(uuid);
     }
@@ -35,28 +43,7 @@ public class ChatSystem {
         }
         return null;
     }
-
-    public static boolean deleteChat(UUID uuid) {
-        Chat chat = searchChat(uuid);
-        if (chat != null) {
-            chats.remove(uuid);
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean addChat(Chat chat) {
-        if (searchChat(chat.getChatId()) == null) {
-            chats.put(chat.getChatId(), chat);
-            return true;
-        }
-        return false;
-    }
-
-    public static List<Chat> getChats() {
-        return new ArrayList<>(chats.values());
-    }
-
+    
     public static CustomResponseEntity<List<ChatQuery>> getChatsForUser(String userId) {
         String url = String.format("/chats?userId=%s&page=0&size=10", userId);
         CustomResponseEntity<List<ChatQuery>> response = apiClient.get(url, new TypeReference<>() {
@@ -81,8 +68,17 @@ public class ChatSystem {
             Chat chat = new Chat();
             chat.setChatId(chatId);
             chat.setChatDetail(chatDetail);
+            chat.getChatDetail().setCreatedAt(chatQuery.getCreatedAt());
             // Messages and instructions will be set later if needed
-
+            
+            // Messages will be fetched separately for each chat TODO: Performance improvement
+            var messages = getMessages(chatId, null, 55);
+            if (messages != null && messages.isSuccess()) {
+                chat.setMessages(messages.getData().getContent());
+            } else {
+                chat.setMessages(new ArrayList<>());
+            }
+            
             // Add to static map
             chats.put(chatId, chat);
         }
@@ -146,6 +142,7 @@ public class ChatSystem {
         Chat chat = new Chat();
         chat.setChatId(chatIdNew);
         chat.setChatDetail(chatDetail);
+        chat.getChatDetail().setCreatedAt(chatQuery.getCreatedAt());
         
         chats.put(chatIdNew, chat);
         return response;
@@ -167,24 +164,16 @@ public class ChatSystem {
         UUID userIdNew = updatedChat.getUserId();
 
         // Build ChatDetail
-        ChatDetail chatDetail = new ChatDetail(chatIdNew, null, title, userIdNew);
+        ChatDetail chatDetail = new ChatDetail(chatIdNew, null, titleNew, userIdNew);
 
         // Construct Chat
         Chat chat = new Chat();
         chat.setChatId(chatId);
         chat.setChatDetail(chatDetail);
+        chat.getChatDetail().setCreatedAt(updatedChat.getCreatedAt());
         
         chats.put(chatId, chat);
         return response;
-    }
-
-    public boolean sendMessage(UUID chatId, ChatMessage message) throws Exception {
-        Chat chat = chats.get(chatId);
-        if (chat != null) {
-            chat.addChatMessage(message); // assuming Chat has addMessage()
-            return true;
-        }
-        return false;
     }
 
     public static String displayChats() {
@@ -196,21 +185,63 @@ public class ChatSystem {
     }
 
     public static boolean downloadChat(UUID uuid) throws IOException {
-        PrintWriter output = null;
         File file = new File("chats/" + uuid + ".txt");
         if (file.exists()) {
             FileWriter fw = new FileWriter(file, true);
             PrintWriter pw = new PrintWriter(fw);
-            output.println(displayChats());
-            fw.close();
+            // write the chats into the file
+            pw.println(displayChats());
+            // close in reverse order of opening
             pw.close();
+            fw.close();
             return true;
-
-
         }
         throw new ExportException("No file found");
     }
 
+    public static CustomResponseEntity<ChatQuery> createNewChat(ChatRequest chatRequest) {
+        CustomResponseEntity<ChatQuery> response = apiClient.post("/chats", chatRequest, new TypeReference<>() {
+        });
+        
+        if (response == null || !response.isSuccess()) {
+            return null;
+        }
+
+        createNewChat(response.getData().getChatId(), response.getData().getTitle(), UUID.fromString(chatRequest.userId()), response.getData().getCreatedAt());
+        
+        return response;
+    }
+    
+    private static void createNewChat(UUID chatId, String title, UUID userId, String createdAt) {
+        ChatDetail chatDetail = new ChatDetail(chatId, null, title, userId);
+        Chat chat = new Chat();
+        chat.setChatId(chatId);
+        chat.setChatDetail(chatDetail);
+        chat.getChatDetail().setCreatedAt(createdAt);
+        
+        chats.put(chatId, chat);
+    }
+    
+    public static CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> getMessages(UUID chatId, UUID beforeMessageId, int size) {
+        String url = String.format("/chats/%s/messages?size=%d", chatId, size);
+        CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> response = apiClient.get(url, new TypeReference<>() {
+        });
+        
+        if (response == null || !response.isSuccess()) {
+            return null;
+        }
+        
+        // Cache the messages in the chat object
+        messages.put(chatId, response.getData().getContent());
+        
+        return response;
+    }
+    
+    public static void addMessageToCache(UUID chatId, ChatMessageQuery message) {
+        messages.computeIfAbsent(chatId, k -> new ArrayList<>()).add(message);
+    }
+    
+    // ARDA'S SORT
     public static int calculateTokenCount(String message) {
         if (message == null || message.trim().isEmpty()) {
             return 0;
@@ -230,42 +261,86 @@ public class ChatSystem {
         return tokenCount;
     }
 
-    public static CustomResponseEntity<ChatQuery> createNewChat(ChatRequest chatRequest) {
-        CustomResponseEntity<ChatQuery> response = apiClient.post("/chats", chatRequest, new TypeReference<>() {
-        });
-        
-        if (response == null || !response.isSuccess()) {
-            return null;
+    public static Chat searchChatByTitle(String fragment) {
+        if (fragment == null) return null;
+        String lower = fragment.toLowerCase();
+        for (Chat chat : chats.values()) {
+            String title = chat.getChatDetail().getTitle();
+            if (title != null && title.toLowerCase().contains(lower)) {
+                return chat;
+            }
         }
-        
-        return response;
-    }
-    
-    public static CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> getMessages(UUID chatId, UUID beforeMessageId, int size) {
-        String url = String.format("/chats/%s/messages?size=%d", chatId, size);
-        CustomResponseEntity<CursorPaginationResponse<List<ChatMessageQuery>>> response = apiClient.get(url, new TypeReference<>() {
-        });
-        
-        if (response == null || !response.isSuccess()) {
-            return null;
-        }
-        
-        // Cache the messages in the chat object
-        messages.put(chatId, response.getData().getContent());
-        
-        return response;
+        return null;
     }
 
-    public static Map<UUID, List<ChatMessageQuery>> getMessages() {
-        return messages;
+    public static String sortByCreationDate() {
+        ChatDateComparator cdc = new ChatDateComparator();
+        TreeSet<Chat> ts = new TreeSet<>(cdc);
+        var a = chats.values();
+        ts.addAll(a);
+
+        String output = "";
+        for (Chat chat : ts) {
+            output += chat.toString() + "\n";
+        }
+        return output;
     }
     
-    public static List<ChatMessageQuery> getMessages(UUID chatId) {
+    public static String getNewChatTitle() {
+        return "New Chat " + (chats.size() + 1);
+    }
+    
+    public static String sortByTitle() {
+        ChatTitleComparator ctc = new ChatTitleComparator();
+        TreeSet<Chat> ts = new TreeSet<>(ctc);
+        ts.addAll(chats.values());
+
+        String output = "";
+        for (Chat chat : ts) {
+            output += chat.toString() + "\n";
+        }
+        return output;
+    }
+
+    public static String showTotalMessages() {
+        int total = 0;
+        for (Chat chat : chats.values()) {
+            total += chat.getMessages().size();
+        }
+        return "Total messages: " + total;
+    }
+
+    public static String showTotalTokens() {
+        String res = "";
+        int totalTokens = 0;
+
+        for (Chat chat : chats.values()) {
+            for (ChatMessageQuery msg : chat.getMessages()) {
+                totalTokens += calculateTokenCount(msg.getMessage());
+            }
+        }
+        res += "Total tokens across all chats: " + totalTokens;
+        return res;
+    }
+    
+    public static int calculateTotalTokensForChat(UUID chatId) {
+        int totalTokens = 0;
         List<ChatMessageQuery> chatMessages = messages.get(chatId);
-        return Objects.requireNonNullElseGet(chatMessages, ArrayList::new);
+        
+        if (chatMessages != null) {
+            for (ChatMessageQuery msg : chatMessages) {
+                totalTokens += calculateTokenCount(msg.getMessage());
+            }
+        }
+        
+        return totalTokens;
     }
-    
-    public static void addMessageToCache(UUID chatId, ChatMessageQuery message) {
-        messages.computeIfAbsent(chatId, k -> new ArrayList<>()).add(message);
+
+    public static List<ChatMessageQuery> getMessagesForChat(UUID chatId) {
+        return messages.getOrDefault(chatId, new ArrayList<>());
+    }
+
+    public static double getMaxTokens() {
+        return Math.pow(2, 15);
     }
 }

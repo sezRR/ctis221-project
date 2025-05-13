@@ -5,7 +5,6 @@
     -fx-border-radius: 6;
     -fx-border-color: #ccc;
     -fx-border-width: 1;
-    /*-fx-max-width: 400;*/
     -fx-background-insets: 0;
 }
 
@@ -28,23 +27,49 @@
 .user-message {
     -fx-alignment: top-right;
     -fx-padding: 4 8 4 24;
+    /* Align to right */
+    /*-fx-text-alignment: right;*/
 }
 
 .user-message .chat-bubble {
     -fx-background-color: #dcf8c6;
+    -fx-max-width: 400;
 }
 
 .assistant-message .chat-bubble {
     -fx-background-color: #f1f0f0;
 }
 
-.code-block {
-    -fx-fill: #333;
-    -fx-font-family: "Consolas";
-    -fx-font-size: 13px;
-    -fx-background-color: #f4f4f4;
-    -fx-padding: 8px;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 4px;
-    -fx-wrap-text: true;
+/* Message text */
+
+.markdown-codeblock-box,
+.markdown-code {
+    -fx-padding: 0 8 0 8;
+}
+.markdown-code {
+    /*-fx-max-width: 300*/
+}
+.markdown-code,
+.markdown-codeblock {
+    -fx-wrap-text: true !important;
+    -fx-font-size: 16;
+}
+.markdown-codeblock-box,
+.markdown-code-background {
+    -fx-padding: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: -mdfx-border-color-1;
+    -fx-border-width: 0.5;
+    -fx-background-radius: 8;
+    -fx-background-color: #00000009; /*  -mdfx-bg-color-3*/
+}
+.markdown-code-background {
+    -fx-border-width: 0;
+    -fx-background-color: #0000AA10;  /*  -mdfx-bg-color-3*/
+}
+
+.markdown-code-anti-padding {
+    /*-fx-padding: -8;*/
+    -fx-border-color: red;
+    -fx-border-width: 1;
 }
