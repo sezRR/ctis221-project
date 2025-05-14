@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -133,17 +134,12 @@
                                     <FontIcon iconLiteral="fas-history" />
                                  </graphic>
                               </Button>
-                              <Button fx:id="tabPricingButtonDisable" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Disable" HBox.hgrow="ALWAYS">
-                                 <graphic>
-                                    <FontIcon iconLiteral="fas-eye-slash" />
-                                 </graphic>
-                              </Button>
                               <Button fx:id="tabPricingButtonUpdate" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Update" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <FontIcon iconLiteral="fas-sync-alt" text="" />
                                  </graphic>
                               </Button>
-                              <Button fx:id="tabPricingButtonDelete" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Delete" HBox.hgrow="ALWAYS">
+                              <Button fx:id="tabPricingButtonDelete" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deletePricing" text="Delete" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <FontIcon iconLiteral="fas-trash" iconSize="12" text="" />
                                  </graphic>
@@ -204,16 +200,6 @@
                                     <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickPricingModelsAdd" text="Add Pricing" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                                        <graphic>
                                           <FontIcon iconLiteral="fas-plus" text="" textAlignment="CENTER" />
-                                       </graphic>
-                                    </Button>
-                                    <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Search" HBox.hgrow="ALWAYS">
-                                       <graphic>
-                                          <FontIcon iconLiteral="fas-search" iconSize="12" text="" />
-                                       </graphic>
-                                    </Button>
-                                    <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Reset Search" HBox.hgrow="ALWAYS">
-                                       <graphic>
-                                          <FontIcon iconLiteral="fas-undo" />
                                        </graphic>
                                     </Button>
                                  </children>
@@ -300,23 +286,18 @@
                                                 </Label>
                                                 <HBox alignment="CENTER_LEFT" spacing="8.0">
                                                    <children>
-                                                      <RadioButton mnemonicParsing="false" selected="true" text="All">
+                                                      <RadioButton fx:id="statusAllRadio" mnemonicParsing="false" selected="true" text="All">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="a" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton mnemonicParsing="false" text="Active" toggleGroup="$a" />
-                                                      <RadioButton mnemonicParsing="false" text="Inactive" toggleGroup="$a" />
+                                                      <RadioButton fx:id="statusActiveRadio" mnemonicParsing="false" text="Active Pricing" toggleGroup="$a" />
+                                                      <RadioButton fx:id="statusInactiveRadio" mnemonicParsing="false" text="No Pricing" toggleGroup="$a" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </HBox>
-                                          <HBox alignment="CENTER_LEFT" spacing="16.0">
-                                             <children>
-                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Above Avg" HBox.hgrow="ALWAYS" />
-                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Below Avg" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="16.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
@@ -355,12 +336,20 @@
             </Tab>
             <Tab closable="false" text="System Instructions">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-            <Tab closable="false" text="Logs">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+<!--                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"  fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.kerem.Controller">-->
+                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                       <Button layoutX="592.0" layoutY="40.0" mnemonicParsing="false" onAction="#Add" prefHeight="66.0" prefWidth="148.0" text="Add Model" />
+                       <Label layoutX="36.0" layoutY="14.0" prefHeight="35.0" prefWidth="85.0" text="Instruction:" />
+                       <Label layoutX="33.0" layoutY="222.0" prefHeight="35.0" prefWidth="70.0" text="Model:" />
+                       <TextField fx:id="instructionField" layoutX="33.0" layoutY="47.0" prefHeight="136.0" prefWidth="534.0" />
+                       <TextArea fx:id="outputTextArea" layoutX="36.0" layoutY="291.0" prefHeight="282.0" prefWidth="520.0" />
+                       <Button layoutX="592.0" layoutY="232.0" mnemonicParsing="false" onAction="#search" prefHeight="66.0" prefWidth="148.0" text="Search" />
+                       <Button layoutX="595.0" layoutY="136.0" mnemonicParsing="false" onAction="#delete" prefHeight="66.0" prefWidth="142.0" text="Delete" />
+                       <Button layoutX="592.0" layoutY="316.0" mnemonicParsing="false" onAction="#display" prefHeight="66.0" prefWidth="148.0" text="Display" />
+                       <ComboBox fx:id="modelComboBox" editable="true" layoutX="86.0" layoutY="222.0" prefHeight="35.0" prefWidth="262.0" />
+                    </children>
+                 </AnchorPane>
               </content>
             </Tab>
          </tabs>

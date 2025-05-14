@@ -1,4 +1,4 @@
-package dev.sezrr.llmchatwrapper.frontendjavafxgui;
+package dev.sezrr.llmchatwrapper.frontendjavafxgui.kerem;
 
 import java.util.HashSet;
 import java.util.TreeSet;

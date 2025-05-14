@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiClient;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.ApiConfig;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.StandardRestRequestStrategy;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelPricingQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelPricingRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelRequest;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelQuery;
@@ -166,5 +167,11 @@ public class ModelSystem {
             }
         }
         return totalPlans;
+    }
+    
+    public static void deleteModelPricing(String id) {
+        var response = apiClient.put("/model-pricings/" + id + "/deactivate", "");
+        
+        models.removeIf(model -> model.getId().equals(id));
     }
 }

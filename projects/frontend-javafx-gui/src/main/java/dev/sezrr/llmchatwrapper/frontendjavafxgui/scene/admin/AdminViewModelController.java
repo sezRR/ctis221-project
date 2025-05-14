@@ -7,10 +7,14 @@ import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelReques
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ModelQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.CustomResponseEntity;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene.SceneManager;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.kerem.Instructor;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.kerem.InstructorSys;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.SceneConstant;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.system.model.ModelSystem;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -104,9 +108,6 @@ public class AdminViewModelController {
     private Button tabPricingButtonHistory;
 
     @FXML
-    private Button tabPricingButtonDisable;
-
-    @FXML
     private Button tabPricingButtonUpdate;
 
     @FXML
@@ -122,6 +123,13 @@ public class AdminViewModelController {
     private Label tabPricingsRangeFilterMaxLabel;
 
     private FilteredList<ModelQuery> filteredPricingModels;
+
+    @FXML
+    private RadioButton statusAllRadio;
+    @FXML
+    private RadioButton statusActiveRadio;
+    @FXML
+    private RadioButton statusInactiveRadio;
 
     private final DecimalFormat df = new DecimalFormat("#0.00", new DecimalFormatSymbols() {{
         setDecimalSeparator('.');
@@ -165,18 +173,51 @@ public class AdminViewModelController {
     }
 
     private void updateFilteredPricingTable() {
+//        double low = Double.parseDouble(df.format(tabPricingsRangeFilter.getLowValue()));
+//        double high = Double.parseDouble(df.format(tabPricingsRangeFilter.getHighValue()));
+//        System.out.println(low + "  " + high);
+//
+//        filteredPricingModels.setPredicate(model -> {
+//            var pricing = model.getActiveModelPricing();
+//            if (pricing == null || pricing.getAdditionalPrice() == null) return false;
+//            double price = pricing.getAdditionalPrice();
+//            return price >= low && price <= high;
+//        });
+
         double low = Double.parseDouble(df.format(tabPricingsRangeFilter.getLowValue()));
         double high = Double.parseDouble(df.format(tabPricingsRangeFilter.getHighValue()));
-        System.out.println(low + "  " + high);
 
         filteredPricingModels.setPredicate(model -> {
             var pricing = model.getActiveModelPricing();
-            if (pricing == null || pricing.getAdditionalPrice() == null) return false;
-            double price = pricing.getAdditionalPrice();
-            return price >= low && price <= high;
+
+            if (statusAllRadio.isSelected() && pricing == null) {
+                return true;
+            }
+            
+            if (statusInactiveRadio.isSelected() && pricing == null) {
+                return true; // Show inactive models with no pricing
+            }
+            
+            // Status filtering
+            boolean statusMatch = false;
+            if (statusActiveRadio.isSelected()) {
+                statusMatch = pricing != null;
+            } else if (statusInactiveRadio.isSelected()) {
+                statusMatch = pricing == null;
+            }
+
+            // Price filtering (skip if no pricing data)
+            boolean priceMatch;
+            if (pricing != null && pricing.getAdditionalPrice() != null) {
+                double price = pricing.getAdditionalPrice();
+                priceMatch = price >= low && price <= high;
+            } else {
+                priceMatch = statusInactiveRadio.isSelected(); // if inactive, pricing is null so price check is skipped
+            }
+
+            return !statusInactiveRadio.isSelected() && priceMatch;
         });
     }
-
 
     private void initPricingTabModelsComboBox() {
         pricingModelsComboBox.setCellFactory(listView -> new ListCell<>() {
@@ -260,14 +301,12 @@ public class AdminViewModelController {
         pricingModels.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 pricingModelsComboBox.getSelectionModel().select(newValue);
-                tabPricingButtonHistory.setDisable(false);
-                tabPricingButtonDisable.setDisable(false);
-                tabPricingButtonUpdate.setDisable(false);
+//                tabPricingButtonHistory.setDisable(false);
+//                tabPricingButtonUpdate.setDisable(false);
                 tabPricingButtonDelete.setDisable(false);
             } else {
                 pricingModelsComboBox.getSelectionModel().clearSelection();
                 tabPricingButtonHistory.setDisable(true);
-                tabPricingButtonDisable.setDisable(true);
                 tabPricingButtonUpdate.setDisable(true);
                 tabPricingButtonDelete.setDisable(true);
             }
@@ -289,6 +328,16 @@ public class AdminViewModelController {
         clearModelsTabFields();
         clearPricingTabFields();
     }
+    
+    @FXML
+    private void deletePricing(ActionEvent e) {
+        System.out.println(String.valueOf(selectedModelQueryPricingTab.getActiveModelPricing().getId()));
+        ModelSystem.deleteModelPricing(String.valueOf(selectedModelQueryPricingTab.getActiveModelPricing().getId()));
+        AlertUtil.showSuccess("Model pricing deleted", "Model pricing deleted successfully");
+        
+        // Refresh the list after deletion
+        init();
+    }
 
     public void init() {
         try {
@@ -306,11 +355,16 @@ public class AdminViewModelController {
             models.getItems().clear();
             models.getItems().addAll(allModels);
 
-            filteredPricingModels = new FilteredList<>(javafx.collections.FXCollections.observableArrayList(allModels));
+            filteredPricingModels = new FilteredList<>(FXCollections.observableArrayList(allModels));
             pricingModels.setItems(filteredPricingModels);
 
             initPricingStats();
             initPricingTabModelsComboBox();
+
+            statusAllRadio.setOnAction(e -> updateFilteredPricingTable());
+            statusActiveRadio.setOnAction(e -> updateFilteredPricingTable());
+            statusInactiveRadio.setOnAction(e -> updateFilteredPricingTable());
+
 
             // TODO: Listeners are added for all items in the table, so it will print the selected item multiple times
             models.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -489,5 +543,117 @@ public class AdminViewModelController {
         pricingTabDetails.clear();
         pricingTabActive.setSelected(false);
         pricingModelsComboBox.getSelectionModel().clearSelection();
+    }
+
+    /// KEREM'S CODE
+
+    @FXML
+    private TextField instructionField;
+
+    @FXML
+    private ComboBox<String> modelComboBox;
+
+    @FXML
+    private TextArea outputTextArea;
+
+    private ObservableList<String> modelList = FXCollections.observableArrayList();
+
+
+    public void initialize() {
+
+        modelComboBox.setItems(modelList);
+    }
+
+    @FXML
+    public void Add(ActionEvent event) {
+        String instruction = instructionField.getText().trim();
+        String model = modelComboBox.getValue();
+
+
+        if (model == null || model.isEmpty()) {
+            model = modelComboBox.getEditor().getText().trim();
+        }
+
+
+        if (instruction.isEmpty() || model.isEmpty()) {
+            outputTextArea.setText("ERROR: Both model name and instruction are required");
+            return;
+        }
+
+
+        boolean success = InstructorSys.addInstructor(model, instruction);
+
+        if (success) {
+            outputTextArea.setText("SUCCESS: Model instruction added successfully");
+
+            if (!modelList.contains(model)) {
+                modelList.add(model);
+            }
+            clearInputs();
+        } else {
+            outputTextArea.setText("ERROR: Model already exists");
+        }
+    }
+
+    @FXML
+    public void search(ActionEvent event) {
+        String model = modelComboBox.getValue();
+
+        if (model == null || model.isEmpty()) {
+            model = modelComboBox.getEditor().getText().trim();
+        }
+
+        if (model.isEmpty()) {
+            outputTextArea.setText("ERROR: Please enter a model name to search");
+            return;
+        }
+
+        Instructor result = InstructorSys.search(model);
+
+        if (result != null) {
+            outputTextArea.setText(result.toString());
+        } else {
+            outputTextArea.setText("No model found with name: " + model);
+        }
+    }
+
+    @FXML
+    public void delete(ActionEvent event) {
+        String model = modelComboBox.getValue();
+
+        if (model == null || model.isEmpty()) {
+            model = modelComboBox.getEditor().getText().trim();
+        }
+
+        if (model.isEmpty()) {
+            outputTextArea.setText("ERROR: Please enter a model name to delete");
+            return;
+        }
+
+        boolean success = InstructorSys.removeInstructor(model);
+
+        if (success) {
+            outputTextArea.setText("SUCCESS: Model removed successfully");
+            modelList.remove(model);
+            clearInputs();
+        } else {
+            outputTextArea.setText("ERROR: Model not found");
+        }
+    }
+
+    @FXML
+    public void display(ActionEvent event) {
+        String result = InstructorSys.displayAll();
+
+        if (result.isEmpty()) {
+            outputTextArea.setText("No models found in the system.");
+        } else {
+            outputTextArea.setText(result);
+        }
+    }
+
+    private void clearInputs() {
+        instructionField.clear();
+        modelComboBox.setValue(null);
     }
 }
