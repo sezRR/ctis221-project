@@ -1,6 +1,7 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.scene;
 
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.App;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.LlmChatWrapper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,9 +26,9 @@ public class SceneManager {
         try {
             SceneControllerPair pair = scenes.computeIfAbsent(fxmlPath, name -> {
                 try {
-                    URL resourceUrl = App.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/views/" + fxmlPath);
+                    URL resourceUrl = LlmChatWrapper.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/views/" + fxmlPath);
                     Objects.requireNonNull(resourceUrl, "Cannot find FXML resource: " + fxmlPath); // Add null check
-                    
+
                     FXMLLoader loader = new FXMLLoader(resourceUrl);
                     Parent root = loader.load();
                     Scene scene = new Scene(root);

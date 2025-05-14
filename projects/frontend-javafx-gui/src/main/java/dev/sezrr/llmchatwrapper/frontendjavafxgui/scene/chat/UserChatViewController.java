@@ -295,6 +295,7 @@ public class UserChatViewController {
 
     @FXML
     private void signOut(ActionEvent e) {
+        ChatSystem.clearCache();
         updateViews(false);
         TokenStore.delete();
         // Switch back to the login view
@@ -483,6 +484,9 @@ public class UserChatViewController {
                             scrollpaneContainer.setVvalue(1.0); // Keep scroll at bottom
                             messageTextField.setDisable(false);
                             messageSendButton.setDisable(false);
+
+                            var messageTokens = ChatSystem.calculateTotalTokensForChat(finalChatQuery.getChatId());
+                            contextWindowPercentage.setText(NumberFormatUtil.formatNumber(messageTokens / ChatSystem.getMaxTokens() * 100) + "%");
                         });
                         
                         ChatSystem.getMessages(finalChatQuery.getChatId(), null, 50); // TODO: PERFORMANCE OPTIMIZATION

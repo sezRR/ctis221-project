@@ -1,0 +1,1 @@
+java --module-path ".\javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.fxml -jar .\frontend-javafx-gui-3.jar       

@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox prefHeight="594.0" prefWidth="1047.0" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController">
+<VBox prefHeight="594.0" prefWidth="1047.0" styleClass="root" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.scene.chat.UserChatViewController">
     <children>
         <SplitPane dividerPositions="0.22" VBox.vgrow="ALWAYS">
             <items>

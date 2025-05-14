@@ -19,7 +19,7 @@ public class LoginViewController {
     private void onGoogleLoginButtonClick(ActionEvent event) {
         authService.startAuthFlow();
     }
-    
+
     @FXML
     private void onGuestLoginButtonClick(MouseEvent event) {
         UserChatViewController userChatViewController = SceneManager.switchScene(SceneConstant.USER_CHAT_VIEW);

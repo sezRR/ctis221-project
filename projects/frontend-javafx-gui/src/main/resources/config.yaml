@@ -1,13 +1,13 @@
 google:
   realm: "llm-chat-wrapper"
-  auth_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/auth"
-  token_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/token"
-#  auth_url: "https://sezertetik.dev/auth/realms/llm-chat-wrapper/protocol/openid-connect/auth"
-#  token_url: "https://sezertetik.dev/auth/realms/llm-chat-wrapper/protocol/openid-connect/token"
+#  auth_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/auth"
+#  token_url: "http://localhost:9082/realms/llm-chat-wrapper/protocol/openid-connect/token"
+  auth_url: "https://sezertetik.dev/auth/realms/llm-chat-wrapper/protocol/openid-connect/auth"
+  token_url: "https://sezertetik.dev/auth/realms/llm-chat-wrapper/protocol/openid-connect/token"
   client_id: "desktop-app"
   scope: "openid email profile offline_access"
 
 backend:
   api:
-    url: "http://localhost:8080/api/v1"
-#    url: "https://sezertetik.dev/api/v1"
+#    url: "http://localhost:8080/api/v1"
+    url: "https://sezertetik.dev/api/v1"

@@ -331,7 +331,11 @@ public class AdminViewModelController {
     
     @FXML
     private void deletePricing(ActionEvent e) {
-        System.out.println(String.valueOf(selectedModelQueryPricingTab.getActiveModelPricing().getId()));
+        if (selectedModelQueryPricingTab.getActiveModelPricing() == null) {
+            AlertUtil.showError("Model does not have a pricing", "Please select another model pricing to delete.");
+            return;
+        }
+        
         ModelSystem.deleteModelPricing(String.valueOf(selectedModelQueryPricingTab.getActiveModelPricing().getId()));
         AlertUtil.showSuccess("Model pricing deleted", "Model pricing deleted successfully");
         

@@ -23,6 +23,11 @@ public class ChatSystem {
     private static Map<UUID, List<ChatMessageQuery>> messages = new HashMap<>(); // Cache for messages
     private static final ApiClient apiClient = new ApiClient(new StandardRestRequestStrategy(ApiConfig.BASE_API), new StandardStreamingRequestStrategy(ApiConfig.BASE_API));
 
+    public static void clearCache() {
+        chats.clear();
+        messages.clear();
+    }
+    
     public static Map<UUID, Chat> getChats() {
         return chats;
     }

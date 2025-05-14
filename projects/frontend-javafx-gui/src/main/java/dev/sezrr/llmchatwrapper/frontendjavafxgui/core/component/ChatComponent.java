@@ -1,6 +1,7 @@
 package dev.sezrr.llmchatwrapper.frontendjavafxgui.core.component;
 
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.App;
+import dev.sezrr.llmchatwrapper.frontendjavafxgui.LlmChatWrapper;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.alert.AlertUtil;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.request.model.ChatQuery;
 import dev.sezrr.llmchatwrapper.frontendjavafxgui.core.response_entity.CustomResponseEntity;
@@ -170,10 +171,10 @@ public class ChatComponent extends HBox {
     }
 
     public ChatComponent() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/components/chat/chat.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LlmChatWrapper.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/components/chat/Chat.fxml"));
         fxmlLoader.setRoot(this);           // <--- Important for fx:root
         fxmlLoader.setController(this);      // <--- You are the controller
-        this.getStylesheets().add(App.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/components/chat/chat.css").toExternalForm());
+        this.getStylesheets().add(LlmChatWrapper.class.getResource("/dev/sezrr/llmchatwrapper/frontendjavafxgui/components/chat/chat.css").toExternalForm());
         try {
             fxmlLoader.load();
             setupContextMenu();

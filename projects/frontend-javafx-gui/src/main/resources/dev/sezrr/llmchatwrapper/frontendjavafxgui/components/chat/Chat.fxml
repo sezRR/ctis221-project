@@ -7,8 +7,7 @@
 
 <fx:root alignment="CENTER_LEFT" spacing="24.0"
      styleClass="chat-item"
-     type="javafx.scene.layout.HBox"
-     xmlns="http://javafx.com/javafx/23.0.1"
+     type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/21.0.7"
      xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label fx:id="chatTitle" maxWidth="1.7976931348623157E308" style="-fx-text-fill: whitesmoke; -fx-font-size: 14px;" text="Default Chat Title" HBox.hgrow="ALWAYS" />

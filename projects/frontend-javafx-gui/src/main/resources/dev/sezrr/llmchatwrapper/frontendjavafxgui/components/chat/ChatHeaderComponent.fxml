@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<fx:root alignment="CENTER" spacing="8" styleClass="root" type="HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" spacing="8" styleClass="root" type="HBox" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="8.0" left="16.0" right="16.0" top="16.0" />
     </padding>
