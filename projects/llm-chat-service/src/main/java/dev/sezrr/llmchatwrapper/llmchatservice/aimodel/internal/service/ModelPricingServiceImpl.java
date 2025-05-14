@@ -81,6 +81,7 @@ public class ModelPricingServiceImpl implements ModelPricingService {
         return ModelPricingDtoMapper.mapToDto(pricingToActivate);
     }
 
+    @CacheEvict(value = SupportedModelConstants.SUPPORTED_MODEL_CACHE_NAME, allEntries = true)
     @Override
     public ModelPricingQueryDto deactivatePricing(UUID pricingId) {
         ModelPricing pricingToDeactivate = modelPricingRepository.findById(pricingId)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.sezrr.llmchatwrapper.frontendjavafxgui.InstructorController">
+   <children>
+      <Button layoutX="592.0" layoutY="40.0" mnemonicParsing="false" onAction="#Add" prefHeight="66.0" prefWidth="148.0" text="Add Model" />
+      <Label layoutX="36.0" layoutY="14.0" prefHeight="35.0" prefWidth="85.0" text="Instruction:" />
+      <Label layoutX="33.0" layoutY="222.0" prefHeight="35.0" prefWidth="70.0" text="Model:" />
+      <TextField fx:id="instructionField" layoutX="33.0" layoutY="47.0" prefHeight="136.0" prefWidth="534.0" />
+      <TextArea fx:id="outputTextArea" layoutX="36.0" layoutY="291.0" prefHeight="282.0" prefWidth="520.0" />
+      <Button layoutX="592.0" layoutY="232.0" mnemonicParsing="false" onAction="#search" prefHeight="66.0" prefWidth="148.0" text="Search" />
+      <Button layoutX="595.0" layoutY="136.0" mnemonicParsing="false" onAction="#delete" prefHeight="66.0" prefWidth="142.0" text="Delete" />
+      <Button layoutX="592.0" layoutY="316.0" mnemonicParsing="false" onAction="#display" prefHeight="66.0" prefWidth="148.0" text="Display" />
+      <ComboBox fx:id="modelComboBox" editable="true" layoutX="86.0" layoutY="222.0" prefHeight="35.0" prefWidth="262.0" />
+   </children>
+</AnchorPane>
