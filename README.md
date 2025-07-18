@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> THIS REPOSITORY IS NOT UNDER ACTIVE DEVELOPMENT!
+
 # LLM Chat Wrapper
 
 This project is an AI model wrapper developed for the Bilkent University CTIS221 - Object-Oriented Programming course. It provides a modular and extensible framework for integrating and managing various AI models, including support for chat, embeddings, and other capabilities.
